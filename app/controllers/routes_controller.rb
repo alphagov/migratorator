@@ -10,6 +10,8 @@ class RoutesController < ApplicationController
     end
   rescue Route::RouteNotFound
     render :status => 404, :json => { :status => 404, :message => 'Route not found.' }
+  rescue Route::ResourceNotProvided
+    render :status => 400, :json => { :status => 400, :message => 'Resource not provided.' }
   end
 
 end

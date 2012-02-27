@@ -14,6 +14,12 @@ describe Route do
       route.new_resource.should == 'http://new.com/test'
     end
 
+    it "should raise an exception if no old resource provided" do
+      expect do
+        Route.find_by_old_resource ''
+      end.to raise_error(Route::ResourceNotProvided)
+    end
+
     it "should raise an exception if a route cannot be found" do
       expect do
         Route.find_by_old_resource 'http://example.com/non_existent_url'

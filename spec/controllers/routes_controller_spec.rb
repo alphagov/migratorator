@@ -19,6 +19,12 @@ describe RoutesController do
 
       response.status.should == 404
     end
+
+    it "should return a 400 Bad Request error for an invalid route" do
+      get :show
+
+      response.status.should == 400
+    end
   end
 
 end

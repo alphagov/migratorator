@@ -1,5 +1,6 @@
 Migratorator::Application.routes.draw do
 
-  get '/mapping' => 'mappings#show', :as => :mapping
+  get 'mappings/find' => 'mappings#show', :as => :mapping
+  resources :mappings, :except => [:show]
 
 end

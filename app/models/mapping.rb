@@ -9,7 +9,7 @@ class Mapping
   field :notes,         type: String, default: nil
   field :search_query,  type: String, default: nil
 
-  validates :old_url, :presence => true
+  validates :old_url, :presence => true, :uniqueness => { :case_sensitive => false }
   validates :new_url, :presence => true, :if => :is_redirect?
 
   embeds_many :related_links

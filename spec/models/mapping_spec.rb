@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Mapping do
-  
+
   describe "retrieving a mapping" do
     before do
       @old_url = 'http://example.com/a_long_uri'
@@ -29,13 +29,13 @@ describe Mapping do
 
   describe "creating a mapping" do
     before do
-      @atts = { 
-        :title => "Example URL", 
-        :old_url => 'http://example.com/abc', 
-        :new_url => 'http://new.com/def', 
-        :status => 301, 
-        :tags => "section:technology,format:nav", 
-        :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions.", 
+      @atts = {
+        :title => "Example URL",
+        :old_url => 'http://example.com/abc',
+        :new_url => 'http://new.com/def',
+        :status => 301,
+        :tags => ["section:technology","format:nav"],
+        :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions.",
         :search_query => "example",
         :related_items => [
           { :url => "http://related.com/xyz", :title => "Related Item #1" },
@@ -59,6 +59,12 @@ describe Mapping do
       mapping.should_not be_valid
     end
 
-  end 
+    it "should throw an error if a mapping already exists for the specified old url" do
+      existing_mapping = Mapping.create!(@atts)
+      new_mapping = Mapping.new @atts
+
+      new_mapping.should_not be_valid
+    end
+  end
 
 end

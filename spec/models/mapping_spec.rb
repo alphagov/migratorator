@@ -37,7 +37,7 @@ describe Mapping do
         :tags => ["section:technology","format:nav"],
         :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions.",
         :search_query => "example",
-        :related_items => [
+        :related_links => [
           { :url => "http://related.com/xyz", :title => "Related Item #1" },
           { :url => "http://related.com/two", :title => "Related Item #2" }
         ]
@@ -64,6 +64,15 @@ describe Mapping do
       new_mapping = Mapping.new @atts
 
       new_mapping.should_not be_valid
+    end
+
+    it "should save related items for a mapping" do
+      mapping = Mapping.create!(@atts)
+
+      mapping.related_links.size.should == 2
+
+      mapping.related_links.first.should be_an_instance_of RelatedLink
+      mapping.related_links.first.url.should == "http://related.com/xyz"
     end
   end
 

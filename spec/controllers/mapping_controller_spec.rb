@@ -75,6 +75,31 @@ describe MappingsController do
         response.status.should == 201
       end
     end
+
+    describe "for an invalid request" do
+      before do
+        @json = %q{
+          {
+            "new_url": "https://www.gov.uk/your-consumer-rights/buying-a-car",
+            "status": "301"
+          }
+        }
+      end
+
+      it "should not create the mapping in the database" do
+        post :create, json: @json, format: 'json'
+
+        expect do
+          Mapping.find_by_old_url "http://www.direct.gov.uk/en/Governmentcitizensandrights/Consumerrights/Buyingacar-yourconsumerrights/DG_183043"
+        end.to raise_error(Mapping::MappingNotFound)
+      end
+
+      it "should return a 422 Unprocessable Entity status code" do
+        post :create, json: @json, format: 'json'
+
+        response.status.should == 422
+      end
+    end
   end
 
 end

@@ -15,6 +15,10 @@ class Mapping
   embeds_many :related_links
   accepts_nested_attributes_for :related_links
 
+  # fix tags to accept our json key as an array
+  alias_method :tags, :tags_array
+  alias_method :tags=, :tags_array=
+
   def self.find_by_old_url(param)
     raise URLNotProvided.new if !param or param.empty?
     self.where( old_url: param ).first || raise(MappingNotFound.new)

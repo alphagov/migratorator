@@ -1,5 +1,14 @@
 class MappingsController < ApplicationController
 
+  def index
+    @mappings = Mapping.all
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
+  end
+
   def show
     @mapping = Mapping.find_by_old_url params[:old_url]
 

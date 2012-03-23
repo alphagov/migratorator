@@ -1,0 +1,20 @@
+<h1>List of mappings</h1>
+
+<table style="width: 100%">
+  <thead>
+    <tr>
+      <th>Old URL</th>
+      <th>New URL</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @mappings.each do |mapping| %>
+      <tr>
+        <td><%= mapping.old_url %></td>
+        <td><%= mapping.new_url %></td>
+        <td><%= link_to "JSON", mapping_path(mapping) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

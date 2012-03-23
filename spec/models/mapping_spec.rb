@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Mapping do
-  
+
   describe "retrieving a mapping" do
     before do
       @old_url = 'http://example.com/a_long_uri'
@@ -29,15 +29,15 @@ describe Mapping do
 
   describe "creating a mapping" do
     before do
-      @atts = { 
-        :title => "Example URL", 
-        :old_url => 'http://example.com/abc', 
-        :new_url => 'http://new.com/def', 
-        :status => 301, 
-        :tags => "section:technology,format:nav", 
-        :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions.", 
+      @atts = {
+        :title => "Example URL",
+        :old_url => 'http://example.com/abc',
+        :new_url => 'http://new.com/def',
+        :status => 301,
+        :tags => ["section:technology","format:nav"],
+        :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions.",
         :search_query => "example",
-        :related_items => [
+        :related_links => [
           { :url => "http://related.com/xyz", :title => "Related Item #1" },
           { :url => "http://related.com/two", :title => "Related Item #2" }
         ]
@@ -59,6 +59,21 @@ describe Mapping do
       mapping.should_not be_valid
     end
 
-  end 
+    it "should throw an error if a mapping already exists for the specified old url" do
+      existing_mapping = Mapping.create!(@atts)
+      new_mapping = Mapping.new @atts
+
+      new_mapping.should_not be_valid
+    end
+
+    it "should save related items for a mapping" do
+      mapping = Mapping.create!(@atts)
+
+      mapping.related_links.size.should == 2
+
+      mapping.related_links.first.should be_an_instance_of RelatedLink
+      mapping.related_links.first.url.should == "http://related.com/xyz"
+    end
+  end
 
 end

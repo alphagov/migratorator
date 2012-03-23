@@ -4,13 +4,13 @@ describe MappingsController do
 
   describe "when retrieving a mapping" do
     before do
-      @mapping = Mapping.create! :title => "An example redirect", :old_url  => 'http://example.com/a_long_uri', :new_url => 'http://new.com/test', :status => 301, :tags_array => ["section:education", "type:article", "need-met:Y"], :notes => "A note string" 
+      @mapping = Mapping.create! :title => "An example redirect", :old_url  => 'http://example.com/a_long_uri', :new_url => 'http://new.com/test', :status => 301, :tags_array => ["section:education", "type:article", "need-met:Y"], :notes => "A note string"
       @json_representation = {
         "mapping" => {
           "id"           => @mapping.id,
           "title"         => "An example redirect",
           "old_url"       => @mapping.old_url,
-          "status"        => 301, 
+          "status"        => 301,
           "new_url"       => @mapping.new_url,
           "tags"          => ["section:education", "type:article", "need-met:Y"],
           "notes"         => "A note string",
@@ -40,4 +40,71 @@ describe MappingsController do
     end
   end
 
+
+  describe "when creating a mapping from a single JSON object" do
+    describe "for a valid request" do
+      before do
+        @json = %q{
+          {
+            "new_url": "https://www.gov.uk/your-consumer-rights/buying-a-car",
+            "old_url": "http://www.direct.gov.uk/en/Governmentcitizensandrights/Consumerrights/Buyingacar-yourconsumerrights/DG_183043",
+            "status": "301",
+            "tags": [
+                "section: Government, citizens and rights",
+                "article"
+            ],
+            "title": "Repairing and servicing your car : Directgov - Government, citizens and rights"
+          }
+        }
+      end
+
+      it "should create the mapping in the database" do
+        post :create, json: @json, format: 'json'
+
+        new_mapping = Mapping.find_by_old_url "http://www.direct.gov.uk/en/Governmentcitizensandrights/Consumerrights/Buyingacar-yourconsumerrights/DG_183043"
+
+        new_mapping.should be_instance_of Mapping
+        new_mapping.new_url.should == "https://www.gov.uk/your-consumer-rights/buying-a-car"
+        new_mapping.status.should == 301
+        new_mapping.tags.should == ["section: Government, citizens and rights","article"]
+      end
+
+      it "should return a 201 Created status code" do
+        post :create, json: @json, format: 'json'
+
+        response.status.should == 201
+      end
+    end
+
+    describe "for an invalid request" do
+      before do
+        @json = %q{
+          {
+            "new_url": "https://www.gov.uk/your-consumer-rights/buying-a-car",
+            "status": "301"
+          }
+        }
+      end
+
+      it "should not create the mapping in the database" do
+        post :create, json: @json, format: 'json'
+
+        expect do
+          Mapping.find_by_old_url "http://www.direct.gov.uk/en/Governmentcitizensandrights/Consumerrights/Buyingacar-yourconsumerrights/DG_183043"
+        end.to raise_error(Mapping::MappingNotFound)
+      end
+
+      it "should return a 422 Unprocessable Entity status code" do
+        post :create, json: @json, format: 'json'
+
+        response.status.should == 422
+      end
+    end
+  end
+
 end
+
+
+
+
+

@@ -9,6 +9,7 @@ A mapping may be annotated with notes, related links and collected using tags.
 
 The mappings are available from the Web site as JSON, allowing tools to be built upon the API:
 
+* browser - compare old and new pages, side-by-side
 * router — infrastructure to log web site usage and redirect links
 * mod_rewite - export the mappings in Apache mod_rewite format
 * badge - a warning to be applied to old pages to forewarn of an impending migration

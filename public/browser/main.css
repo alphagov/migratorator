@@ -1,0 +1,102 @@
+body {
+	border: none;
+	font-family: “Gill Sans”, sans-serif;
+	margin: 0;
+}
+
+#header {
+	margin: 0;
+	border: 0;
+	padding: 0.5em 1em;
+	color: #333;
+	min-height: 3em;
+	border-bottom: 2px solid #EEE;
+	margin-bottom: 1px;
+	overflow: hidden;
+}
+
+#status {
+	clear: both;
+	font-weight: bold;
+}
+
+#navigation {
+	float: right;
+	margin: 0; 
+	padding: 0;
+}
+
+#status {
+	margin-left: 1em;
+}
+
+#navigation p,
+#navigation ol {
+	list-style-type: none; 
+	word-spacing: 0px;
+	display: inline;
+	padding: 0px;
+}
+
+#navigation .nav {
+	cursor: pointer;
+	font-size: 1.1em;
+}
+
+#navigation li {
+	display: inline;
+	cursor: pointer;
+	background-color: #EEE;
+	border-top: 5px solid #FFF;
+	border-bottom: 5px solid #FFF;
+	color: #EEE;
+	font-size: 2px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding: 2px;
+}
+
+#navigation li.selected {
+	color: #333;
+	background-color: #333;
+	border: 1px solid #333;
+}
+
+#navigation li.selected:before {
+	background-color: #333;
+}
+
+#navigation li:before {
+	content: "◎";
+	background-color: #eee;
+}
+
+#navigation li a {
+	display: none;
+}
+
+.presentation li .notes {
+	display: none;
+}
+
+
+#status .index {
+	display: none;
+	font-style: bold;
+	padding-right: 0.5em;
+}
+
+#status a:link,
+#status a:visited {
+	color: #333;
+	text-decoration: none;
+}
+
+#status a:active,
+#status a:hover {
+	text-decoration: underline;
+}
+
+#display {
+	border-right: 1px solid #333;
+}

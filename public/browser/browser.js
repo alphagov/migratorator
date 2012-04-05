@@ -117,6 +117,11 @@
 			slide(window.location.hash ?  parseInt(window.location.hash.match(/\d+/g)[0]): 0);
 			slide.keys();
 		});
+
+		$('.edit').click(function(){
+			$(this).toggleClass("open");
+			$('#status').slideToggle("fast");
+		});
 	});
 
 })(jQuery);

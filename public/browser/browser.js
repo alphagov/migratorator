@@ -60,6 +60,17 @@
 		$('#view').slideToggle("fast");
 	};
 
+	slide.floop_open = function () {
+		$('.floop').addClass("open");
+		$('#view').slideDown("fast");
+	};
+
+	slide.floop_close = function () {
+		$('.floop').removeClass("open");
+		$('#view').slideUp("fast");
+	};
+
+
 	/*
 	 * keys and clicks
 	 */
@@ -72,7 +83,11 @@
 		$(document).bind("keydown","nav",function(event) {
 			switch (event.keyCode) {
 			case 13:
-				slide.floop();
+				slide.floop_open();
+				break;
+
+			case 27:
+				slide.floop_close();
 				break;
 
 			case 8:

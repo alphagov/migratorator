@@ -2,36 +2,57 @@ body {
 	border: none;
 	font-family: “Gill Sans”, sans-serif;
 	margin: 0;
+	color: #777;
 }
 
 #header {
 	margin: 0;
 	border: 0;
 	padding: 0.5em 1em;
-	color: #333;
-	min-height: 3em;
-	border-bottom: 2px solid #EEE;
-	margin-bottom: 1px;
 	overflow: hidden;
 }
 
-#status {
+#viewer {
+	width: 100%;
 	clear: both;
-	font-weight: bold;
+}
+
+.pane {
+	width: 50%;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+iframe {
+	width: 100%;
+	height: 100%;
 }
 
 #navigation {
-	float: right;
 	margin: 0; 
 	padding: 0;
 }
 
-#status {
-	margin-left: 1em;
+
+h1 {
+	font-size: 1em;
+	display: inline;
+}
+
+h1 a {
+	text-decoration: none;
+	clear: none;
+	color: #777;
+}
+
+h1 a:hover {
+	color: #333;
 }
 
 #navigation p,
 #navigation ol {
+	line-height: 1em;
 	list-style-type: none; 
 	word-spacing: 0px;
 	display: inline;
@@ -79,24 +100,90 @@ body {
 	display: none;
 }
 
-
-#status .index {
+#view {
 	display: none;
-	font-style: bold;
-	padding-right: 0.5em;
+	clear: both;
+	font-weight: bold;
+	padding: 0 1em;
 }
 
-#status a:link,
-#status a:visited {
-	color: #333;
+#view a:link,
+#view a:visited {
+	color: #777;
 	text-decoration: none;
 }
 
-#status a:active,
-#status a:hover {
+#view a:active,
+#view a:hover {
 	text-decoration: underline;
 }
 
 #display {
 	border-right: 1px solid #333;
+}
+
+.floop {
+	float: right;
+	display: block;
+}
+
+.button {
+	cursor: pointer;
+	padding: 0 0.5em;
+	text-align: center;
+	min-width: 2em;
+}
+
+.button .closer {
+	display: none;
+}
+
+.button:hover {
+	color: #333;
+}
+
+.open .opener {
+	display: none;
+}
+
+.open .closer {
+	display: block;
+}
+
+fieldset {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+.url,
+.notes {
+	width: 70%;
+	float: left;
+	clear: left;
+}
+
+.status,
+.tags {
+	float: right;
+	width: 25%;
+}
+
+#status {
+	font-family: "helvetica", "sans-serif";
+	font-size: 6em;
+	text-align: right;
+	margin-right: 0;
+	display: block;
+}
+
+label {
+	display: block;
+	padding-top: 1em;
+	color: #777;
+}
+
+input, textarea {
+	width: 100%;
+	border: 4px solid #eee;
 }

@@ -7,21 +7,17 @@
 	 */
 	var slide = function (index) {
 
-		var current = $("#status .index").text();
-		if (index === undefined) {
-			return current;
+		if (index === undefined || index === NaN || index < 0) {
+			index = 0;
 		}
 
 		// rollover
-		if (index === NaN || index < 0) {
-			index = 0;
-		}
 		var max = $(list).index($(list+":last"));
 		if (index > max) {
 			index = max;
 		}
-		var last = $(list+":eq("+current+")");
-		last.removeClass("selected");
+
+		$(list).removeClass("selected");
 
 		var item = $(list+":eq("+index+")");
 		item.addClass("selected");
@@ -33,11 +29,11 @@
 		var new_link = $(list+":eq("+index+") a.new_url");
 		var new_url = $(new_link).attr("href");
 
-		$("#status .index").text(index);
+		$("#index").text(index);
 
-		$("#status a.title").text($(old_link).text());
-		$("#status a.title").attr("href", old_url);
-		$("#status a.title").attr("title", old_url);
+		$("#view a.title").text($(old_link).text());
+		$("#view a.title").attr("href", old_url);
+		$("#view a.title").attr("title", old_url);
 
 		$("#old").attr("src", old_url);
 		$("#new").attr("src", new_url);
@@ -45,12 +41,23 @@
 		window.location.hash = index;
 	}
 
+	slide.current = function () {
+		var s = window.location.hash;
+		s = s.replace(/^#*/, "");
+		return parseInt(s, 10) || 0;
+	};
+
 	slide.prev = function () {
-		slide(parseInt(slide())-1);
+		slide(parseInt(slide.current(), 10)-1);
 	};
 
 	slide.next = function () {
-		slide(parseInt(slide())+1);
+		slide(parseInt(slide.current(), 10)+1);
+	};
+
+	slide.floop = function () {
+		$('.floop').toggleClass("open");
+		$('#view').slideToggle("fast");
 	};
 
 	/*
@@ -64,6 +71,10 @@
 
 		$(document).bind("keydown","nav",function(event) {
 			switch (event.keyCode) {
+			case 13:
+				slide.floop();
+				break;
+
 			case 8:
 			case 37:
 				slide.prev();
@@ -106,7 +117,6 @@
 		});
 	};
 
-
 	$(document).ready(function() {
 
 		slide.load('/mappings.json', function() {
@@ -118,10 +128,7 @@
 			slide.keys();
 		});
 
-		$('.edit').click(function(){
-			$(this).toggleClass("open");
-			$('#status').slideToggle("fast");
-		});
+		$('.floop').click(slide.floop);
 	});
 
 })(jQuery);

@@ -7,3 +7,15 @@ Feature: Manage mappings
     Given a mapping exists
     When I request a mapping from the API
     Then I should be able to see the information about the mapping
+
+  Scenario: Browse the mappings list
+    Given many mappings exist
+    When I visit the mappings list
+    Then I should see mappings
+
+  Scenario: Filter mappings by tag
+    Given many mappings exist
+    When I visit the mappings list
+    Then I should see the correct tags in the list
+    When I filter by a tag
+    Then I should only see mappings with the tag in the list

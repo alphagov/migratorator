@@ -17,7 +17,7 @@ end
 group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
-  gem 'factory_girl'
+  gem 'factory_girl_rails'
 end
 
 group :development, :test do

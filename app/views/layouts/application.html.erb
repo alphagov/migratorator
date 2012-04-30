@@ -4,11 +4,37 @@
   <title>Migratorator</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
+  <style type="text/css">
+    body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+    }
+  </style>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="<%= root_path %>">Migratorator</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="<%= mappings_path %>">Mappings</a></li>
+            <li><a href="#">Browser</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <% flash.each do |key, message| %>
+      <%= content_tag :div, message, :class => ["alert", "alert-#{key}"] %>
+    <% end %>
+
+    <%= yield %>
+  </div>
 
 </body>
 </html>

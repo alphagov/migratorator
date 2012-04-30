@@ -4,6 +4,6 @@ Migratorator::Application.routes.draw do
   get 'mappings/find' => 'mappings#show', :as => :find_mapping
   resources :mappings
 
-  root :to => "mappings#index"
+  root :to => "root#index"
 
 end

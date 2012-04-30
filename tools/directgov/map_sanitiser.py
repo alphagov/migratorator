@@ -80,7 +80,7 @@ for row in f:
                     data['new_url'] = row[7]
                     data['status'] = '301'
                 else:
-                    data['status'] = '404'
+                    data['status'] = '410'
             except IndexError:
                 data['status'] = '404'
 

@@ -31,7 +31,7 @@ class Mapping
   # return all the tags for a mapping as an array of hashes, and split away the tag type
   def tags
     tags_array.map { |a|
-      { :type => a.split(":")[0], :name => (a.split(":")[1] || "").strip }
+      a.split(":").size > 1 ? { :type => a.split(":")[0], :name => (a.split(":")[1] || "").strip } : { :type => nil, :name => a.strip }
     }
   end
 

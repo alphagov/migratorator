@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="span12">
+    <%= form_for @mapping, :html => { :class => "well" } do |f| %>
+
+  <% if @mapping.errors.any? %>
+    <% @mapping.errors.full_messages.each do |message| %>
+      <div class="alert alert-error"><%= message %></div>
+    <% end %>
+  <% end %>
+
+  <p>
+    <%= f.label :title %>
+    <%= f.text_field :title, :class => 'span6' %>
+  </p>
+
+  <p>
+    <%= f.label :old_url, "Old URL" %>
+    <%= f.text_field :old_url, :class => 'span6' %>
+  </p>
+
+  <p>
+    <%= f.label :new_url, "New URL" %>
+    <%= f.text_field :new_url, :class => 'span6' %>
+  </p>
+
+  <p>
+    <%= f.label :status %>
+    <%= f.select :status, [ ["301 - Redirect to new url", 301], ["410 - Show a gone page", 410] ], :include_blank => "Not yet decided" %>
+  </p>
+
+  <p>
+    <%= f.label :tags_list, "Tags (separate with semicolons)" %>
+    <%= f.text_field :tags_list, :class => 'span6' %>
+  </p>
+
+  <p>
+    <%= f.label :notes %>
+    <%= f.text_area :notes, :rows => 4, :class => "span6" %>
+  </p>
+
+  <h3>Related Links</h3>
+  <%= fields_for :related_links do |f| %>
+    <p>
+    <%= f.text_field :title, :placeholder => "Link Title" %>
+    <%= f.text_field :url, :placeholder => "http://" %>
+    </p>
+  <% end %>
+
+  <p>
+    <%= f.submit ( @mapping.persisted? ? "Update Mapping" : "Create Mapping"), :class => 'btn btn-primary' %> &nbsp; or &nbsp;
+    <%= link_to "Cancel", mappings_path, :class => 'btn' %>
+  </p>
+
+<% end %>
+  </div>
+</div>

@@ -1,20 +1,29 @@
-<h1>List of mappings</h1>
+<div class="row">
+  <div class="span10">
+    <h1>List of mappings</h1>
+  </div>
+    <%= link_to "Add a new mapping", new_mapping_path, :class => 'btn', :style => 'float: right' %>
+</div>
 
-<table style="width: 100%">
-  <thead>
-    <tr>
-      <th>Old URL</th>
-      <th>New URL</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @mappings.each do |mapping| %>
-      <tr>
-        <td><%= mapping.old_url %></td>
-        <td><%= mapping.new_url %></td>
-        <td><%= link_to "JSON", mapping_path(mapping) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="span3">
+    <%= render :partial => "tag_list" %>
+  </div>
+  <div class="span9">
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Tags</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :partial => "mapping", :collection => @mappings %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

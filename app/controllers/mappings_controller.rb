@@ -1,7 +1,13 @@
 class MappingsController < ApplicationController
 
+  before_filter :find_mapping, :only => [:edit, :update]
+
   def index
-    @mappings = Mapping.all
+    @tags_filter = params[:tags].split(",") if ! params[:tags].blank?
+    context = @tags_filter.blank? ? Mapping : Mapping.tagged_with_all(@tags_filter)
+
+    @tags = Mapping.tags
+    @mappings = context.all
 
     respond_to do |format|
       format.html
@@ -23,20 +29,58 @@ class MappingsController < ApplicationController
     render :status => 400, :json => { :status => 400, :message => 'URL not provided.' }
   end
 
-  def create
-    @mapping = Mapping.new( JSON.parse params[:json] )
+  def new
+    @mapping = Mapping.new
+  end
 
+  def create
     respond_to do |format|
-      if @mapping.save
-        format.json {
+      format.json {
+        @mapping = Mapping.new( JSON.parse params[:json] )
+
+        if @mapping.save
           render :status => 201, :json => { :status => 201, :message => 'Mapping created.', :mapping => @mapping }
-        }
-      else
-        format.json {
+        else
           render :status => 422, :json => { :status => 422, :message => 'Unprocessable entity', :errors => @mapping.errors }
-        }
-      end
+        end
+      }
+      format.html {
+        @mapping = Mapping.new(params[:mapping])
+        if @mapping.save
+          flash[:success] = "Mapping created."
+          redirect_to mappings_url
+        else
+          render :action => :new
+        end
+      }
     end
   end
+
+  def edit; end
+
+  def update
+    respond_to do |format|
+      format.json {
+        if @mapping.update_attributes( JSON.parse params[:json] )
+          render :status => 200, :json => { :status => 201, :message => 'Mapping updated.', :mapping => @mapping }
+        else
+          render :status => 422, :json => { :status => 422, :message => 'Unprocessable entity', :errors => @mapping.errors }
+        end
+      }
+      format.html {
+        if @mapping.update_attributes( params[:mapping] )
+          flash[:success] = "Mapping updated."
+          redirect_to mappings_url
+        else
+          render :action => :edit
+        end
+      }
+    end
+  end
+
+  private
+    def find_mapping
+      @mapping = Mapping.find(params[:id])
+    end
 
 end

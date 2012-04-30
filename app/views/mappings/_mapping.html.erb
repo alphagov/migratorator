@@ -1,0 +1,6 @@
+<tr>
+  <td><%= truncate normalize_title(mapping.title), :length => 60 %></td>
+  <td><%= truncate mapping.tags_list, :length => 50 %></td>
+  <td><%= mapping.status %></td>
+  <td><%= link_to "JSON", find_mapping_path(mapping) %>&nbsp;&bull;&nbsp;<%= link_to "Edit", edit_mapping_path(mapping) %></td>
+</tr>

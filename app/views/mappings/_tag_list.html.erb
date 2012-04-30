@@ -1,0 +1,17 @@
+<div class="well" style="padding: 8px 0;">
+  <ul class="nav nav-list">
+    <% @tags.each do |group, tags| %>
+      <li class="nav-header"><%= group.capitalize %></li>
+      <% tags.each do |tag| %>
+        <% if tag_is_active? tag %>
+          <li class="active">
+            <%= filter_group_from_tag(tag, group) %>
+            <span class="badge"><%= link_to "x", remove_tag_from_filter_path(tag) %></span>
+          </li>
+        <% else %>
+          <li><%= link_to filter_group_from_tag(tag, group), add_tag_to_filter_path(tag) %></li>
+        <% end %>
+      <% end %>
+    <% end %>
+  </ul>
+</div>

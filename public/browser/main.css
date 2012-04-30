@@ -77,6 +77,16 @@ h1 a:hover {
 	padding: 2px;
 }
 
+#navigation li.status301:before {
+	color: #000;
+	background-color: #000;
+}
+
+#navigation li:hover {
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+}
+
 #navigation li.selected {
 	color: #333;
 	background-color: #333;

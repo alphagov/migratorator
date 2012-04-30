@@ -120,7 +120,7 @@
 						this.status = 410;
 					}
 					var new_url = this.new_url ? this.new_url : this.status + ".html";
-					s = s + '<li>' +
+					s = s + '<li class="status' + this.status + '">' +
 						'<a class="old_url" href="' + this.old_url + '">' + this.title + '</a>' +
 						' <a class="new_url" href="' + new_url + '">' + this.status + '</a>' +
 						'</li>';

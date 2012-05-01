@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
-gem 'mongoid', '~> 2.4'
+gem "mongoid", "~> 2.3"
 gem "bson_ext", "~> 1.5"
 
 gem 'mongoid_taggable'

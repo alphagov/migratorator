@@ -10,7 +10,7 @@ def check_mapping_details_appear_in_the_api(mapping)
       "old_url"       => mapping.old_url,
       "status"        => mapping.status,
       "new_url"       => mapping.new_url,
-      "tags"          => mapping.tags_array,
+      "tags"          => mapping.tags,
       "notes"         => mapping.notes,
       "search_query"  => mapping.search_query,
       "related_links" => mapping.related_links
@@ -20,7 +20,19 @@ def check_mapping_details_appear_in_the_api(mapping)
   api_response.should == json
 end
 
-def check_mapping_details_appear_in_the_list(mappings, options = {})
+def check_mapping_appears_in_the_list(mappings, options = {})
+  mappings.each do |mapping|
+    within("table") do
+      page.should have_content(mapping.title)
+      page.should have_content(mapping.status)
+      page.should have_content(options[:tag]) if options and options[:tag]
+      page.should have_link("Edit", :href => edit_mapping_path(mapping))
+    end
+  end
+end
+
+
+def check_multiple_mappings_appear_in_the_list(mappings, options = {})
   mappings.each do |mapping|
     within("tr#mapping_#{mapping.id}") do
       page.should have_content(mapping.title)
@@ -46,4 +58,20 @@ def filter_by_tag(tag)
   within("ul.tags-list") do
     click_link tag
   end
+end
+
+def fill_in_mapping_details(mapping)
+  fill_in "Title", :with => mapping.title
+  fill_in "Old URL", :with => mapping.old_url
+  fill_in "New URL", :with => mapping.new_url
+  select mapping.status, :from => "Status"
+  fill_in "Tags", :with => mapping.tags
+
+  within("#related-links") do
+    click_link "Add a link"
+    fill_in "Link Title", :with => "A Related Link"
+    fill_in "URL", :with => "http://example.com/"
+  end
+
+  click_button "Create Mapping"
 end

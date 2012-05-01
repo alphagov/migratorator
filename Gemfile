@@ -6,6 +6,7 @@ gem "bson_ext", "~> 1.5"
 
 gem 'mongoid_taggable'
 gem 'rabl'
+gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 
 group :passenger_compatibility do
   gem 'rack', '1.3.5'
@@ -28,6 +29,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 2.6'
   gem 'capybara'
+  gem 'capybara-webkit'
 end
 
 gem 'unicorn'

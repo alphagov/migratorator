@@ -16,12 +16,28 @@ When /^I visit the mappings list$/ do
   visit mappings_path
 end
 
+When /^I visit the new mappings form$/ do
+  visit new_mapping_path
+end
+
 When /^I filter by the tag (.*)$/ do |tag|
   filter_by_tag(tag)
 end
 
+When /^I enter the mapping details into the form$/ do
+  @mapping = OpenStruct.new({
+    :title => "Example Mapping",
+    :old_url => "http://foo.com/test",
+    :new_url => "http://bar.com/example",
+    :status => "301",
+    :tags => "example"
+  })
+
+  fill_in_mapping_details(@mapping)
+end
+
 Then /^I should see mappings$/ do
-  check_mapping_details_appear_in_the_list(@mappings)
+  check_multiple_mappings_appear_in_the_list(@mappings)
 end
 
 Then /^I should see the correct tags in the list$/ do
@@ -29,5 +45,14 @@ Then /^I should see the correct tags in the list$/ do
 end
 
 Then /^I should only see mappings with the tag (.*) in the list$/ do |tag|
-  check_mapping_details_appear_in_the_list(@mappings, :tag => tag)
+  check_multiple_mappings_appear_in_the_list(@mappings, :tag => tag)
+end
+
+Then /^I should see the mapping in the list$/ do
+  check_mapping_appears_in_the_list [ @mapping ]
+end
+
+Then /^the mapping should be created$/ do
+  page.should have_content("Mapping created")
+  @mapping = Mapping.find_by_old_url(@mapping.old_url)
 end

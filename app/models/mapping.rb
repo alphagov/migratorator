@@ -16,7 +16,7 @@ class Mapping
   before_validation :parameterize_tags
 
   embeds_many :related_links
-  accepts_nested_attributes_for :related_links
+  accepts_nested_attributes_for :related_links, :reject_if => proc {|atts| atts['url'].blank? }, :allow_destroy => true
 
   # fix tags to accept our json key as an array
   alias_method :tags_list=, :tags=
@@ -41,7 +41,7 @@ class Mapping
 
   def self.find_by_old_url(param)
     raise URLNotProvided.new if !param or param.empty?
-    self.where( old_url: param ).first || raise(MappingNotFound.new)
+    self.where( old_url: URI::decode(param) ).first || raise(MappingNotFound.new)
   end
 
   def is_redirect?

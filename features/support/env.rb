@@ -1,6 +1,8 @@
 require 'cucumber/rails'
+require 'ostruct'
 
 Capybara.default_selector = :css
+Capybara.javascript_driver = :webkit
 
 ActionController::Base.allow_rescue = false
 

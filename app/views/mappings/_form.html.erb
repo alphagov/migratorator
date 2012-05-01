@@ -1,6 +1,6 @@
 <div class="row">
   <div class="span12">
-    <%= form_for @mapping, :html => { :class => "well" } do |f| %>
+    <%= nested_form_for @mapping, :html => { :class => "well" } do |f| %>
 
   <% if @mapping.errors.any? %>
     <% @mapping.errors.full_messages.each do |message| %>
@@ -38,13 +38,17 @@
     <%= f.text_area :notes, :rows => 4, :class => "span6" %>
   </p>
 
-  <h3>Related Links</h3>
-  <%= fields_for :related_links do |f| %>
-    <p>
-    <%= f.text_field :title, :placeholder => "Link Title" %>
-    <%= f.text_field :url, :placeholder => "http://" %>
-    </p>
-  <% end %>
+  <fieldset id="related-links">
+    <legend>Related Links</legend>
+    <%= f.fields_for :related_links do |f| %>
+      <%= f.label :title, "Link Title" %>
+      <%= f.text_field :title %>
+      <%= f.label :title, "URL" %>
+      <%= f.text_field :url, :placeholder => "http://" %>
+      <%= f.link_to_remove "Remove this link" %>
+    <% end %>
+    <p><%= f.link_to_add "Add a link", :related_links %></p>
+  </fieldset>
 
   <p>
     <%= f.submit ( @mapping.persisted? ? "Update Mapping" : "Create Mapping"), :class => 'btn btn-primary' %> &nbsp; or &nbsp;

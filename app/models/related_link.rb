@@ -4,5 +4,5 @@ class RelatedLink
   field :url, type: String
   field :title, type: String
 
-  validates :url, :title, :presence => true
+  # validates :url, :title, :presence => true
 end

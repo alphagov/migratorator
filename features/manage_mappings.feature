@@ -15,7 +15,8 @@ Feature: Manage mappings
 
   Scenario: Filter mappings by tag
     Given many mappings exist
+    And mappings exist with the tag example
     When I visit the mappings list
     Then I should see the correct tags in the list
-    When I filter by a tag
-    Then I should only see mappings with the tag in the list
+    When I filter by the tag example
+    Then I should only see mappings with the tag example in the list

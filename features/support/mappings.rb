@@ -20,11 +20,12 @@ def check_mapping_details_appear_in_the_api(mapping)
   api_response.should == json
 end
 
-def check_mapping_details_appear_in_the_list(mappings)
+def check_mapping_details_appear_in_the_list(mappings, options = {})
   mappings.each do |mapping|
     within("tr#mapping_#{mapping.id}") do
       page.should have_content(mapping.title)
       page.should have_content(mapping.status)
+      page.should have_content(options[:tag]) if options and options[:tag]
       page.should have_link("Edit", :href => edit_mapping_path(mapping))
     end
   end
@@ -38,5 +39,11 @@ def check_tags_appear_in_the_tags_list_for(mappings)
         page.should have_selector(".nav-header", :text => (tag[:type] || "other").capitalize)
       end
     end
+  end
+end
+
+def filter_by_tag(tag)
+  within("ul.tags-list") do
+    click_link tag
   end
 end

@@ -30,7 +30,7 @@
 
   <p>
     <%= f.label :tags_list, "Tags (separate with semicolons)" %>
-    <%= f.text_field :tags_list, :class => 'span6' %>
+    <%= f.text_field :tags_list, :class => 'span6 tags_autocomplete' %>
   </p>
 
   <p>
@@ -58,3 +58,48 @@
 <% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+  var tags_input_box = $('input.tags_autocomplete');
+  var tags_dropdown_box = $('<select class="tags_autocomplete_select span6" multiple></select>');
+
+  tags_input_box.hide();
+  tags_dropdown_box.insertAfter(tags_input_box);
+
+  $.getJSON('<%= tags_path(:format => :json, :order => 'groups') %>', function(data) {
+    var groups = { };
+
+    $.each(data, function(key,tag) {
+      tag = tag.tag;
+
+      if (tag.group == null) { tag.group = "other"; }
+      if (groups[tag.group] === undefined) { groups[tag.group] = []; }
+      groups[tag.group].push(tag);
+    });
+
+    window.console.dir(groups);
+
+    $.each(groups, function(group, tags) {
+      group_html = '<optgroup label="'+ group +'">';
+      for (x in tags) {
+        tag = tags[x];
+        group_html += '<option value="'+ tag.whole_tag +'">'+ tag.whole_tag +'</option>';
+      }
+
+      group_html += '</optgroup>';
+      tags_dropdown_box.append(group_html);
+    });
+
+    if (tags_input_box.val()) {
+      tags_dropdown_box.val( tags_input_box.val().split(', ') );
+    }
+    tags_dropdown_box.chosen();
+  });
+
+  $('form').submit( function(){
+    tags_input_box.val( tags_dropdown_box.val().join(', ') );
+    tags_dropdown_box.attr('disabled','disabled');
+  });
+
+
+</script>

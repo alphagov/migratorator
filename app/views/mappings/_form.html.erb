@@ -77,8 +77,6 @@
       groups[tag.group].push(tag);
     });
 
-    window.console.dir(groups);
-
     $.each(groups, function(group, tags) {
       group_html = '<optgroup label="'+ group +'">';
       for (x in tags) {

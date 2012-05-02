@@ -5,6 +5,7 @@ class Tag
   field :name,  type: String
 
   validates :name, :presence => true
+  validates :name, :uniqueness => {:scope => :group}
 
   default_scope order_by([:group, :asc], [:name, :asc])
 

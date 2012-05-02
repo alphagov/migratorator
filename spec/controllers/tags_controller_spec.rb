@@ -17,7 +17,29 @@ describe TagsController do
           { "tag" => { "group" => "section", "name" => "education", "whole_tag" => "section:education"} },
           { "tag" => { "group" => nil, "name" => "top-level-tag", "whole_tag" => "top-level-tag"} }
         ]
+      end
+    end
+  end
 
+  describe "creating a tag" do
+    describe "from a JSON POST request" do
+      before do
+        @json = %q{
+          {
+            "tag" : "section:government"
+          }
+        }
+      end
+
+      it "should create the tag" do
+        post :create, json: @json, format: 'json'
+        response.status.should == 201
+
+        tag = Tag.find_by_string("section:government")
+
+        tag.should be_instance_of(Tag)
+        tag.group.should == "section"
+        tag.name.should == "government"
       end
     end
   end

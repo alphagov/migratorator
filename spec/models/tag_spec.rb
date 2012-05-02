@@ -19,6 +19,23 @@ describe Tag do
       tag.group.should == "section"
       tag.name.should  == "case"
     end
+
+    it "should not create a duplicate tag on both group and name" do
+      tag1 = Tag.create_from_string("section:example")
+      tag2 = Tag.create_from_string("section:example")
+
+      tag1.should be_persisted
+      tag2.should_not be_persisted
+      tag2.errors.size.should > 0
+    end
+
+    it "should allow creation of tags with duplicate names in different groups" do
+      tag1 = Tag.create_from_string("section:example")
+      tag2 = Tag.create_from_string("status:example")
+
+      tag1.should be_persisted
+      tag2.should be_persisted
+    end
   end
 
   describe "retreiving a tag" do

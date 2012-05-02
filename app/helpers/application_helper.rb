@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def normalize_title(title)
-    title.sub(/ : Directgov( - .*)?$/,"")
+    title.sub(/ : Directgov( - .*)?$/,"") if title
   end
 
   def active_tags
@@ -17,18 +17,18 @@ module ApplicationHelper
   end
 
   def tag_is_active?(tag)
-    active_tags.include?(tag)
+    active_tags.include?(tag.whole_tag)
   end
 
   def add_tag_to_filter_path(tag)
     new_tags = active_tags.dup
-    new_tags << tag
+    new_tags << tag.whole_tag
     filter_mappings_path(:tags => new_tags.join(','))
   end
 
   def remove_tag_from_filter_path(tag)
     new_tags = active_tags.dup
-    new_tags.delete(tag)
+    new_tags.delete(tag.whole_tag)
     new_tags.any? ? filter_mappings_path(:tags => new_tags.join(',')) : mappings_path
   end
 

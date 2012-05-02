@@ -1,7 +1,11 @@
 object @mapping
 
 attributes :id, :title, :old_url, :status, :new_url
-attribute :tags
+
+node :tags do |m|
+  m.tags.map(&:whole_tag)
+end
+
 attribute :notes
 attribute :search_query
 child :related_links => :related_links do

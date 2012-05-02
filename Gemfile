@@ -4,7 +4,6 @@ gem 'rails', '3.1.3'
 gem "mongoid", "~> 2.3"
 gem "bson_ext", "~> 1.5"
 
-gem 'mongoid_taggable'
 gem 'rabl'
 gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 

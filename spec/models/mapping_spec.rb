@@ -66,6 +66,15 @@ describe Mapping do
       new_mapping.should_not be_valid
     end
 
+    it "should parse tags for a mapping" do
+      mapping = Mapping.new(@atts)
+      mapping.tags_list = "section:example,format:nav"
+      mapping.save!
+
+      mapping.tags.size.should == 2
+      mapping.tags.first.should be_instance_of(Tag)
+    end
+
     it "should save related items for a mapping" do
       mapping = Mapping.create!(@atts)
 

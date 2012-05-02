@@ -5,7 +5,7 @@ describe MappingsController do
   describe "when retrieving a mapping" do
     describe "JSON" do
       before do
-        @mapping = Mapping.create! :title => "An example redirect", :old_url  => 'http://example.com/a_long_uri', :new_url => 'http://new.com/test', :status => 301, :tags_array => ["section:education", "article", "need-met:Y"], :notes => "A note string"
+        @mapping = Mapping.create! :title => "An example redirect", :old_url  => 'http://example.com/a_long_uri', :new_url => 'http://new.com/test', :status => 301, :tags => ["section:education", "article", "need-met:y"], :notes => "A note string"
         @json_representation = {
           "mapping" => {
             "id"           => @mapping.id,
@@ -13,9 +13,9 @@ describe MappingsController do
             "old_url"       => @mapping.old_url,
             "status"        => 301,
             "new_url"       => @mapping.new_url,
-            "tags"          => [{:type => "section", :name => "education"},{:type => nil, :name => "article"},{:type => "need-met", :name => "y"}],
             "notes"         => "A note string",
             "search_query"  => nil,
+            "tags"          => ["article", "need-met:y", "section:education"],
             "related_links" => [ ]
           }
         }.to_json
@@ -70,7 +70,9 @@ describe MappingsController do
           new_mapping.should be_instance_of Mapping
           new_mapping.new_url.should == "https://www.gov.uk/your-consumer-rights/buying-a-car"
           new_mapping.status.should == 301
-          new_mapping.tags.should == [{:type => "section", :name => "education"},{:type => nil, :name => "article"}]
+
+          new_mapping.tags.size.should == 2
+          new_mapping.tags.map(&:to_hash).should =~ [{:group => "section", :name => "education"},{:group => nil, :name => "article"}]
         end
 
         it "should return a 201 Created status code" do

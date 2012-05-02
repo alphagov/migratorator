@@ -4,12 +4,10 @@ end
 
 Given /^many mappings exist$/ do
   @mappings = FactoryGirl.create_list(:mapping, 10)
-  Mapping.save_tags_index! # force tags index update
 end
 
 Given /^mappings exist with the tag (.*)$/ do |tag|
   @mappings = FactoryGirl.create_list(:mapping, 10, :tags => [tag])
-  Mapping.save_tags_index! # force tags index update
 end
 
 When /^I visit the mappings list$/ do

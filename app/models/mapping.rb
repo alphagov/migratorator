@@ -1,6 +1,6 @@
 class Mapping
   include Mongoid::Document
-  include Mongoid::Taggable
+  include Taggable
 
   field :title,         type: String
   field :old_url,       type: String
@@ -13,30 +13,11 @@ class Mapping
   validates :new_url, :presence => true, :if => :is_redirect?
   validates :status, :inclusion => { :in => [301, 410], :allow_blank => true }
 
-  before_validation :parameterize_tags
-
   embeds_many :related_links
   accepts_nested_attributes_for :related_links, :reject_if => proc {|atts| atts['url'].blank? }, :allow_destroy => true
 
-  # fix tags to accept our json key as an array
-  alias_method :tags_list=, :tags=
-  alias_method :tags=, :tags_array=
-
-  # return a list of all the tags we know about and group them by their tag type
-  # (aka the bit before the first colon)
-  def self.tags
-    super.group_by {|tag| tag.split(":").size > 1 ? tag.split(":").first : "Other" }
-  end
-
-  # return all the tags for a mapping as an array of hashes, and split away the tag type
-  def tags
-    tags_array.map { |a|
-      a.split(":").size > 1 ? { :type => a.split(":")[0], :name => (a.split(":")[1] || "").strip } : { :type => nil, :name => a.strip }
-    }
-  end
-
-  def tags_list
-    tags_array.join(", ")
+  def self.tagged_with_all(array)
+    self.all_in :tagged_with_ids => array.map {|tag| Tag.find_by_string(tag).id}
   end
 
   def self.find_by_old_url(param)

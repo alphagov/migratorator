@@ -6,7 +6,7 @@ class MappingsController < ApplicationController
     @tags_filter = params[:tags].split(",") if ! params[:tags].blank?
     context = @tags_filter.blank? ? Mapping : Mapping.tagged_with_all(@tags_filter)
 
-    @tags = Mapping.tags
+    @tags = Tag.grouped
     @mappings = context.all
 
     respond_to do |format|

@@ -10,9 +10,9 @@ def check_mapping_details_appear_in_the_api(mapping)
       "old_url"       => mapping.old_url,
       "status"        => mapping.status,
       "new_url"       => mapping.new_url,
-      "tags"          => mapping.tags,
       "notes"         => mapping.notes,
       "search_query"  => mapping.search_query,
+      "tags"          => mapping.tags.map(&:whole_tag),
       "related_links" => mapping.related_links
     }
   }.to_json

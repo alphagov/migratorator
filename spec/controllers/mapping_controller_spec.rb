@@ -12,6 +12,31 @@ describe MappingsController do
 
       assigns(:tags_filter).should =~ ["section:example", "status:done", "proposition:citizen"]
     end
+
+    it "retrieves the correct progress percentage" do
+      @tag_one = FactoryGirl.create(:mapping, :tags => ["section:example","status:done"])
+      @tag_two = FactoryGirl.create(:mapping, :tags => ["section:example","status:bin"])
+      @tag_three = FactoryGirl.create(:mapping, :tags => ["section:something-else","status:done"])
+      @tag_four = FactoryGirl.create(:mapping, :tags => [])
+
+      Tag.create_from_string("empty_tag")
+
+      get :index
+      assigns(:progress).done.should == 50
+      assigns(:progress).count.should == 4
+
+      get :index, :tags => "section:example"
+      assigns(:progress).done.should == 50
+      assigns(:progress).count.should == 2
+
+      get :index, :tags => "section:example/status:done"
+      assigns(:progress).done.should == 100
+      assigns(:progress).count.should == 1
+
+      get :index, :tags => "empty_tag"
+      assigns(:progress).done.should == 0
+      assigns(:progress).count.should == 0
+    end
   end
 
   describe "when retrieving a mapping" do

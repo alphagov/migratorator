@@ -24,12 +24,13 @@ class Mapping
   end
 
   def self.progress(tags_array)
+    context = tags_array.any? ? Mapping.tagged_with_all(tags_array) : Mapping
     status_tags = Tag.find_by_group(Tag::STATUS_GROUP).map(&:whole_tag)
 
-    total_count = self.tagged_with_all(tags_array).tagged_with_any(status_tags).count
-    done_count = self.tagged_with_all(tags_array + [Tag::STATUS_DONE_TAG]).count
+    done_count = context.tagged_with_all(tags_array + [Tag::STATUS_DONE_TAG]).count
+    percentage = context.count > 0 ? (done_count.to_f / context.count * 100).round(1) : 0
 
-    OpenStruct.new(:count => total_count, :done => (done_count.to_f / total_count.to_f * 100).round(1))
+    OpenStruct.new(:count => context.count, :done => percentage)
   end
 
   def is_redirect?

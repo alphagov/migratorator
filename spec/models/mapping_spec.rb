@@ -26,7 +26,7 @@ describe Mapping do
     end
 
     it "should calculate the progress percentage" do
-      Mapping.progress(tagged_with(["section:example"])).done.should == 50
+      Mapping.progress(["section:example"]).done.should == 50
     end
   end
 

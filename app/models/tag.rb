@@ -35,7 +35,7 @@ class Tag
   end
 
   def self.find_by_group_and_name(group, name)
-    Tag.where(:group => group, :name => name).first || raise(TagNotFound.new)
+    Tag.where(:group => group, :name => name).first
   end
 
   def self.find_by_group(group)

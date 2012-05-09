@@ -17,5 +17,20 @@ module Taggable
     def tags_list=(string)
       self.tags = string.split(",").map {|a| a.strip }
     end
+
+    def self.valid_tags_for(array)
+      array.map {|tag|
+        tag = Tag.find_by_string(tag)
+        tag.present? ? tag.id : nil
+      }.compact
+    end
+
+    def self.tagged_with_all(array)
+      self.all_in :tagged_with_ids => self.valid_tags_for(array)
+    end
+
+    def self.tagged_with_any(array)
+      self.any_in :tagged_with_ids => self.valid_tags_for(array)
+    end
   end
 end

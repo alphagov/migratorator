@@ -2,6 +2,18 @@ require 'spec_helper'
 
 describe MappingsController do
 
+  describe "when listing all mappings" do
+    it "finds the correct tag context" do
+      Tag.create_from_string("section:example")
+      Tag.create_from_string("status:done")
+      Tag.create_from_string("proposition:citizen")
+
+      get :index, :tags => 'section:example/status:done/proposition:citizen'
+
+      assigns(:tags_filter).should =~ ["section:example", "status:done", "proposition:citizen"]
+    end
+  end
+
   describe "when retrieving a mapping" do
     describe "JSON" do
       before do

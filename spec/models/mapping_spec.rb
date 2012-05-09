@@ -2,6 +2,34 @@ require 'spec_helper'
 
 describe Mapping do
 
+  describe "retrieving mappings by tag" do
+    before do
+      @tag_one = FactoryGirl.create(:mapping, :tags => ["section:example","status:done"])
+      @tag_two = FactoryGirl.create(:mapping, :tags => ["section:example","status:bin"])
+      @tag_three = FactoryGirl.create(:mapping, :tags => ["section:something-else","status:done"])
+    end
+
+    def tagged_with(tags)
+      Mapping.tagged_with_all(tags)
+    end
+
+    def tagged_with_collection(tags)
+      tagged_with(tags).all.to_a
+    end
+
+    it "should return the correct mappings" do
+      tagged_with_collection(["section:example"]).should =~ [@tag_one, @tag_two]
+      tagged_with_collection(["status:done"]).should =~ [@tag_one, @tag_three]
+      tagged_with_collection(["section:example","status:bin"]).should =~ [@tag_two]
+      tagged_with_collection(["section:example","status:done"]).should =~ [@tag_one]
+      tagged_with_collection(["section:something-else","status:bin"]).should =~ []
+    end
+
+    it "should calculate the progress percentage" do
+      Mapping.progress(tagged_with(["section:example"])).done.should == 50
+    end
+  end
+
   describe "retrieving a mapping" do
     before do
       @old_url = 'http://example.com/a_long_uri'

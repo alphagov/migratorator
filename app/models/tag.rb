@@ -1,6 +1,9 @@
 class Tag
   include Mongoid::Document
 
+  STATUS_GROUP    = "status"
+  STATUS_DONE_TAG = "status:done"
+
   field :group, type: String
   field :name,  type: String
 

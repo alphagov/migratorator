@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class Mapping
   include Mongoid::Document
   include Taggable
@@ -20,9 +22,22 @@ class Mapping
     self.all_in :tagged_with_ids => array.map {|tag| Tag.find_by_string(tag).id}
   end
 
+  def self.tagged_with_any(array)
+    self.any_in :tagged_with_ids => array.map {|tag| Tag.find_by_string(tag).id}
+  end
+
   def self.find_by_old_url(param)
     raise URLNotProvided.new if !param or param.empty?
     self.where( old_url: URI::decode(param) ).first || raise(MappingNotFound.new)
+  end
+
+  def self.progress(context)
+    status_tags = Tag.find_by_group(Tag::STATUS_GROUP).map(&:whole_tag)
+
+    total_count = context.tagged_with_any(status_tags).count
+    done_count = context.tagged_with_all([Tag::STATUS_DONE_TAG]).count
+
+    OpenStruct.new(:count => total_count, :done => (done_count.to_f / total_count.to_f * 100).round(1))
   end
 
   def is_redirect?

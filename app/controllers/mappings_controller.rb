@@ -3,11 +3,13 @@ class MappingsController < ApplicationController
   before_filter :find_mapping, :only => [:edit, :update]
 
   def index
-    @tags_filter = params[:tags].split(",") if ! params[:tags].blank?
-    context = @tags_filter.blank? ? Mapping : Mapping.tagged_with_all(@tags_filter)
+    @tags_filter = ! params[:tags].blank? ? params[:tags].split("/") : [ ]
+
+    @context = apply_tag_context(@tags_filter)
+    @progress = Mapping.progress(@context)
+    @mappings = @context.all
 
     @tags = Tag.grouped
-    @mappings = context.all
 
     respond_to do |format|
       format.html
@@ -79,6 +81,10 @@ class MappingsController < ApplicationController
   end
 
   private
+    def apply_tag_context(tags)
+      @context ||= tags.any? ? Mapping.tagged_with_all(@tags_filter) : Mapping
+    end
+
     def find_mapping
       @mapping = Mapping.find(params[:id])
     end

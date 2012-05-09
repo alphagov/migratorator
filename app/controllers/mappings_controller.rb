@@ -6,7 +6,7 @@ class MappingsController < ApplicationController
     @tags_filter = ! params[:tags].blank? ? params[:tags].split("/") : [ ]
 
     @context = apply_tag_context(@tags_filter)
-    @progress = Mapping.progress(@tags_filter)
+    @progress = Mapping.progress(@tags_filter, (params[:progress] || Tag::STATUS_DONE_TAG))
     @mappings = @context.all
 
     @tags = Tag.grouped

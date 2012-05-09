@@ -11,13 +11,7 @@
   </div>
   <div class="span9">
 
-    <div class="well">
-      <h3><%= @progress.done %>% complete</h3>
-      <div class="progress">
-        <div class="bar"
-             style="width: <%= @progress.done %>%;"></div>
-      </div>
-    </div>
+    <%= render :partial => 'progress_bar' %>
 
     <table class="table table-striped">
       <thead>

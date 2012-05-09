@@ -23,14 +23,13 @@ class Mapping
     self.where( old_url: URI::decode(param) ).first || raise(MappingNotFound.new)
   end
 
-  def self.progress(tags_array)
+  def self.progress(tags_array, filter_tag)
     context = tags_array.any? ? Mapping.tagged_with_all(tags_array) : Mapping
-    status_tags = Tag.find_by_group(Tag::STATUS_GROUP).map(&:whole_tag)
 
-    done_count = context.tagged_with_all(tags_array + [Tag::STATUS_DONE_TAG]).count
-    percentage = context.count > 0 ? (done_count.to_f / context.count * 100).round(1) : 0
+    match_count = context.tagged_with_all(tags_array + [filter_tag]).count
+    percentage = context.count > 0 ? (match_count.to_f / context.count * 100).round(1) : 0
 
-    OpenStruct.new(:count => context.count, :done => percentage)
+    OpenStruct.new(:count => match_count, :total => context.count, :percentage => percentage, :tag => filter_tag)
   end
 
   def is_redirect?

@@ -13,7 +13,7 @@ describe MappingsController do
       assigns(:tags_filter).should =~ ["section:example", "status:done", "proposition:citizen"]
     end
 
-    it "retrieves the correct progress percentage" do
+    it "retrieves the correct progress percentage for a given tag" do
       @tag_one = FactoryGirl.create(:mapping, :tags => ["section:example","status:done"])
       @tag_two = FactoryGirl.create(:mapping, :tags => ["section:example","status:bin"])
       @tag_three = FactoryGirl.create(:mapping, :tags => ["section:something-else","status:done"])
@@ -21,21 +21,23 @@ describe MappingsController do
 
       Tag.create_from_string("empty_tag")
 
-      get :index
-      assigns(:progress).done.should == 50
-      assigns(:progress).count.should == 4
+      get :index, :progress => 'status:done'
+      assigns(:progress).percentage.should == 50
+      assigns(:progress).tag.should == 'status:done'
+      assigns(:progress).total.should == 4
 
-      get :index, :tags => "section:example"
-      assigns(:progress).done.should == 50
-      assigns(:progress).count.should == 2
-
-      get :index, :tags => "section:example/status:done"
-      assigns(:progress).done.should == 100
+      get :index, :progress => 'status:done', :tags => "section:example"
+      assigns(:progress).percentage.should == 50
       assigns(:progress).count.should == 1
+      assigns(:progress).total.should == 2
 
-      get :index, :tags => "empty_tag"
-      assigns(:progress).done.should == 0
-      assigns(:progress).count.should == 0
+      get :index, :progress => 'status:done', :tags => "section:example/status:done"
+      assigns(:progress).percentage.should == 100
+      assigns(:progress).total.should == 1
+
+      get :index, :progress => 'status:done', :tags => "empty_tag"
+      assigns(:progress).percentage.should == 0
+      assigns(:progress).total.should == 0
     end
   end
 

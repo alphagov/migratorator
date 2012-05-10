@@ -1,0 +1,5 @@
+<tr id="tag_<%= tag.id %>">
+  <td><%= tag.whole_tag %></td>
+  <td><%= link_to "Rename", edit_tag_path(tag) %>&nbsp;&bull;&nbsp;
+    <%= link_to "Destroy", tag, :method => "DELETE", :confirm => "Are you sure you want to permanently delete this tag?" %></td>
+</tr>

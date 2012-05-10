@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="span10">
+    <h1>List of tags</h1>
+  </div>
+    <%= link_to "Add a new tag", new_tag_path, :class => 'btn', :style => 'float: right' %>
+</div>
+
+<div class="row">
+  <div class="span12">
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Tag</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :partial => "tag", :collection => collection %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

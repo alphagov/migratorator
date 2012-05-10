@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="span12">
+    <%= form_for @tag, :html => { :class => "well" } do |f| %>
+
+  <% if @tag.errors.any? %>
+    <% @tag.errors.full_messages.each do |message| %>
+      <div class="alert alert-error"><%= message %></div>
+    <% end %>
+  <% end %>
+
+  <p>
+    <%= f.label :whole_tag, "Tag" %>
+    <%= f.text_field :whole_tag, :class => 'span6' %>
+  </p>
+
+  <p>
+    <%= f.submit ( @tag.persisted? ? "Rename Tag" : "Create Tag"), :class => 'btn btn-primary' %> &nbsp; or &nbsp;
+    <%= link_to "Cancel", tags_path, :class => 'btn' %>
+  </p>
+
+<% end %>
+  </div>
+</div>

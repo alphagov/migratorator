@@ -13,11 +13,14 @@ describe Tag do
       tag.name.should  == "example"
     end
 
-    it "should downcase the tag" do
-      tag = Tag.create_from_string("Section:CASE")
+    it "should clean and downcase the tag" do
+      tag_one = Tag.create_from_string("Section:CASE")
+      tag_two = Tag.create_from_string("evil/slashes:test")
+      tag_three = Tag.create_from_string("$@ME!-Oth^R-CH%rS")
 
-      tag.group.should == "section"
-      tag.name.should  == "case"
+      tag_one.whole_tag.should == "section:case"
+      tag_two.whole_tag.should == "evil-slashes:test"
+      tag_three.whole_tag.should == "me-oth-r-ch-rs"
     end
 
     it "should not create a duplicate tag on both group and name" do
@@ -63,6 +66,16 @@ describe Tag do
       tag = Tag.create_from_string("section:example")
 
       tag.whole_tag.should == "section:example"
+    end
+  end
+
+  describe "renaming a tag" do
+    it "should assign a name and group from a whole tag" do
+      tag = Tag.create_from_string("music-taste:good")
+      tag.whole_tag = "culinary-taste:bad"
+
+      tag.group.should == "culinary-taste"
+      tag.name.should == "bad"
     end
   end
 

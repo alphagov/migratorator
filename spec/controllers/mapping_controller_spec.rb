@@ -85,24 +85,26 @@ describe MappingsController do
   describe "when creating a mapping" do
 
     describe "from a single JSON object" do
+      before do
+        request.env['CONTENT_TYPE'] = 'application/json'
+      end
+
       describe "for a valid request" do
         before do
-          @json = %q{
-            {
-              "new_url": "https://www.gov.uk/your-consumer-rights/buying-a-car",
-              "old_url": "http://www.direct.gov.uk/en/Governmentcitizensandrights/Consumerrights/Buyingacar-yourconsumerrights/DG_183043",
-              "status": "301",
-              "tags": [
-                  "section:education",
-                  "article"
-              ],
-              "title": "Repairing and servicing your car : Directgov - Government, citizens and rights"
-            }
+          @atts = {
+            new_url: "https://www.gov.uk/your-consumer-rights/buying-a-car",
+            old_url: "http://www.direct.gov.uk/en/Governmentcitizensandrights/Consumerrights/Buyingacar-yourconsumerrights/DG_183043",
+            status: "301",
+            tags: [
+                "section:education",
+                "article"
+            ],
+            title: "Repairing and servicing your car : Directgov - Government, citizens and rights"
           }
         end
 
         it "should create the mapping in the database" do
-          post :create, json: @json, format: 'json'
+          post :create, :mapping => @atts, :format => 'json'
 
           new_mapping = Mapping.find_by_old_url "http://www.direct.gov.uk/en/Governmentcitizensandrights/Consumerrights/Buyingacar-yourconsumerrights/DG_183043"
 
@@ -115,7 +117,7 @@ describe MappingsController do
         end
 
         it "should return a 201 Created status code" do
-          post :create, json: @json, format: 'json'
+          post :create, mapping: @atts, format: 'json'
 
           response.status.should == 201
         end
@@ -123,16 +125,14 @@ describe MappingsController do
 
       describe "for an invalid request" do
         before do
-          @json = %q{
-            {
-              "new_url": "https://www.gov.uk/your-consumer-rights/buying-a-car",
-              "status": "301"
-            }
+          @atts = {
+            new_url: "https://www.gov.uk/your-consumer-rights/buying-a-car",
+            status: "301"
           }
         end
 
         it "should not create the mapping in the database" do
-          post :create, json: @json, format: 'json'
+          post :create, mapping: @atts, format: 'json'
 
           expect do
             Mapping.find_by_old_url "http://www.direct.gov.uk/en/Governmentcitizensandrights/Consumerrights/Buyingacar-yourconsumerrights/DG_183043"
@@ -140,7 +140,7 @@ describe MappingsController do
         end
 
         it "should return a 422 Unprocessable Entity status code" do
-          post :create, json: @json, format: 'json'
+          post :create, mapping: @atts, format: 'json'
 
           response.status.should == 422
         end

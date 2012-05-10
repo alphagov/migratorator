@@ -1,4 +1,4 @@
-Feature: Manage mappings
+Feature: Editing mappings
   In order to ensure a smooth transition between websites
   I want to be able to create, retrieve, update and delete mappings
   So that people can be redirected to the new resource

@@ -51,6 +51,6 @@ Then /^I should see the mapping in the list$/ do
 end
 
 Then /^the mapping should be created$/ do
-  page.should have_content("Mapping created")
+  page.should have_content("Mapping was successfully created")
   @mapping = Mapping.find_by_old_url(@mapping.old_url)
 end

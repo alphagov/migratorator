@@ -11,7 +11,7 @@ class Tag
 
   default_scope order_by([:group, :asc], [:name, :asc])
 
-  before_create :downcase_tag
+  before_save :sanitize_tag
 
   class TagNotFound < Exception; end
 
@@ -45,14 +45,22 @@ class Tag
     group.blank? ? name : group + ':' + name
   end
 
+  def whole_tag=(string)
+    Tag.parse_tag_from_string(string).each { |key, val| send("#{key}=", val) }
+  end
+
   def to_hash
     { :group => group, :name => name }
   end
 
+  def to_param
+    whole_tag
+  end
+
   private
-    def downcase_tag
-      self.group.downcase! if self.group
-      self.name.downcase!
+    def sanitize_tag
+      self.group = self.group.parameterize if self.group
+      self.name = self.name.parameterize
     end
 
     def self.parse_tag_from_string(s)

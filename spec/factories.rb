@@ -10,4 +10,8 @@ FactoryGirl.define do
     tags ["section:test","status:done","apple","reviewed:y"]
   end
 
+  factory :tag do
+    sequence(:whole_tag) {|n| "foo:bar-#{n}" }
+  end
+
 end

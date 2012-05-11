@@ -54,3 +54,7 @@ Then /^the mapping should be created$/ do
   page.should have_content("Mapping was successfully created")
   @mapping = Mapping.find_by_old_url(@mapping.old_url)
 end
+
+Then /^mappings should not exist with the tag$/ do
+  check_mappings_do_not_appear_in_the_list_with_tag(@tag)
+end

@@ -11,7 +11,7 @@ class Tag
 
   default_scope order_by([:group, :asc], [:name, :asc])
 
-  before_save :sanitize_tag
+  before_validation :sanitize_tag
 
   class TagNotFound < Exception; end
 
@@ -60,7 +60,7 @@ class Tag
   private
     def sanitize_tag
       self.group = self.group.parameterize if self.group
-      self.name = self.name.parameterize
+      self.name = self.name.parameterize if self.name
     end
 
     def self.parse_tag_from_string(s)

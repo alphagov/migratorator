@@ -24,7 +24,8 @@ describe TagsController do
   describe "creating a tag" do
     describe "from a JSON POST request" do
       it "should create the tag" do
-        post :create, tag: "section:government", format: 'json'
+        post :create, tag: { whole_tag: "section:government" }, format: 'json'
+        puts response.body
         response.status.should == 201
 
         tag = Tag.find_by_string("section:government")
@@ -35,7 +36,7 @@ describe TagsController do
       end
 
       it "should return a 201 Created status code" do
-        post :create, tag: "section:government", format: 'json'
+        post :create, tag: { whole_tag: "section:government" }, format: 'json'
         response.status.should == 201
       end
     end
@@ -43,7 +44,7 @@ describe TagsController do
     describe "from a HTTP POST request" do
       describe "given valid attributes" do
         it "should create the tag" do
-          post :create, tag: "section:government"
+          post :create, tag: { whole_tag: "section:government" }
 
           tag = Tag.find_by_string("section:government")
           tag.should be_instance_of(Tag)
@@ -52,14 +53,14 @@ describe TagsController do
         end
 
         it "should redirect to the tags index" do
-          post :create, tag: "section:government"
+          post :create, tag: { whole_tag: "section:government" }
           response.should be_redirect
         end
       end
 
       describe "given a blank tag" do
         it "should return the correct error" do
-          post :create, tag: ""
+          post :create, tag: { whole_tag: "" }
           assigns(:tag).errors.messages.should have_key(:name)
         end
       end

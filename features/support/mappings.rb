@@ -31,6 +31,12 @@ def check_mapping_appears_in_the_list(mappings, options = {})
   end
 end
 
+def check_mappings_do_not_appear_in_the_list_with_tag(tag)
+  visit mappings_path
+  within("table") do
+    page.should_not have_content(tag)
+  end
+end
 
 def check_multiple_mappings_appear_in_the_list(mappings, options = {})
   mappings.each do |mapping|

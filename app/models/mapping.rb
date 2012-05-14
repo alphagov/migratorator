@@ -12,7 +12,7 @@ class Mapping
   field :search_query,  type: String, default: nil
 
   validates :old_url, :presence => true, :uniqueness => { :case_sensitive => false }
-  validates :new_url, :presence => true, :if => :is_redirect?
+  # validates :new_url, :presence => true, :if => :is_redirect?
   validates :status, :inclusion => { :in => [301, 410], :allow_blank => true }
 
   embeds_many :related_links

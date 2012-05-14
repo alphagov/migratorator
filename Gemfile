@@ -7,6 +7,7 @@ gem "bson_ext", "~> 1.5"
 gem 'rabl'
 gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 gem 'inherited_resources'
+gem 'kaminari'
 
 group :passenger_compatibility do
   gem 'rack', '1.3.5'

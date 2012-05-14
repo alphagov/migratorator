@@ -12,3 +12,16 @@ h1, h2, h3, .navbar .brand, .nav .nav-header, .btn, label, .nav > li > a { font-
 .btn, label, .nav > li > a { font-size: 14px; }
 .nav .nav-header { font-size: 13px; }
 h1 { margin-bottom: 10px; }
+
+.pagination span.current, .pagination span.gap {
+  float: left;
+  padding: 0 14px;
+  line-height: 34px;
+  text-decoration: none;
+  border: 1px solid #DDD;
+  border-left-width: 0;
+}
+.pagination span.current { background: #eee; }
+.pagination span:first-child, .pagination span:first-child a {
+  border-left-width: 1px;
+}

@@ -13,6 +13,8 @@
 
     <%= render :partial => 'progress_bar' %>
 
+    <%= paginate @mappings %>
+
     <table class="table table-striped">
       <thead>
         <tr>
@@ -26,6 +28,8 @@
         <%= render :partial => "mapping", :collection => @mappings %>
       </tbody>
     </table>
+
+    <%= paginate @mappings %>
 
   </div>
 </div>

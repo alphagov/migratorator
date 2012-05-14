@@ -1,7 +1,7 @@
 class Tag
   include Mongoid::Document
 
-  STATUS_DONE_TAG = "status:done"
+  STATUS_DONE_TAG = "status:closed"
 
   field :group, type: String
   field :name,  type: String

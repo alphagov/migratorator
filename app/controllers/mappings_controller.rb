@@ -8,7 +8,7 @@ class MappingsController < InheritedResources::Base
 
     @context = apply_tag_context(@tags_filter)
     @progress = Mapping.progress(@tags_filter, (params[:progress] || Tag::STATUS_DONE_TAG))
-    @mappings = @context.all
+    @mappings = @context.page(params[:page]).all
 
     @tags = Tag.grouped
 

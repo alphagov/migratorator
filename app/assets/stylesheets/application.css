@@ -5,7 +5,10 @@
  *= require bootstrap
  *= require chosen
  *= require_self
+ *= require_tree .
 */
+
+body { padding-top: 60px; padding-bottom: 40px; }
 
 h1, h2, h3, .navbar .brand, .nav .nav-header, .btn, label, .nav > li > a { font-family: "Gill Sans", "Helvetica", "Arial", sans-serif; font-weight: normal; }
 .navbar .brand { font-size: 20px; }

@@ -1,0 +1,196 @@
+#browser {
+  #header {
+    margin: 0;
+    border: 0;
+    padding: 0.5em 1em;
+    overflow: hidden;
+  }
+
+  #viewer {
+    width: 125%;
+    margin-left: -12.5%;
+    height: 100%;
+    clear: both;
+  }
+
+  .pane {
+    width: 50%;
+    margin: 0;
+    padding: 0;
+    float: left;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  #navigation {
+    margin: 0;
+    padding: 0;
+  }
+
+
+  h1 {
+    font-size: 1em;
+    display: inline;
+  }
+
+  h1 a {
+    text-decoration: none;
+    clear: none;
+    color: #777;
+  }
+
+  h1 a:hover {
+    color: #333;
+  }
+
+  #navigation p,
+  #navigation ol {
+    line-height: 1em;
+    list-style-type: none;
+    word-spacing: 0px;
+    display: inline;
+    padding: 0px;
+  }
+
+  #navigation .nav {
+    cursor: pointer;
+    font-size: 1.1em;
+  }
+
+  #navigation li {
+    display: inline;
+    cursor: pointer;
+    background-color: #EEE;
+    border-top: 5px solid #FFF;
+    border-bottom: 5px solid #FFF;
+    color: #EEE;
+    font-size: 2px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 2px;
+  }
+
+  #navigation li.status301:before {
+    color: #000;
+    background-color: #000;
+  }
+
+  #navigation li:hover {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+
+  #navigation li.selected {
+    color: #333;
+    background-color: #333;
+    border: 1px solid #333;
+  }
+
+  #navigation li.selected:before {
+    background-color: #333;
+  }
+
+  #navigation li:before {
+    content: "◎";
+    background-color: #eee;
+  }
+
+  #navigation li a {
+    display: none;
+  }
+
+  .presentation li .notes {
+    display: none;
+  }
+
+  #view {
+    display: none;
+    clear: both;
+    font-weight: bold;
+    padding: 0 1em;
+  }
+
+  #view a:link,
+  #view a:visited {
+    color: #777;
+    text-decoration: none;
+  }
+
+  #view a:active,
+  #view a:hover {
+    text-decoration: underline;
+  }
+
+  #display {
+    border-right: 1px solid #333;
+  }
+
+  .floop {
+    float: right;
+    display: block;
+  }
+
+  .button {
+    cursor: pointer;
+    padding: 0 0.5em;
+    text-align: center;
+    min-width: 2em;
+  }
+
+  .button .closer {
+    display: none;
+  }
+
+  .button:hover {
+    color: #333;
+  }
+
+  .open .opener {
+    display: none;
+  }
+
+  .open .closer {
+    display: block;
+  }
+
+  fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  .url,
+  .notes {
+    width: 70%;
+    float: left;
+    clear: left;
+  }
+
+  .status,
+  .tags {
+    float: right;
+    width: 25%;
+  }
+
+  #status {
+    font-family: "helvetica", "sans-serif";
+    font-size: 6em;
+    text-align: right;
+    margin-right: 0;
+    display: block;
+  }
+
+  label {
+    display: block;
+    padding-top: 1em;
+    color: #777;
+  }
+
+  input, textarea {
+    width: 100%;
+    border: 4px solid #eee;
+  }
+}

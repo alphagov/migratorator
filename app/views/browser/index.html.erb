@@ -1,0 +1,49 @@
+<script type="text/javascript">
+  var mappings_json_endpoint = '<%= filter_mappings_path(@tags, :format => 'json') %>';
+</script>
+<div id="browser">
+  <div class="floop button">
+    <abbr class="opener" title="open mapping">&#9166;</abbr>
+    <abbr class="closer" title="close mapping">&#x279A;</abbr>
+  </div>
+  <div id="navigation">
+      <ol class="xoxo presentation"></ol>
+  </div>
+  <div id="view">
+    <form>
+      <fieldset>
+      <h2><a class="title" href=""></a></h2>
+      <div class="status">
+        <span id="status">303</span>
+      </div>
+      <div class="url">
+        <label for="url">Old URL</label>
+        <input type="text" name="old_url"></textarea>
+      </div>
+      <div class="url">
+        <label for="url">New URL</label>
+        <input type="text" name="new_url"></textarea>
+      </div>
+      <div class="notes">
+        <label for="text">Text</label>
+        <textarea rows="2" name="text"></textarea>
+      </div>
+      <div class="tags">
+        <label for="tags">Tags</label>
+        <input type="text" name="tags">
+      </div>
+      <div class="notes">
+        <label for="comments">Comments</label>
+        <textarea rows="2" name="comments"></textarea>
+      </div>
+      </fieldset>
+    </form>
+  </div>
+  <div id="viewer">
+    <div class="pane"><iframe scrolling="yes" id="old" src="" frameborder="0" allowtransparency="true"></iframe></div>
+    <div class="pane"><iframe scrolling="yes" id="new" src="" frameborder="0" allowtransparency="true"></iframe></div>
+  </div>
+</div><!-- /browser -->
+<% content_for(:extra_assets) do %>
+  <%= javascript_include_tag "browser" %>
+<% end %>

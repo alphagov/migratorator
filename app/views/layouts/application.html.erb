@@ -4,12 +4,7 @@
   <title>Migratorator</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
-  <style type="text/css">
-    body {
-      padding-top: 60px;
-      padding-bottom: 40px;
-    }
-  </style>
+  <%= yield(:extra_assets) %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -22,7 +17,7 @@
           <ul class="nav">
             <li><a href="<%= mappings_path %>">Mappings</a></li>
             <li><a href="<%= tags_path %>">Tags</a></li>
-            <li><a href="#">Browser</a></li>
+            <li><a href="<%= browser_path %>">Browser</a></li>
           </ul>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <tr id="mapping_<%= mapping.id %>">
-  <td><%= truncate normalize_title(mapping.title), :length => 70 %></td>
+  <td><%= link_to truncate(normalize_title(mapping.title), :length => 70), mapping.old_url %></td>
   <td>
     <% mapping.tags.each do |t| %>
       <%= content_tag :span, t.whole_tag, :class => (t.group == 'status' ? 'label label-important' : 'label') %>

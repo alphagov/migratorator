@@ -10,6 +10,7 @@
     if (index === undefined || index === NaN || index < 0) {
       index = 0;
     }
+    current_slide = slide.deck[index];
 
     // rollover
     var max = $(list).index($(list+":last"));
@@ -31,15 +32,23 @@
 
     $("#index").text(index);
 
-    $("#view a.title").text($(old_link).text());
+    $("#view a.title").text(current_slide.title);
     $("#view a.title").attr("href", old_url);
     $("#view a.title").attr("title", old_url);
+
+    $("#view #status").text(current_slide.status);
+    $("#view input[name=old_url]").val(current_slide.old_url);
+    $("#view input[name=new_url]").val(current_slide.new_url);
+    $("#view textarea[name=notes]").val(current_slide.notes);
+    $("#view input[name=tags]").val(current_slide.tags);
 
     $("#old").attr("src", old_url);
     $("#new").attr("src", new_url);
 
     window.location.hash = index;
   }
+
+  slide.deck = [];
 
   slide.current = function () {
     var s = window.location.hash;
@@ -119,12 +128,13 @@
           if (!this.status || this.status === 302) {
             this.status = 410;
           }
-          var new_url = this.new_url ? this.new_url : this.status + ".html";
+          var new_url = this.new_url ? this.new_url : "/browser_resources/" + this.status + ".html";
           s = s + '<li class="status' + this.status + '">' +
             '<a class="old_url" href="' + this.old_url + '">' + this.title + '</a>' +
             ' <a class="new_url" href="' + new_url + '">' + this.status + '</a>' +
             '</li>';
         });
+        slide.deck = data.mappings;
       }
       $('#navigation .presentation').append(s);
 

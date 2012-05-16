@@ -51,8 +51,9 @@
     line-height: 1em;
     list-style-type: none;
     word-spacing: 0px;
-    display: inline;
+    display: inline-block;
     padding: 0px;
+    margin: 0 0 1em;
   }
 
   #navigation .nav {
@@ -67,10 +68,10 @@
     border-top: 5px solid #FFF;
     border-bottom: 5px solid #FFF;
     color: #EEE;
-    font-size: 2px;
+    font-size: 3px;
     margin-left: 0px;
     margin-right: 0px;
-    padding: 2px;
+    padding: 1.1em;
   }
 
   #navigation li.status301:before {
@@ -133,7 +134,7 @@
     display: block;
   }
 
-  .button {
+  .button, .button abbr {
     cursor: pointer;
     padding: 0 0.5em;
     text-align: center;
@@ -163,16 +164,25 @@
   }
 
   .url,
-  .notes {
+  .notes,
+  .tags {
     width: 70%;
     float: left;
     clear: left;
   }
 
-  .status,
-  .tags {
+  .status, .alert-notice
+   {
     float: right;
     width: 25%;
+  }
+
+  .saved {
+    font-size: 1.5em;
+    background-color: #679121;
+    color: #fff;
+    padding: 1em;
+    margin-top: 2em;
   }
 
   #status {

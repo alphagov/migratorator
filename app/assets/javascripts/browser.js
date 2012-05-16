@@ -56,6 +56,29 @@
     return parseInt(s, 10) || 0;
   };
 
+  slide.current.save = function() {
+    var data = slide.deck[slide.current()];
+    var endpoint = '/mappings/' + data.id + '.json';
+
+    var attributes = {
+      'new_url' : $("#view input[name=new_url]").val(),
+      'notes'     : $("#view textarea[name=notes]").val(),
+      'tags_list' : $("#view input[name=tags]").val()
+    }
+
+    $.ajax({
+      type: "PUT",
+      url: endpoint,
+      data: { 'mapping' : attributes },
+      dataType: 'json',
+      success: function(data) {
+        $('<div class="saved">Saved.</div>').hide().appendTo('#view .status').fadeIn('fast', function() {
+          setTimeout(function() { $('.saved').fadeOut('slow', function() { $(this).remove(); }) },750)
+        });
+      }
+    })
+  }
+
   slide.prev = function () {
     slide(parseInt(slide.current(), 10)-1);
   };
@@ -94,21 +117,25 @@
       case 13:
         slide.floop_open();
         break;
-
       case 27:
         slide.floop_close();
         break;
-
-      case 8:
-      case 37:
-        slide.prev();
-        break;
-      case 14:
-      case 32:
-      case 39:
-        slide.next();
-        break;
       }
+
+      if ($('input, textarea').is(":focus") == false) {
+        switch (event.keyCode) {
+        case 8:
+        case 37:
+          slide.prev();
+          break;
+        case 14:
+        case 32:
+        case 39:
+          slide.next();
+          break;
+        }
+      }
+
     });
 
     $("#navigation .next").click(slide.next);
@@ -151,6 +178,10 @@
        */
       slide(window.location.hash ?  parseInt(window.location.hash.match(/\d+/g)[0]): 0);
       slide.keys();
+    });
+
+    $('#view input, #view textarea').change(function() {
+      slide.current.save();
     });
 
     $('.floop').click(slide.floop);

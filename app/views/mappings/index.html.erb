@@ -1,8 +1,11 @@
 <div class="row">
-  <div class="span10">
+  <div class="span8">
     <h1>List of mappings</h1>
   </div>
-    <%= link_to "Add a new mapping", new_mapping_path, :class => 'btn', :style => 'float: right' %>
+  <div class="span4" style="text-align: right">
+    <%= link_to "Open in browser", browser_path(active_tags.join('/')), :class => 'btn btn-info' %>
+    <%= link_to "Add a new mapping", new_mapping_path, :class => 'btn' %>
+  </div>
 </div>
 
 <div class="row">

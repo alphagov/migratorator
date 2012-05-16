@@ -14,7 +14,7 @@ class MappingsController < InheritedResources::Base
 
     respond_to do |format|
       format.html
-      format.json { @mappings = @context.page(params[:page]).per(100).all }
+      format.json { @mappings = @context.page(params[:page]).per(80).all }
     end
   end
 

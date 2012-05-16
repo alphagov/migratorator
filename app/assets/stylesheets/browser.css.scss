@@ -163,6 +163,9 @@
     border: 0;
   }
 
+  .required { color: #91272c; font-weight: bold; }
+  .hint { color: #bbb; }
+
   .url,
   .notes,
   .tags {
@@ -177,13 +180,14 @@
     width: 25%;
   }
 
-  .saved {
+  .ajax-update {
     font-size: 1.5em;
-    background-color: #679121;
     color: #fff;
     padding: 1em;
     margin-top: 2em;
   }
+  .ajax-update.saved { background-color: #679121; }
+  .ajax-update.error { background-color: #91272c; }
 
   #status {
     font-family: "helvetica", "sans-serif";

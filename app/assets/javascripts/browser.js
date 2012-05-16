@@ -72,8 +72,13 @@
       data: { 'mapping' : attributes },
       dataType: 'json',
       success: function(data) {
-        $('<div class="saved">Saved.</div>').hide().appendTo('#view .status').fadeIn('fast', function() {
-          setTimeout(function() { $('.saved').fadeOut('slow', function() { $(this).remove(); }) },750)
+        $('<div class="ajax-update saved">Saved.</div>').hide().appendTo('#view .status').fadeIn('fast', function() {
+          setTimeout(function() { $('.ajax-update.saved').fadeOut('slow', function() { $(this).remove(); }) },750)
+        });
+      },
+      error: function(data) {
+        $('<div class="ajax-update error">Could not save.</div>').hide().appendTo('#view .status').fadeIn('fast', function() {
+          setTimeout(function() { $('.ajax-update.error').fadeOut('slow', function() { $(this).remove(); }) },750)
         });
       }
     })

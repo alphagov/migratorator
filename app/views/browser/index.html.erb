@@ -8,48 +8,58 @@
   </div>
 </div>
 
+<% content_for(:outside_container) do %>
 <script type="text/javascript">
-  var mappings_json_endpoint = '<%= filter_mappings_path(@tags, :format => 'json') %>';
+  var mappings_json_endpoint = '<%= filter_mappings_path(@tags, :page => (params[:page] || 1), :format => 'json') %>';
 </script>
 <div id="browser">
-  <div class="floop button">
-    <abbr class="opener" title="open mapping">&#9166;</abbr>
-    <abbr class="closer" title="close mapping">&#x279A;</abbr>
-  </div>
-  <div id="navigation">
-      <ol class="xoxo presentation"></ol>
-  </div>
-  <div id="view">
-    <form>
-      <fieldset>
-      <h2><a class="title" href=""></a></h2>
-      <div class="status">
-        <span id="status"></span>
-      </div>
-      <div class="url">
-        <label for="url">Old URL<span class="required">*</span></label>
-        <input type="text" name="old_url">
-      </div>
-      <div class="url">
-        <label for="url">New URL</label>
-        <input type="text" name="new_url">
-      </div>
-      <div class="tags">
-        <label for="tags">Tags <span class="hint">(comma-separated)</span></label>
-        <input type="text" name="tags">
-      </div>
-      <div class="notes">
-        <label for="text">Notes</label>
-        <textarea rows="2" name="notes"></textarea>
-      </div>
-      </fieldset>
-    </form>
+  <div class="container">
+    <div class="floop button">
+      <abbr class="opener" title="open mapping">&#9166;</abbr>
+      <abbr class="closer" title="close mapping">&#x279A;</abbr>
+    </div>
+    <div id="navigation">
+        <ol class="xoxo presentation"></ol>
+    </div>
+    <div id="view">
+      <form>
+        <fieldset>
+        <h2><a class="old_url" href=""></a></h2>
+        <div class="status">
+          <label for="status">Status</label>
+          <select name="status">
+            <option value="">Not yet decided</option>
+            <option value="301">301 - Redirect to new url</option>
+            <option value="410">410 - Show the gone page</option>
+          </select>
+        </div>
+        <div class="url">
+          <label for="title">Title<span class="required">*</span></label>
+          <input type="text" name="title">
+        </div>
+        <div class="url">
+          <label for="url">New URL</label>
+          <input type="text" name="new_url">
+        </div>
+        <div class="tags">
+          <label for="tags">Tags <span class="hint">(comma-separated)</span></label>
+          <input type="text" name="tags">
+        </div>
+        <div class="notes">
+          <label for="text">Notes</label>
+          <textarea rows="2" name="notes"></textarea>
+        </div>
+        </fieldset>
+      </form>
+    </div>
   </div>
   <div id="viewer">
     <div class="pane"><iframe scrolling="yes" id="old" src="" frameborder="0" allowtransparency="true"></iframe></div>
     <div class="pane"><iframe scrolling="yes" id="new" src="" frameborder="0" allowtransparency="true"></iframe></div>
   </div>
 </div><!-- /browser -->
+<% end %>
+
 <% content_for(:extra_assets) do %>
   <%= javascript_include_tag "browser" %>
 <% end %>

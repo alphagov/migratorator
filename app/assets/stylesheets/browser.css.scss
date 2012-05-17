@@ -7,8 +7,7 @@
   }
 
   #viewer {
-    width: 125%;
-    margin-left: -12.5%;
+    width: 100%;
     height: 100%;
     clear: both;
   }
@@ -68,15 +67,20 @@
     border-top: 5px solid #FFF;
     border-bottom: 5px solid #FFF;
     color: #EEE;
-    font-size: 3px;
+    font-size: 3.5px;
     margin-left: 0px;
     margin-right: 0px;
     padding: 1.1em;
+    vertical-align: middle;
   }
 
   #navigation li.status301:before {
     color: #000;
     background-color: #000;
+  }
+  #navigation li.status410:before {
+    color: #c11e1a;
+    background-color: #c11e1a;
   }
 
   #navigation li:hover {
@@ -85,18 +89,25 @@
   }
 
   #navigation li.selected {
-    color: #333;
-    background-color: #333;
-    border: 1px solid #333;
-  }
-
-  #navigation li.selected:before {
-    background-color: #333;
+    border-radius: 4px;
+    color: inherit;
+    border: 2px solid #333;
   }
 
   #navigation li:before {
     content: "◎";
     background-color: #eee;
+  }
+  #navigation li.next_link:before, #navigation li.prev_link:before {
+    content: "▶";
+    color: #000;
+  }
+  #navigation li.next_link, #navigation li.prev_link {
+    font-size: 8px;
+    padding: 0.2em;
+  }
+  #navigation li.prev_link:before {
+    content: "◀";
   }
 
   #navigation li a {
@@ -188,6 +199,8 @@
   }
   .ajax-update.saved { background-color: #679121; }
   .ajax-update.error { background-color: #91272c; }
+
+  #view .old_url { display: block; width: 960px; overflow: hidden;}
 
   #status {
     font-family: "helvetica", "sans-serif";

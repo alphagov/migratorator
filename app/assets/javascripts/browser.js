@@ -7,48 +7,30 @@
    */
   var slide = function (index) {
 
-    if (index === undefined || index === NaN || index < 0) {
+    if (index === undefined || index === NaN || index < -1) {
       index = 0;
     }
-    current_slide = slide.deck[index];
 
-    // rollover
-    var max = $(list).index($(list+":last"));
-    if (index > max) {
-      index = max;
+    if (index >= slide.deck.length && slide.current_page < slide.total_pages ) {
+      window.location = '?page=' + (slide.current_page + 1);
+    } else if ( index < 0 && slide.current_page > 1 ) {
+      window.location = '?page=' + (slide.current_page - 1) + '#' + (slide.page_limit - 1);
+    } else if ( index >= slide.deck.length ) {
+      index = (slide.deck.length - 1);
     }
 
     $(list).removeClass("selected");
 
-    var item = $(list+":eq("+index+")");
-    item.addClass("selected");
-    item.addClass("visited");
-
-    var old_link = $(list+":eq("+index+") a.old_url");
-    var old_url = $(old_link).attr("href");
-
-    var new_link = $(list+":eq("+index+") a.new_url");
-    var new_url = $(new_link).attr("href");
-
     $("#index").text(index);
-
-    $("#view a.title").text(current_slide.title);
-    $("#view a.title").attr("href", old_url);
-    $("#view a.title").attr("title", old_url);
-
-    $("#view #status").text(current_slide.status);
-    $("#view input[name=old_url]").val(current_slide.old_url);
-    $("#view input[name=new_url]").val(current_slide.new_url);
-    $("#view textarea[name=notes]").val(current_slide.notes);
-    $("#view input[name=tags]").val(current_slide.tags);
-
-    $("#old").attr("src", old_url);
-    $("#new").attr("src", new_url);
-
     window.location.hash = index;
+
+    slide.load(index);
   }
 
   slide.deck = [];
+  slide.page_limit = 80;
+  slide.current_page = 1;
+  slide.total_pages = 1;
 
   slide.current = function () {
     var s = window.location.hash;
@@ -60,10 +42,16 @@
     var data = slide.deck[slide.current()];
     var endpoint = '/mappings/' + data.id + '.json';
 
+    data.new_url = $("#view input[name=new_url]").val();
+    data.notes = $("#view textarea[name=notes]").val();
+    data.status = $("#view select[name=status]").val();
+    data.tags_list = $("#view input[name=tags]").val();
+
     var attributes = {
-      'new_url' : $("#view input[name=new_url]").val(),
-      'notes'     : $("#view textarea[name=notes]").val(),
-      'tags_list' : $("#view input[name=tags]").val()
+      'new_url' : data.new_url,
+      'notes'     : data.notes,
+      'status'     : data.status,
+      'tags_list' : data.tags_list
     }
 
     $.ajax({
@@ -75,6 +63,7 @@
         $('<div class="ajax-update saved">Saved.</div>').hide().appendTo('#view .status').fadeIn('fast', function() {
           setTimeout(function() { $('.ajax-update.saved').fadeOut('slow', function() { $(this).remove(); }) },750)
         });
+        slide.load(slide.current());
       },
       error: function(data) {
         $('<div class="ajax-update error">Could not save.</div>').hide().appendTo('#view .status').fadeIn('fast', function() {
@@ -82,6 +71,25 @@
         });
       }
     })
+  }
+
+  slide.load = function(index) {
+    var current_slide = slide.deck[index];
+
+    $('#navigation #slide-'+index).attr('class','selected visited status'+ (current_slide.status ? current_slide.status : "-none") );
+
+    $("#view a.old_url").text(current_slide.old_url.replace('http://www.direct.gov.uk',''));
+    $("#view a.old_url").attr("href", current_slide.old_url);
+    $("#view a.old_url").attr("title", current_slide.old_url);
+
+    $("#view input[name=title]").val(current_slide.title);
+    $("#view input[name=new_url]").val(current_slide.new_url);
+    $("#view select[name=status]").val(current_slide.status);
+    $("#view textarea[name=notes]").val(current_slide.notes);
+    $("#view input[name=tags]").val(current_slide.tags);
+
+    $("#old").attr("src", current_slide.old_url);
+    $("#new").attr("src", slide.display_new_url(current_slide) );
   }
 
   slide.prev = function () {
@@ -114,7 +122,8 @@
   slide.keys = function() {
 
     $(list).click(function() {
-      slide($(list).index(this));
+      index = (slide.current_page > 1) ? $(list).index(this) - 1 : $(list).index(this);
+      slide(index);
     });
 
     $(document).bind("keydown","nav",function(event) {
@@ -147,26 +156,47 @@
     $("#navigation .prev").click(slide.prev);
   };
 
+  slide.display_new_url = function(mapping) {
+    switch (mapping.status) {
+    case '410':
+    case 410:
+      return "/browser_resources/410.html";
+      break;
+    case null:
+      return "/browser_resources/no_status.html";
+      break;
+    default:
+      return mapping.new_url;
+      break;
+    }
+  }
+
   /*
    *  load slide deck from JSON
    */
-  slide.load = function(url, callback) {
+  slide.load_collection = function(url, callback) {
     $.getJSON(url, function (data, ret, xhr) {
 
       var s = "";
 
       if (data) {
-        $(data.mappings).each(function () {
-          if (!this.status || this.status === 302) {
+        if (data.pages.current_page > 1) {
+          s = s + '<li id="prev-page" class="prev_link" title="Previous page"></li>';
+        }
+        $(data.mappings).each(function (i) {
+          if (this.status === 302) {
             this.status = 410;
           }
-          var new_url = this.new_url ? this.new_url : "/browser_resources/" + this.status + ".html";
-          s = s + '<li class="status' + this.status + '">' +
-            '<a class="old_url" href="' + this.old_url + '">' + this.title + '</a>' +
-            ' <a class="new_url" href="' + new_url + '">' + this.status + '</a>' +
-            '</li>';
+          s = s + '<li id="slide-'+ i +'" class="status' + this.status + '"></li>';
         });
+        if (data.pages.current_page < data.pages.total_pages) {
+          s = s + '<li id="next-page" class="next_link" title="Next page"></li>';
+        }
         slide.deck = data.mappings;
+
+        slide.page_limit = data.pages.per_page;
+        slide.current_page = data.pages.current_page;
+        slide.total_pages = data.pages.total_pages;
       }
       $('#navigation .presentation').append(s);
 
@@ -176,7 +206,7 @@
 
   $(document).ready(function() {
 
-    slide.load(mappings_json_endpoint, function() {
+    slide.load_collection(mappings_json_endpoint, function() {
 
       /*
        *  set initial slide from fragment identifier
@@ -185,7 +215,7 @@
       slide.keys();
     });
 
-    $('#view input, #view textarea').change(function() {
+    $('#view input, #view textarea, #view select').change(function() {
       slide.current.save();
     });
 

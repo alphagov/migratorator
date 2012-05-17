@@ -184,15 +184,15 @@
           s = s + '<li id="prev-page" class="prev_link" title="Previous page"></li>';
         }
         $(data.mappings).each(function (i) {
-          if (this.status === 302) {
-            this.status = 410;
+          slide.deck.push(this.mapping);
+          if (this.mapping.status === 302) {
+            this.mapping.status = 410;
           }
-          s = s + '<li id="slide-'+ i +'" class="status' + this.status + '"></li>';
+          s = s + '<li id="slide-'+ i +'" class="status' + this.mapping.status + '"></li>';
         });
         if (data.pages.current_page < data.pages.total_pages) {
           s = s + '<li id="next-page" class="next_link" title="Next page"></li>';
         }
-        slide.deck = data.mappings;
 
         slide.page_limit = data.pages.per_page;
         slide.current_page = data.pages.current_page;

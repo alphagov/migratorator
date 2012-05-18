@@ -157,11 +157,13 @@
   };
 
   slide.display_new_url = function(mapping) {
+    window.console.dir(mapping);
     switch (mapping.status) {
     case '410':
     case 410:
       return "/browser_resources/410.html";
       break;
+    case "":
     case null:
       return "/browser_resources/no_status.html";
       break;

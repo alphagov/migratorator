@@ -113,7 +113,7 @@ describe MappingsController do
           new_mapping.status.should == 301
 
           new_mapping.tags.size.should == 2
-          new_mapping.tags.map(&:to_hash).should =~ [{:group => "section", :name => "education"},{:group => nil, :name => "article"}]
+          new_mapping.tags.map(&:marshal_dump).should =~ [{:group => "section", :name => "education", :whole_tag => "section:education"},{:group => nil, :name => "article", :whole_tag => "article"}]
         end
 
         it "should return a 201 Created status code" do

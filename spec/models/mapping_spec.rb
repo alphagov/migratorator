@@ -101,7 +101,7 @@ describe Mapping do
       mapping.save!
 
       mapping.tags.size.should == 2
-      mapping.tags.first.should be_instance_of(Tag)
+      mapping.tags.first.should be_respond_to(:whole_tag)
     end
 
     it "should save related items for a mapping" do

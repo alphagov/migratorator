@@ -53,8 +53,8 @@ def check_tags_appear_in_the_tags_list_for(mappings)
   mappings.each do |mapping|
     mapping.tags.each do |tag|
       within("ul.tags-list") do
-        page.should have_link(tag[:name])
-        page.should have_selector(".nav-header", :text => (tag[:type] || "other").capitalize)
+        page.should have_link(tag.name)
+        page.should have_selector(".nav-header", :text => (tag.group || "other").capitalize)
       end
     end
   end

@@ -26,8 +26,17 @@ class MappingExporter
 
     @mappings.each do |mapping|
       path = URI.parse( mapping.old_url ).path
-      client.create_redirect_route( path, "full", mapping.new_url )
-      logger.info "     #{path} => #{mapping.new_url}"
+
+      if mapping.status == 301
+        client.create_redirect_route( path, "full", mapping.new_url )
+        logger.info "   #{path} => #{mapping.new_url}"
+      elsif mapping.status == 410
+        client.create_route( path, "full", "gone" )
+        client.delete_route( path )
+        logger.info "   #{path} => Gone"
+      else
+        logger.info "   #{path} : No status, skipping"
+      end
     end
 
     logger.info "Export completed."

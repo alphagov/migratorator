@@ -25,7 +25,6 @@ describe TagsController do
     describe "from a JSON POST request" do
       it "should create the tag" do
         post :create, tag: { whole_tag: "section:government" }, format: 'json'
-        puts response.body
         response.status.should == 201
 
         tag = Tag.find_by_string("section:government")

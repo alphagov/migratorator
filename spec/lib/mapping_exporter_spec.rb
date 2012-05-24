@@ -8,7 +8,7 @@ describe MappingExporter do
       @router_client = double()
 
       @mapping_exporter.client = @router_client
-      @mapping_exporter.logger = NullLogger.new
+      @mapping_exporter.logger = NullLogger.instance
       @mapping_exporter.done_tag = "status:done"
     end
 

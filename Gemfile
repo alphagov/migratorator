@@ -11,6 +11,7 @@ gem 'inherited_resources'
 gem 'kaminari'
 
 gem 'router-client', '~> 3'
+gem 'null_logger'
 
 group :passenger_compatibility do
   gem 'rack', '1.3.5'

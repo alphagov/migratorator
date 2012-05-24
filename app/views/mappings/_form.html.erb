@@ -92,6 +92,33 @@
       tags_dropdown_box.val( tags_input_box.val().split(', ') );
     }
     tags_dropdown_box.chosen();
+
+    // do not allow more than one tag with the same prefix to be selected
+    tags_dropdown_box.change( function() {
+      var duplicate_tags = [];
+      $(tags_dropdown_box).closest('p').siblings('div.duplicate-tag-error').remove();
+
+      var tags_array = $(this).val();
+      $(tags_array).each(function(i, tag) {
+        if (tag.split(':').length > 1) {
+
+          var tag_group = tag.split(":")[0];
+
+          var matching_selected_tags = tags_array.filter( function(element, index, array){
+            return ( element.match(new RegExp(tag_group)) !== null );
+          });
+
+          if (matching_selected_tags.length > 1 && $.inArray(tag_group, duplicate_tags) == -1) {
+            duplicate_tags.push(tag_group);
+          }
+        }
+      });
+
+      if (duplicate_tags.length > 0) {
+        $('<div class="alert alert-error duplicate-tag-error">Please only select one tag from each group. (You have more than one tag for <strong>'+ duplicate_tags.join(', ') +'</strong>)</div>').insertBefore( $(tags_dropdown_box).closest('p') );
+      }
+    });
+    tags_dropdown_box.change();
   });
 
   $('form').submit( function(){

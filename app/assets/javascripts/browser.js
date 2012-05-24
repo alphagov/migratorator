@@ -45,13 +45,13 @@
     data.new_url = $("#view input[name=new_url]").val();
     data.notes = $("#view textarea[name=notes]").val();
     data.status = $("#view select[name=status]").val();
-    data.tags_list = $("#view input[name=tags]").val();
+    data.tags = $("#view input[name=tags]").val();
 
     var attributes = {
       'new_url' : data.new_url,
       'notes'     : data.notes,
       'status'     : data.status,
-      'tags_list' : data.tags_list
+      'tags_list' : data.tags
     }
 
     $.ajax({
@@ -157,7 +157,6 @@
   };
 
   slide.display_new_url = function(mapping) {
-    window.console.dir(mapping);
     switch (mapping.status) {
     case '410':
     case 410:

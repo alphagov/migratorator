@@ -95,6 +95,16 @@ describe Mapping do
       new_mapping.should_not be_valid
     end
 
+    it "should throw an error if a mapping has two tags from the same group" do
+      mapping = Mapping.new @atts.merge({:tags => ["section:one", "section:two"]})
+      mapping.should_not be_valid
+    end
+
+    it "should allow a mapping to have multiple tags without groups" do
+      mapping = Mapping.new @atts.merge({:tags => ["biscuits", "milk"]})
+      mapping.should be_valid
+    end
+
     it "should parse tags for a mapping" do
       mapping = Mapping.new(@atts)
       mapping.tags_list = "section:example,format:nav"

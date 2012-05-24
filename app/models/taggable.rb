@@ -5,6 +5,8 @@ module Taggable
     has_and_belongs_to_many :tagged_with, :class_name => "Tag"
     field :tags_cache,    type: Array, default: []
 
+    validate :tags_have_unique_sections
+
     before_save :update_tags_cache!
 
     def tags
@@ -43,6 +45,19 @@ module Taggable
 
     def update_tags_cache!
       self.tags_cache = self.tagged_with.map(&:whole_tag)
+    end
+
+    def tags_have_unique_sections
+      duplicate_groups = []
+      self.tags.reject {|t| t.group == nil }.each do |tag|
+        if self.tags.select {|t| t.group == tag.group }.size > 1
+          duplicate_groups << tag.group
+        end
+      end
+
+      duplicate_groups.uniq.each do |group|
+        self.errors.add(:tagged_with, "contains more than one tag from #{group}.")
+      end
     end
   end
 end

@@ -30,7 +30,7 @@ module Taggable
 
     def self.valid_tags_for(array)
       array.map {|tag|
-        tag = Tag.find_by_string(tag)
+        tag = tag.instance_of?(Tag) ? tag : Tag.find_by_string(tag)
         tag.present? ? tag.id : nil
       }.compact
     end

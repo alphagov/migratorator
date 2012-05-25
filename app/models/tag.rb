@@ -57,6 +57,18 @@ class Tag
     whole_tag
   end
 
+  def merge_into!(new_tag)
+    new_tag = Tag.find_by_string(new_tag) unless new_tag.instance_of?(Tag)
+    raise(TagNotFound.new) if new_tag.nil?
+
+    self.mappings.all.each do |mapping|
+      mapping.tags = mapping.tags.reject! {|tag| tag.whole_tag == self.whole_tag } + [new_tag.whole_tag]
+      mapping.save!
+    end
+
+    self.destroy
+  end
+
   private
     def sanitize_tag
       self.group = self.group.parameterize if self.group

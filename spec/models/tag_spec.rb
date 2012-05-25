@@ -91,4 +91,30 @@ describe Tag do
     end
   end
 
+  describe "merging a tag" do
+    before do
+      FactoryGirl.create_list(:mapping, 10, :tags => ["section:government"])
+      FactoryGirl.create_list(:mapping, 10, :tags => ["section:citizenship"])
+
+      @tag_one = Tag.find_by_string("section:government")
+      @tag_two = Tag.find_by_string("section:citizenship")
+    end
+
+    it "should assign the tag we're merging with to all of its mappings" do
+      @tag_one.merge_into!(@tag_two)
+
+      Mapping.tagged_with_all([@tag_two]).count.should == 20
+    end
+
+    it "should delete the original tag" do
+      @tag_one.merge_into!(@tag_two)
+
+      Tag.find_by_string("section:government").should be_false
+    end
+
+    it "should prevent merging into a tag which doesn't exist" do
+      lambda { @tag_one.merge_into!( "none-existent-tag" ) }.should raise_error(Tag::TagNotFound)
+    end
+  end
+
 end

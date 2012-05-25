@@ -22,6 +22,8 @@ module ApplicationHelper
 
   def add_tag_to_filter_path(tag)
     new_tags = active_tags.dup
+    new_tags.reject! {|t| Tag.parse_tag_from_string(t)[:group] == tag.group }
+
     new_tags << tag.whole_tag
     filter_mappings_path(:tags => new_tags.join('/'))
   end

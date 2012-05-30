@@ -15,4 +15,8 @@ namespace :migrator do
 
   end
 
+  task :identify => :environment do
+    MappingIdentifier.new.run
+  end
+
 end

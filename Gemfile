@@ -10,6 +10,7 @@ gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 gem 'inherited_resources'
 gem 'kaminari'
 
+gem 'colorize'
 gem 'router-client', '~> 3'
 gem 'null_logger'
 

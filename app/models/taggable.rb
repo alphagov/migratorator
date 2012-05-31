@@ -16,7 +16,16 @@ module Taggable
     end
 
     def tags=(array_of_strings_or_tags)
-      self.tagged_with = array_of_strings_or_tags.map {|item| item.instance_of?(String) ? Tag.find_or_create_by_string(item) : item }
+      self.tagged_with = array_of_strings_or_tags.map {|item|
+        if item.instance_of?(Tag)
+          item
+        elsif item.instance_of?(OpenStruct)
+          Tag.find_or_create_by_string(item.whole_tag)
+        elsif item.instance_of?(String)
+          Tag.find_or_create_by_string(item)
+        end
+      }
+      # puts self.tagged_with.inspect
       self.update_tags_cache!
     end
 

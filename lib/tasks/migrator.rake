@@ -15,8 +15,18 @@ namespace :migrator do
 
   end
 
+  desc "Identify invalid Old URLs in the database"
   task :identify => :environment do
-    MappingIdentifier.new.run
+    MappingIdentifier.new.identify
   end
 
+  desc "Remove mappings with invalid old URLs"
+  task :remove_inavlid_mappings => :environment do
+    MappingIdentifier.new.purge_mappings_with_invalid_old_urls
+  end
+
+  desc "Process mappings with invalid new URLs"
+  task :fix_new_urls => :environment do
+    MappingIdentifier.new.fix_mappings_with_invalid_new_urls
+  end
 end

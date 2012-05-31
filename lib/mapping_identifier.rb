@@ -2,13 +2,15 @@ class MappingIdentifier
 
   def filters
     [
-      /%(20|23|27|284)/i,     # bad characters in urls
-      /\.(gif|png|jpg)$/i,    # images
+      /%(20|23|27|284|252|3F)/i,     # bad characters in urls
+      /\.(gif|png|jpg|js|css)$/i,    # non content resources
       /injected_by_wvs/i,     # pen testing urls
       /TB(a|c|d)$/i,           # editor errors
       /n\/a$/i,                #
       /Yet to be produced/i,  # parked
       /Not yet produced/i,    # parked
+      /https?:\/\/.*http/i, # multiple urls in one string
+      /\?CID/i, # query strings
       /^$/,
     ]
   end
@@ -77,6 +79,27 @@ class MappingIdentifier
         logger.info "----> Removing new_url from #{mapping.new_url} (#{mapping.title})"
         mapping.update_attributes!(:new_url => nil)
       end
+    end
+  end
+
+  def parse_directgov_urls
+    logger.info "Loading all mappings..."
+    mappings = Mapping.tagged_with_all(["site:directgov"]).each do |mapping|
+      dg_id = case mapping.old_url
+      when /dg_([A-Za-z0-9_]+)(\.[a-z0-9]{3,4})?$/i then "dg-content-#{$1}".downcase.gsub('_','-')
+      when /(en|cy)\/([A-Za-z0-9-_\/]+)\/(index\.htm)?/ then "dg-section-#{$2}".downcase.gsub('/','-')
+      else
+        nil
+      end
+
+      unless dg_id.blank?
+        mapping.tags = mapping.tags.reject {|t| t.group == "content-item"} + ["content-item:#{dg_id}"]
+        mapping.save!
+        puts "#{dg_id} ----> #{mapping.old_url.sub('http://www.direct.gov.uk','')}"
+      else
+        puts "No dg id for #{mapping.old_url}".colorize(:red) if dg_id.blank?
+      end
+
     end
   end
 

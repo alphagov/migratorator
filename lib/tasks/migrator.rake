@@ -29,4 +29,9 @@ namespace :migrator do
   task :fix_new_urls => :environment do
     MappingIdentifier.new.fix_mappings_with_invalid_new_urls
   end
+
+  desc "Tag mappings with a content-item tag for the directgov ID"
+  task :parse_directgov_urls => :environment do
+    MappingIdentifier.new.parse_directgov_urls
+  end
 end

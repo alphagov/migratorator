@@ -211,6 +211,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   factory_girl_rails
+  has_scope
   inherited_resources
   jquery-rails
   kaminari

@@ -2,6 +2,7 @@ class Tag
   include Mongoid::Document
 
   STATUS_DONE_TAG = "status:closed"
+  SECTIONS_TO_EXCLUDE = ["content-item"]
 
   field :group, type: String
   field :name,  type: String
@@ -10,6 +11,8 @@ class Tag
   validates :name, :uniqueness => {:scope => :group}
 
   default_scope order_by([:group, :asc], [:name, :asc])
+
+  scope :without_excluded_sections, where(:group.nin => SECTIONS_TO_EXCLUDE)
 
   before_validation :sanitize_tag
 

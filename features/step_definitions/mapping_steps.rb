@@ -1,5 +1,5 @@
 Given /^a mapping exists$/ do
-  @mapping = Mapping.create! :old_url => 'http://example.com/a_long_uri', :new_url => 'http://new.com/test'
+  @mapping = Mapping.create! :old_url => 'http://example.com/a_long_uri', :new_url => 'http://www.gov.uk/test'
 end
 
 Given /^many mappings exist$/ do
@@ -26,7 +26,7 @@ When /^I enter the mapping details into the form$/ do
   @mapping = OpenStruct.new({
     :title => "Example Mapping",
     :old_url => "http://foo.com/test",
-    :new_url => "http://bar.com/example",
+    :new_url => "http://www.gov.uk/example",
     :status => "301",
     :tags => "example"
   })

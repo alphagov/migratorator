@@ -34,13 +34,13 @@ describe Mapping do
   describe "retrieving a mapping" do
     before do
       @old_url = 'http://example.com/a_long_uri'
-      Mapping.create! :old_url => @old_url, :new_url => 'http://new.com/test', :status => 301
+      Mapping.create! :old_url => @old_url, :new_url => 'http://www.gov.uk/new_url', :status => 301
     end
 
     it "should return a mapping object for a specified old url with the correct new url" do
       mapping = Mapping.find_by_old_url @old_url
       mapping.should be_an_instance_of Mapping
-      mapping.new_url.should == 'http://new.com/test'
+      mapping.new_url.should == 'http://www.gov.uk/new_url'
     end
 
     it "should raise an exception if no old url provided" do
@@ -61,7 +61,7 @@ describe Mapping do
       @atts = {
         :title => "Example URL",
         :old_url => 'http://example.com/abc',
-        :new_url => 'http://new.com/def',
+        :new_url => 'http://www.gov.uk/new_url',
         :status => 301,
         :tags => ["section:technology","format:nav"],
         :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions.",
@@ -83,10 +83,15 @@ describe Mapping do
       mapping.should_not be_valid
     end
 
-    # it "should throw an error if status is redirect but no new url present" do
-    #   mapping = Mapping.new @atts.merge({:status => 301, :new_url => ''})
-    #   mapping.should_not be_valid
-    # end
+    it "should throw an error if status is redirect but new url is not a valid url" do
+      mapping = Mapping.new @atts.merge({:status => 301, :new_url => "n/a tbc this isnt a url"})
+      mapping.should_not be_valid
+    end
+
+    it "should throw an error if status is redirect but new url is not a GOV.UK url" do
+      mapping = Mapping.new @atts.merge({:status => 301, :new_url => "http://this-is-not.gov.uk/"})
+      mapping.should_not be_valid
+    end
 
     it "should throw an error if a mapping already exists for the specified old url" do
       existing_mapping = Mapping.create!(@atts)

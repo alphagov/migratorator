@@ -44,7 +44,7 @@ describe MappingsController do
   describe "when retrieving a mapping" do
     describe "JSON" do
       before do
-        @mapping = Mapping.create! :title => "An example redirect", :old_url  => 'http://example.com/a_long_uri', :new_url => 'http://new.com/test', :status => 301, :tags => ["section:education", "article", "need-met:y"], :notes => "A note string"
+        @mapping = Mapping.create! :title => "An example redirect", :old_url  => 'http://example.com/a_long_uri', :new_url => 'http://gov.uk/test', :status => 301, :tags => ["section:education", "article", "need-met:y"], :notes => "A note string"
         @json_representation = {
           "mapping" => {
             "id"           => @mapping.id,
@@ -151,7 +151,7 @@ describe MappingsController do
 
       describe "for a valid request" do
         it "should create the mapping and redirect to the index" do
-          attributes = { :title => "Test", :old_url => "http://foo.com/bar", :new_url => "http://bar.com/foo", :status => 301 }
+          attributes = { :title => "Test", :old_url => "http://foo.com/bar", :new_url => "http://gov.uk/foo", :status => 301 }
           post :create, mapping: attributes, format: 'html'
 
           Mapping.find_by_old_url("http://foo.com/bar").should be_instance_of Mapping

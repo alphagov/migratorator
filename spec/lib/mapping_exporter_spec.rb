@@ -17,7 +17,7 @@ describe MappingExporter do
         @started_mappings = FactoryGirl.create_list(:mapping, 5, :tags => ["status:started"])
 
         @gone_mappings = FactoryGirl.create_list(:mapping, 5, :status => 410, :tags => ["status:done"])
-        @redirect_mappings = FactoryGirl.create_list(:mapping, 5, :status => 301, :new_url => 'http://foo.com/', :tags => ["status:done"])
+        @redirect_mappings = FactoryGirl.create_list(:mapping, 5, :status => 301, :new_url => 'http://www.gov.uk/', :tags => ["status:done"])
 
         @done_mappings = @gone_mappings + @redirect_mappings
       end

@@ -13,12 +13,21 @@
     <div class="navbar-inner">
       <div class="container">
         <a class="brand" href="<%= root_path %>">Migratorator</a>
-        <div class="nav-collapse">
+        <nav class="nav-collapse">
           <ul class="nav">
             <li><a href="<%= mappings_path %>">Mappings</a></li>
             <li><a href="<%= tags_path %>">Tags</a></li>
             <li><a href="<%= browser_path %>">Browser</a></li>
           </ul>
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Sign out", gds_sign_out_path %></li>
+              </ul>
+            </li>
+          </ul>
+          <p class="navbar-text pull-right">Signed in as <%= link_to current_user, Plek.current.find('signon') %></p>
         </div>
       </div>
     </div>

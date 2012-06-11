@@ -24,4 +24,4 @@ Migratorator is written in Rails and uses RSpec and Cucumber for testing. To run
 
 ## Colophon
 
-Migratorator is being developed by [http://digital.cabinetoffice.gov.uk/](The Government Digital Service) to move content onto [http://www.gov.uk](gov.uk).
+Migratorator is being developed by the [Government Digital Service](http://digital.cabinetoffice.gov.uk/) to move content onto [GOV.UK](https://www.gov.uk/).

@@ -5,6 +5,12 @@ gem 'rails', '3.1.3'
 gem "mongoid", "~> 2.3"
 gem "bson_ext", "~> 1.5"
 
+if ENV['BUNDLE_DEV']
+  gem 'gds-sso', path: '../gds-sso'
+else
+  gem 'gds-sso', '~> 0.5.4'
+end
+
 gem 'rabl'
 gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 gem 'inherited_resources'

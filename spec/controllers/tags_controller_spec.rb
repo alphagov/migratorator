@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe TagsController do
 
+  before(:each) do
+    login_as_stub_user
+  end
+
   describe "retreiving all the tags" do
     before do
       Tag.create_from_string("section:education")

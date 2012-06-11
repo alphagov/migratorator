@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe MappingsController do
 
+  before(:each) do
+    login_as_stub_user
+  end
+
   describe "when listing all mappings" do
     it "finds the correct tag context" do
       Tag.create_from_string("section:example")

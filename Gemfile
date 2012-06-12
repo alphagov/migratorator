@@ -11,17 +11,19 @@ else
   gem 'gds-sso', '~> 0.5.4'
 end
 
-gem 'plek', '~> 0'
-
-gem 'rabl'
-gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 gem 'inherited_resources'
-gem 'kaminari'
 gem 'has_scope'
+gem 'kaminari'
+
+gem 'mongoid-history'
+gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
+gem 'rabl'
 
 gem 'colorize'
+gem 'plek', '~> 0'
+
 gem 'router-client', '~> 3'
-gem 'null_logger'
+gem 'plek', '~> 0'
 
 group :passenger_compatibility do
   gem 'rack', '1.3.5'

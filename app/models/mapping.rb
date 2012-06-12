@@ -2,7 +2,10 @@ require 'ostruct'
 
 class Mapping
   include Mongoid::Document
+  include Mongoid::History::Trackable
   include Taggable
+
+  track_history :on => [:title, :old_url, :new_url, :status, :notes, :tags_cache]
 
   field :title,         type: String
   field :old_url,       type: String

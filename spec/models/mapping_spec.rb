@@ -129,4 +129,25 @@ describe Mapping do
     end
   end
 
+  describe "making changes to a mapping" do
+    context "given valid changes" do
+      it "should create a history item" do
+        @mapping = FactoryGirl.create(:mapping)
+        @mapping.new_url = 'https://www.gov.uk/an-updated-url'
+        @mapping.save!
+
+        @mapping.history_tracks.size.should == 1
+        @mapping.history_tracks.first.affected.should == { "new_url" => 'https://www.gov.uk/an-updated-url' }
+      end
+
+      it "should create a history item for changes in tags" do
+        @mapping = FactoryGirl.create(:mapping, :tags => ["tag-one","tag-two","tag-three"])
+        @mapping.tags_list = "tag-four,tag-five"
+        @mapping.save!
+
+        @mapping.history_tracks.first.affected.should == { "tags_cache" => ['tag-four','tag-five'] }
+      end
+    end
+  end
+
 end

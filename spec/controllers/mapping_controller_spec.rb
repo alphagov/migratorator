@@ -182,7 +182,35 @@ describe MappingsController do
           response.should_not redirect_to(:action => :index)
         end
       end
+    end
 
+  end
+
+  describe "when updating a mapping" do
+
+    describe "from a html form" do
+      describe "for a valid request" do
+        before do
+          @mapping = FactoryGirl.create(:mapping)
+          @atts = { :title => "Test", :old_url => "http://new.com/foo", :new_url => "http://gov.uk/foo", :status => 301 }
+        end
+
+        it "should update the mapping and redirect to the index" do
+          put :update, id: @mapping.id, mapping: @atts, format: 'html'
+
+          Mapping.find_by_old_url("http://new.com/foo").should be_instance_of Mapping
+          response.should redirect_to(:action => :index)
+        end
+
+        it "should create a history item attributed to the current user" do
+          put :update, id: @mapping.id, mapping: @atts, format: 'html'
+
+          mapping = Mapping.find_by_old_url("http://new.com/foo")
+
+          mapping.history_tracks.size.should == 1
+          mapping.history_tracks.first.modifier.should == @user
+        end
+      end
     end
 
   end

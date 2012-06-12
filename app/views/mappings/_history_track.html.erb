@@ -1,0 +1,8 @@
+<li>
+  <p class="history_time"><span title="<%= history_track.created_at.to_s %>"><%= distance_of_time_in_words_to_now history_track.created_at %> ago</span> by <strong><%= (history_track.modifier || "<unknown>").to_s %></strong></p>
+  <ul class="history_info">
+    <% history_track.modified.each do |field, value| %>
+      <li><em><%= field.humanize %></em> &rarr; <em class="value"><%= value.blank? ? "&nbsp;".html_safe : value %></em></li>
+    <% end %>
+  </ul>
+</li>

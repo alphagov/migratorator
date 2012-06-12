@@ -105,7 +105,7 @@
           var tag_group = tag.split(":")[0];
 
           var matching_selected_tags = tags_array.filter( function(element, index, array){
-            return ( element.match(new RegExp(tag_group)) !== null );
+            return ( element.match(new RegExp('^'+tag_group)) !== null );
           });
 
           if (matching_selected_tags.length > 1 && $.inArray(tag_group, duplicate_tags) == -1) {

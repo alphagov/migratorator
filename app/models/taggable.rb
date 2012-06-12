@@ -3,7 +3,8 @@ module Taggable
 
   included do
     has_and_belongs_to_many :tagged_with, :class_name => "Tag"
-    field :tags_cache,    type: Array, default: []
+    field :tags_cache,      type: Array, default: []
+    field :tags_list_cache, type: String, default: ""
 
     validate :tags_have_unique_sections
 
@@ -54,6 +55,7 @@ module Taggable
 
     def update_tags_cache!
       self.tags_cache = self.tagged_with.map(&:whole_tag)
+      self.tags_list_cache = self.tags_list
     end
 
     def tags_have_unique_sections

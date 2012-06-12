@@ -144,8 +144,9 @@ describe Mapping do
         @mapping = FactoryGirl.create(:mapping, :tags => ["tag-one","tag-two","tag-three"])
         @mapping.tags_list = "tag-four,tag-five"
         @mapping.save!
+        @mapping.reload
 
-        @mapping.history_tracks.first.affected.should == { "tags_cache" => ['tag-four','tag-five'] }
+        @mapping.history_tracks.first.affected.should == { "tags_list_cache" => 'tag-four, tag-five' }
       end
     end
   end

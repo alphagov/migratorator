@@ -29,9 +29,9 @@ h1 { margin-bottom: 10px; }
   border-left-width: 1px;
 }
 
-.history { }
-.history > ul { margin-left: 0; }
-.history > ul > li { padding: 0.85em; margin: 0; list-style: none; border-bottom: 1px solid #ddd; }
-.history li ul { margin: 0.2em 0 0.2em 1em; }
+.history {  }
+.history > ul { overflow: scroll; height: 45em; margin-left: 0; }
+.history > ul > li { padding: 0.85em 0; margin: 0; list-style: none; border-bottom: 1px solid #ddd; }
+.history li ul { margin: 0em 0 0em 1em; }
 .history li ul li { list-style: none; font-size: 0.9em; line-height: 2.2em; color: #555; padding: 0.1em 0; }
-.history li ul li em.value { background: #fffde6; padding: 0.2em 0.5em; border-top: 2px solid #eaefb0; font-style: normal; border-bottom: 2px solid #eaefb0; }
+.history li ul li em.value { background: #fffde6; padding: 0.2em 0.5em; border-top: 2px solid #eaefb0; font-style: normal; font-family: monospace; border-bottom: 2px solid #eaefb0; }

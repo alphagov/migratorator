@@ -22,6 +22,8 @@ class Mapping
   embeds_many :related_links
   accepts_nested_attributes_for :related_links, :reject_if => proc {|atts| atts['url'].blank? }, :allow_destroy => true
 
+  default_scope order_by([:title, :asc])
+
   def self.find_by_old_url(param)
     raise URLNotProvided.new if !param or param.empty?
     self.where( old_url: URI::decode(param) ).first || raise(MappingNotFound.new)

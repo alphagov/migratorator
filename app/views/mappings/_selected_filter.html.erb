@@ -1,0 +1,9 @@
+<% if active_tags.any? %>
+  <ul class="selected_filter">
+    <li><h3>Active Filters</h3></li>
+    <% active_tags.each do |tag| %>
+      <li class="tag"><a href="<%= remove_tag_from_filter_path(tag) %>" title="Remove this tag from the filter"><%= tag %> <span>x</span></a></li>
+    <% end %>
+    <li class="killall-minus-nine tag"><%= link_to "Clear all", mappings_path %></li>
+  </ul>
+<% end %>

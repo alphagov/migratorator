@@ -30,7 +30,7 @@ module ApplicationHelper
 
   def remove_tag_from_filter_path(tag)
     new_tags = active_tags.dup
-    new_tags.delete(tag.whole_tag)
+    new_tags.delete(tag.to_s)
     new_tags.any? ? filter_mappings_path(:tags => new_tags.join('/')) : mappings_path
   end
 

@@ -2,7 +2,8 @@ class MappingIdentifier
 
   def filters
     [
-      /%(20|23|27|284|252|3F)/i,     # bad characters in urls
+      /%[A-Za-z0-9]+/i,     # bad characters in urls
+      /%c0%af/,
       /\.(gif|png|jpg|js|css)$/i,    # non content resources
       /injected_by_wvs/i,     # pen testing urls
       /TB(a|c|d)$/i,           # editor errors

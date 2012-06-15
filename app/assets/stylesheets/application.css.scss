@@ -27,6 +27,7 @@ h1 { margin-bottom: 10px; }
   border: 1px solid #DDD;
   border-left-width: 0;
 }
+.pagination span.current.disabled { background: #fff; }
 .pagination span.current { background: #eee; }
 .pagination span:first-child, .pagination span:first-child a {
   border-left-width: 1px;

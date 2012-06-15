@@ -24,8 +24,8 @@ def check_mapping_appears_in_the_list(mappings, options = {})
   mappings.each do |mapping|
     within("table") do
       page.should have_content(mapping.title)
-      page.should have_content(mapping.status)
-      page.should have_content(options[:tag]) if options and options[:tag]
+      page.should have_content(mapping.tag_for("status")) if options and options[:tag]
+      page.should have_content(mapping.tag_for("destination")) if options and options[:tag]
       page.should have_link("Edit", :href => edit_mapping_path(mapping))
     end
   end
@@ -42,8 +42,8 @@ def check_multiple_mappings_appear_in_the_list(mappings, options = {})
   mappings.each do |mapping|
     within("tr#mapping_#{mapping.id}") do
       page.should have_content(mapping.title)
-      page.should have_content(mapping.status)
-      page.should have_content(options[:tag]) if options and options[:tag]
+      page.should have_content(mapping.tag_for("status")) if options and options[:tag]
+      page.should have_content(mapping.tag_for("destination")) if options and options[:tag]
       page.should have_link("Edit", :href => edit_mapping_path(mapping))
     end
   end

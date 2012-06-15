@@ -38,6 +38,11 @@ module Taggable
       self.tags = string.split(",").map {|a| a.strip }
     end
 
+    def tag_for(group)
+      tag = self.tags.find {|t| t.group == group }
+      tag.name if tag
+    end
+
     def self.valid_tags_for(array)
       array.map {|tag|
         tag = tag.instance_of?(Tag) ? tag : Tag.find_by_string(tag)

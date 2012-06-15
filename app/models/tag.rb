@@ -60,6 +60,10 @@ class Tag
     whole_tag
   end
 
+  def to_s
+    whole_tag
+  end
+
   def merge_into!(new_tag)
     new_tag = Tag.find_by_string(new_tag) unless new_tag.instance_of?(Tag)
     raise(TagNotFound.new) if new_tag.nil?

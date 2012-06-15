@@ -54,6 +54,12 @@ describe Mapping do
         Mapping.find_by_old_url 'http://example.com/non_existent_url'
       end.to raise_error(Mapping::MappingNotFound)
     end
+
+    it "should find a mapping's tag given the group" do
+      mapping = FactoryGirl.create(:mapping, :tags => ["status:open","destination:home"])
+      mapping.tag_for('status').should == "open"
+      mapping.tag_for('destination').should == "home"
+    end
   end
 
   describe "creating a mapping" do

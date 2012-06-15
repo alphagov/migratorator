@@ -4,4 +4,8 @@ module UrlHelper
     URI(url).path unless url.blank?
   end
 
+  def humanize_url(url)
+    url.sub(/https?:\/\//,'')
+  end
+
 end

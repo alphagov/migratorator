@@ -1,10 +1,6 @@
 <tr id="mapping_<%= mapping.id %>">
-  <td><%= link_to truncate(normalize_title(mapping.title), :length => 70), mapping.old_url %></td>
-  <td>
-    <% mapping.tags.each do |t| %>
-      <%= content_tag :span, t.whole_tag, :class => (t.group == 'status' ? 'label label-important' : 'label') %>
-    <% end %>
-  </td>
-  <td><%= mapping.status %></td>
+  <td class="mapping-url"><%= link_to truncate(normalize_title(mapping.title), :length => 50), edit_mapping_path(mapping), :title => "Edit mapping" %> <span><%= link_to truncate(normalize_title(humanize_url(mapping.old_url)), :length => 65), mapping.old_url, :title => "Visit this original URL" %></span></td>
+  <td><%= mapping.tag_for('status') %></td>
+  <td><%= mapping.tag_for('destination') %></td>
   <td><%= link_to "Edit", edit_mapping_path(mapping) %></td>
 </tr>

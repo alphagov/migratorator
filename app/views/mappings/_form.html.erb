@@ -52,7 +52,7 @@
 
   <p>
     <%= f.submit ( @mapping.persisted? ? "Update Mapping" : "Create Mapping"), :class => 'btn btn-primary' %> &nbsp; or &nbsp;
-    <%= link_to "Cancel", mappings_path, :class => 'btn' %>
+    <%= link_to "Cancel", filter_mappings_path(referer_session), :class => 'btn' %>
   </p>
 
 <% end %>

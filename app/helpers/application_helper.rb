@@ -33,5 +33,4 @@ module ApplicationHelper
     new_tags.delete(tag.to_s)
     new_tags.any? ? filter_mappings_path(:tags => new_tags.join('/')) : mappings_path
   end
-
 end

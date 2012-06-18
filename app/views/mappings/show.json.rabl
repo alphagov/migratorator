@@ -8,6 +8,3 @@ end
 
 attribute :notes
 attribute :search_query
-child :related_links => :related_links do
-  attributes :title, :url
-end

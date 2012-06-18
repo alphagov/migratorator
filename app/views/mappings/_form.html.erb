@@ -1,61 +1,48 @@
 <div class="row">
   <div class="span7">
-    <%= nested_form_for @mapping, :html => { :class => "well" } do |f| %>
+    <%= form_for @mapping, :html => { :class => "well" } do |f| %>
 
-  <% if @mapping.errors.any? %>
-    <% @mapping.errors.full_messages.each do |message| %>
-      <div class="alert alert-error"><%= message %></div>
+      <% if @mapping.errors.any? %>
+        <% @mapping.errors.full_messages.each do |message| %>
+          <div class="alert alert-error"><%= message %></div>
+        <% end %>
+      <% end %>
+
+      <p>
+        <%= f.label :title %>
+        <%= f.text_field :title, :class => 'span6' %>
+      </p>
+
+      <p>
+        <%= f.label :old_url, "Old URL" %>
+        <%= f.text_field :old_url, :class => 'span6' %>
+      </p>
+
+      <p>
+        <%= f.label :new_url, "New URL" %>
+        <%= f.text_field :new_url, :class => 'span6' %>
+      </p>
+
+      <p>
+        <%= f.label :status %>
+        <%= f.select :status, [ ["301 - Redirect to new url", 301], ["410 - Show a gone page", 410] ], :include_blank => "Not yet decided" %>
+      </p>
+
+      <p>
+        <%= f.label :tags_list, "Tags (separate with semicolons)" %>
+        <%= f.text_field :tags_list, :class => 'span6 tags_autocomplete' %>
+      </p>
+
+      <p>
+        <%= f.label :notes %>
+        <%= f.text_area :notes, :rows => 4, :class => "span6" %>
+      </p>
+
+      <p>
+        <%= f.submit ( @mapping.persisted? ? "Update Mapping" : "Create Mapping"), :class => 'btn btn-primary' %> &nbsp; or &nbsp;
+        <%= link_to "Cancel", filter_mappings_path(referer_session), :class => 'btn' %>
+      </p>
     <% end %>
-  <% end %>
-
-  <p>
-    <%= f.label :title %>
-    <%= f.text_field :title, :class => 'span6' %>
-  </p>
-
-  <p>
-    <%= f.label :old_url, "Old URL" %>
-    <%= f.text_field :old_url, :class => 'span6' %>
-  </p>
-
-  <p>
-    <%= f.label :new_url, "New URL" %>
-    <%= f.text_field :new_url, :class => 'span6' %>
-  </p>
-
-  <p>
-    <%= f.label :status %>
-    <%= f.select :status, [ ["301 - Redirect to new url", 301], ["410 - Show a gone page", 410] ], :include_blank => "Not yet decided" %>
-  </p>
-
-  <p>
-    <%= f.label :tags_list, "Tags (separate with semicolons)" %>
-    <%= f.text_field :tags_list, :class => 'span6 tags_autocomplete' %>
-  </p>
-
-  <p>
-    <%= f.label :notes %>
-    <%= f.text_area :notes, :rows => 4, :class => "span6" %>
-  </p>
-
-  <fieldset id="related-links">
-    <legend>Related Links</legend>
-    <%= f.fields_for :related_links do |f| %>
-      <%= f.label :title, "Link Title" %>
-      <%= f.text_field :title %>
-      <%= f.label :title, "URL" %>
-      <%= f.text_field :url, :placeholder => "http://" %>
-      <%= f.link_to_remove "Remove this link" %>
-    <% end %>
-    <p><%= f.link_to_add "Add a link", :related_links %></p>
-  </fieldset>
-
-  <p>
-    <%= f.submit ( @mapping.persisted? ? "Update Mapping" : "Create Mapping"), :class => 'btn btn-primary' %> &nbsp; or &nbsp;
-    <%= link_to "Cancel", filter_mappings_path(referer_session), :class => 'btn' %>
-  </p>
-
-<% end %>
   </div>
   <div class="span5 history">
     <h2>Mapping Changes</h2>

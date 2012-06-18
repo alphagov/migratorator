@@ -1,7 +1,6 @@
 <div class="well">
-  <h3><%= @progress.count %> of <%= pluralize @progress.total, "item" %> with <%= @progress.tag %> - <%= @progress.percentage %>%</h3>
+  <h3><%= progress.percentage %>% <%= progress.tag %> - <%= progress.count %> of <%= pluralize progress.total, "item" %></h3>
   <div class="progress">
-    <div class="bar"
-         style="width: <%= @progress.percentage %>%;"></div>
+    <div class="bar" style="width: <%= progress.percentage %>%;"></div>
   </div>
 </div>

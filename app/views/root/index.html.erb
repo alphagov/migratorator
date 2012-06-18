@@ -10,6 +10,13 @@
     </div>
   </div>
   <div class="span6">
-    <%= render :partial => 'mappings/progress_bar' %>
+    <h3>Overall</h3>
+    <%= progress_bar_for @overall_progress %>
+
+    <h3>Friendly URLs</h3>
+    <%= progress_bar_for @friendly_url_progress %>
+
+    <h3>Mapping Exercise</h3>
+    <%= progress_bar_for @mapping_exercise_progress %>
   </div>
 </div>

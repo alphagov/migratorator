@@ -12,8 +12,7 @@ def check_mapping_details_appear_in_the_api(mapping)
       "new_url"       => mapping.new_url,
       "notes"         => mapping.notes,
       "search_query"  => mapping.search_query,
-      "tags"          => mapping.tags.map(&:whole_tag),
-      "related_links" => mapping.related_links
+      "tags"          => mapping.tags.map(&:whole_tag)
     }
   }.to_json
 
@@ -72,12 +71,6 @@ def fill_in_mapping_details(mapping)
   fill_in "New URL", :with => mapping.new_url
   select mapping.status, :from => "Status"
   fill_in "Tags", :with => mapping.tags
-
-  within("#related-links") do
-    click_link "Add a link"
-    fill_in "Link Title", :with => "A Related Link"
-    fill_in "URL", :with => "http://example.com/"
-  end
 
   click_button "Create Mapping"
 end

@@ -21,9 +21,6 @@ class Mapping
   validates :new_url, :format => { :with => URI::regexp }, :if => proc{|atts| atts.status == 301 and ! atts.new_url.blank? }
   validates :status, :inclusion => { :in => [301, 410], :allow_blank => true }
 
-  embeds_many :related_links
-  accepts_nested_attributes_for :related_links, :reject_if => proc {|atts| atts['url'].blank? }, :allow_destroy => true
-
   default_scope order_by([:title, :asc])
 
   def self.find_by_old_url(param)

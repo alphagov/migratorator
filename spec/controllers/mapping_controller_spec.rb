@@ -58,8 +58,7 @@ describe MappingsController do
             "new_url"       => @mapping.new_url,
             "notes"         => "A note string",
             "search_query"  => nil,
-            "tags"          => ["article", "need-met:y", "section:education"],
-            "related_links" => [ ]
+            "tags"          => ["article", "need-met:y", "section:education"]
           }
         }.to_json
       end
@@ -160,16 +159,6 @@ describe MappingsController do
 
           Mapping.find_by_old_url("http://foo.com/bar").should be_instance_of Mapping
           response.should redirect_to(:action => :index)
-        end
-
-        it "should save related items" do
-          attributes = { :title => "Test", :old_url => "http://foo.com/bar", :status => 410, :related_links => [ { :url => "http://foo.com/related", :title => "Test" }, { :url => "http://foo.com/something", :title => "Another Test"} ] }
-          post :create, mapping: attributes, format: 'html'
-
-          mapping = Mapping.find_by_old_url("http://foo.com/bar")
-          mapping.should be_instance_of Mapping
-          mapping.related_links.size.should == 2
-          mapping.related_links.first.should be_instance_of RelatedLink
         end
       end
 

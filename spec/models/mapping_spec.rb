@@ -71,11 +71,7 @@ describe Mapping do
         :status => 301,
         :tags => ["section:technology","format:nav"],
         :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions.",
-        :search_query => "example",
-        :related_links => [
-          { :url => "http://related.com/xyz", :title => "Related Item #1" },
-          { :url => "http://related.com/two", :title => "Related Item #2" }
-        ]
+        :search_query => "example"
       }
     end
 
@@ -123,15 +119,6 @@ describe Mapping do
 
       mapping.tags.size.should == 2
       mapping.tags.first.should be_respond_to(:whole_tag)
-    end
-
-    it "should save related items for a mapping" do
-      mapping = Mapping.create!(@atts)
-
-      mapping.related_links.size.should == 2
-
-      mapping.related_links.first.should be_an_instance_of RelatedLink
-      mapping.related_links.first.url.should == "http://related.com/xyz"
     end
   end
 

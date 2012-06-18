@@ -40,6 +40,13 @@ h1 { margin-bottom: 10px; }
 .history li ul li { list-style: none; font-size: 0.9em; line-height: 2.2em; color: #555; padding: 0.1em 0; }
 .history li ul li em.value { background: #fffde6; padding: 0.2em 0.5em; border-top: 2px solid #eaefb0; font-style: normal; font-family: monospace; border-bottom: 2px solid #eaefb0; }
 
+.dashboard {
+  .history > ul { overflow: auto; height: auto; }
+  .history > ul > li { padding: 0.85em 0; }
+  .history > ul > li:last-child { padding-bottom: 0; border-bottom: 0; }
+  .history > ul > li span { font-size: 0.85em; color: #777; }
+}
+
 table.mappings-table { font-size: 0.9em;
   td { padding: 0.6em; }
   td.mapping-url {

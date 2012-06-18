@@ -1,1 +1,15 @@
-<h1>Migratorator</h1>
+<h1>Dashboard</h1>
+
+<div class="row dashboard">
+  <div class="span6">
+    <div class="history well">
+      <h2>Latest Updates</h2>
+      <ul>
+        <%= render :partial => 'revision', :collection => @revisions %>
+      </ul>
+    </div>
+  </div>
+  <div class="span6">
+    <%= render :partial => 'mappings/progress_bar' %>
+  </div>
+</div>

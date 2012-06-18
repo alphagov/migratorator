@@ -1,0 +1,3 @@
+<li>
+  <strong><%= (revision.modifier || "<unknown>").to_s %></strong> updated <strong><%= link_to revision.trackable.title, edit_mapping_url(revision.trackable) %></strong>&nbsp;<span title="<%= revision.created_at.to_s %>"><%= distance_of_time_in_words_to_now revision.created_at %> ago</span>
+</li>

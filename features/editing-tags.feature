@@ -21,12 +21,12 @@ Feature: Editing tags
       And I should see the tag in the list
       And the API should be updated to show the tag
 
-  @javascript
-  Scenario: Destroy a tag
-    Given the tag example exists
-      And mappings exist with the tag example
-    When I destroy the tag
-    Then the tag should be deleted
-      And the tag should not appear in the list
-      And mappings should not exist with the tag
-      And the API should not show the tag
+  # @javascript
+  # Scenario: Destroy a tag
+  #   Given the tag example exists
+  #     And mappings exist with the tag example
+  #   When I destroy the tag
+  #   Then the tag should be deleted
+  #     And the tag should not appear in the list
+  #     And mappings should not exist with the tag
+  #     And the API should not show the tag

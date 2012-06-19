@@ -14,7 +14,7 @@ describe MappingsController do
 
       get :index, :tags => 'section:example/status:done/proposition:citizen'
 
-      assigns(:tags_filter).should =~ ["section:example", "status:done", "proposition:citizen"]
+      assigns(:filter).should =~ ["section:example", "status:done", "proposition:citizen"]
     end
 
     it "retrieves the correct progress percentage for a given tag" do

@@ -95,3 +95,11 @@ ul.selected_filter {
     a:hover, a:active { background: #812c2e; color: #fff; border-color: #430e0f; }
   }
 }
+
+.search {
+  text-align: right;
+  form {
+    input { display: inline-block; vertical-align: middle; margin: 0; }
+    input[type="text"] { width: 205px; }
+  }
+}

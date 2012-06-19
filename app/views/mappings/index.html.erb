@@ -8,7 +8,17 @@
   </div>
 </div>
 
-<%= render :partial => "selected_filter" %>
+<div class="row">
+  <div class="span8" style="min-height: 1px">
+    <%= render :partial => "selected_filter" %>
+  </div>
+  <div class="span4 search">
+    <%= form_tag(filter_mappings_path(active_tags), :method => :get) do %>
+      <%= text_field_tag :q, params[:q], :placeholder => "Search for a URL..." %>
+      <%= submit_tag "Go", :class => "btn" %>
+    <% end %>
+  </div>
+</div>
 
 <div class="row">
   <div class="span3">

@@ -9,6 +9,8 @@ class Mapping
 
   track_history :on => [:title, :old_url, :new_url, :status, :notes, :tags_list_cache]
 
+  scope :by_old_url, proc {|string| where({ :old_url => Regexp.new(Regexp.escape(string),"i") }) }
+
   field :title,         type: String
   field :old_url,       type: String
   field :new_url,       type: String
@@ -28,10 +30,10 @@ class Mapping
     self.where( old_url: URI::decode(param) ).first || raise(MappingNotFound.new)
   end
 
-  def self.progress(tags_array, filter_tag)
-    context = tags_array.any? ? Mapping.tagged_with_all(tags_array) : Mapping
+  def self.progress(context, filter_tag)
+    # context = tags_array.any? ? Mapping.tagged_with_all(tags_array) : Mapping
 
-    match_count = context.tagged_with_all(tags_array + [filter_tag]).count
+    match_count = context.tagged_with_all([filter_tag]).count
     percentage = context.count > 0 ? (match_count.to_f / context.count * 100).round(1) : 0
 
     OpenStruct.new(:count => match_count, :total => context.count, :percentage => percentage, :tag => filter_tag)

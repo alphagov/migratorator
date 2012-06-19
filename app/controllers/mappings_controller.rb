@@ -3,14 +3,17 @@ class MappingsController < InheritedResources::Base
   respond_to :html, :json
   actions :index, :new, :create, :edit, :update
 
+  has_scope :by_filter_path, :as => :tags
+  has_scope :by_old_url, :as => :q
+
   before_filter :capture_referer_for_form, :only => :edit
   include MappingsHelper
 
   def index
-    @tags_filter = ! params[:tags].blank? ? params[:tags].split("/") : [ ]
+    @filter = ! params[:tags].blank? ? params[:tags].split("/") : [ ]
+    @context = apply_scopes(Mapping)
 
-    @context = apply_tag_context(@tags_filter)
-    @progress = Mapping.progress(@tags_filter, (params[:progress] || Tag::STATUS_DONE_TAG))
+    @progress = Mapping.progress(@context, (params[:progress] || Tag::STATUS_DONE_TAG))
     @mappings = @context.page(params[:page]).all
 
     @tags = Tag.without_excluded_sections.grouped

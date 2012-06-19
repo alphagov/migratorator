@@ -13,7 +13,7 @@ module ApplicationHelper
   end
 
   def active_tags
-    @tags_filter || []
+    @filter || []
   end
 
   def tag_is_active?(tag)

@@ -8,6 +8,10 @@ module Taggable
 
     validate :tags_have_unique_sections
 
+    scope :tagged_with_all, proc {|array| all_in({ :tagged_with_ids => self.valid_tags_for(array) }) }
+    scope :tagged_with_any, proc {|array| any_in({ :tagged_with_ids => self.valid_tags_for(array) }) }
+    scope :by_filter_path,   proc {|string| tagged_with_all(string.split('/')) }
+
     before_save :update_tags_cache!
 
     def tags
@@ -48,14 +52,6 @@ module Taggable
         tag = tag.instance_of?(Tag) ? tag : Tag.find_by_string(tag)
         tag.present? ? tag.id : nil
       }.compact
-    end
-
-    def self.tagged_with_all(array)
-      self.all_in :tagged_with_ids => self.valid_tags_for(array)
-    end
-
-    def self.tagged_with_any(array)
-      self.any_in :tagged_with_ids => self.valid_tags_for(array)
     end
 
     def update_tags_cache!

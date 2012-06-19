@@ -26,8 +26,26 @@ describe Mapping do
     end
 
     it "should calculate the progress percentage" do
-      Mapping.progress(["section:example"],"status:done").percentage.should == 50
-      Mapping.progress(["section:example"],"status:done").count.should == 1
+      Mapping.progress(Mapping.tagged_with_all(["section:example"]),"status:done").percentage.should == 50
+      Mapping.progress(Mapping.tagged_with_all(["section:example"]),"status:done").count.should == 1
+    end
+  end
+
+  describe "searching for a mapping by old_url" do
+    before do
+      @mapping_one = FactoryGirl.create(:mapping, :old_url => "http://example.com/one", :tags => ["status:done"])
+      @mapping_two = FactoryGirl.create(:mapping, :old_url => "http://example.com/two", :tags => ["status:bin"])
+      @mapping_three = FactoryGirl.create(:mapping, :old_url => "http://test.com/three", :tags => ["status:done"])
+    end
+
+    it "should calculate the progress percentage" do
+      Mapping.progress(Mapping.by_old_url("example"),"status:done").percentage.should == 50
+      Mapping.progress(Mapping.by_old_url("example"),"status:done").count.should == 1
+    end
+
+    it "should return the correct mappings for a search" do
+      Mapping.by_old_url("example.com").all.to_a.should =~ [@mapping_one, @mapping_two]
+      Mapping.by_old_url("test.com").all.to_a.should =~ [@mapping_three]
     end
   end
 

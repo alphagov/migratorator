@@ -140,6 +140,40 @@ describe Mapping do
     end
   end
 
+  describe "manipulating tags on a mapping" do
+    it "should remove a tag" do
+      @mapping = FactoryGirl.create(:mapping, :tags => ["tag_one","tag_two","tag_three","tag_four"])
+
+      @mapping.tags_list = "tag_one,tag_two,tag_four"
+      @mapping.save!
+      @mapping.reload
+
+      @mapping.tags.count.should == 3
+      @mapping.tags.map(&:whole_tag).should =~ ["tag_one", "tag_two", "tag_four"]
+    end
+
+    it "should save tags from the tags list" do
+      @mapping = FactoryGirl.create(:mapping, :tags => ["tag_one", "tag_two"])
+      @mapping.tags_list.should == "tag_one, tag_two"
+
+      @mapping.tags_list = "tag_one, tag_two, tag_three"
+      @mapping.save!
+      @mapping.reload
+
+      @mapping.tags.map(&:whole_tag).should =~ ["tag_one", "tag_two", "tag_three"]
+    end
+
+    # it "should remove tags from the tags list" do
+    #   @mapping = FactoryGirl.create(:mapping, :tags => ["tag_one", "tag_two", "tag_three"])
+
+    #   @mapping.tags_list = "tag_one"
+    #   @mapping.save!
+    #   @mapping.reload
+
+    #   @mapping.whole_tags.should =~ ["tag_one"]
+    # end
+  end
+
   describe "making changes to a mapping" do
     context "given valid changes" do
       it "should create a history item" do

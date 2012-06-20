@@ -116,7 +116,7 @@ describe MappingsController do
           new_mapping.status.should == 301
 
           new_mapping.tags.size.should == 2
-          new_mapping.whole_tags.should =~ ["section:education","article"]
+          new_mapping.tags.map(&:whole_tag).should =~ ["section:education","article"]
         end
 
         it "should return a 201 Created status code" do

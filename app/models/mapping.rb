@@ -25,6 +25,8 @@ class Mapping
 
   default_scope order_by([:title, :asc])
 
+  additional_tag "reviewed", "yes", "no"
+
   def self.find_by_old_url(param)
     raise URLNotProvided.new if !param or param.empty?
     self.where( old_url: URI::decode(param) ).first || raise(MappingNotFound.new)
@@ -38,16 +40,6 @@ class Mapping
 
     OpenStruct.new(:count => match_count, :total => context.count, :percentage => percentage, :tag => filter_tag)
   end
-
-  def reviewed
-    tag_for("reviewed") == "yes" ? true : false
-  end
-
-  def reviewed=(state)
-    ! state.blank? ? update_tag_for("reviewed","yes") : update_tag_for("reviewed","no")
-  end
-
-  alias_method :reviewed?, :reviewed
 
   def is_redirect?
     status == 301

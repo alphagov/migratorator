@@ -7,7 +7,7 @@ FactoryGirl.define do
     status 301
     notes "Example notes"
     search_query "Test"
-    tags ["section:test","status:done","apple","reviewed:y"]
+    tags ["section:test","status:done","apple"]
   end
 
   factory :tag do

@@ -39,6 +39,16 @@ class Mapping
     OpenStruct.new(:count => match_count, :total => context.count, :percentage => percentage, :tag => filter_tag)
   end
 
+  def reviewed
+    tag_for("reviewed") == "yes" ? true : false
+  end
+
+  def reviewed=(state)
+    ! state.blank? ? update_tag_for("reviewed","yes") : update_tag_for("reviewed","no")
+  end
+
+  alias_method :reviewed?, :reviewed
+
   def is_redirect?
     status == 301
   end

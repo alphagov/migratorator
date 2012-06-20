@@ -24,13 +24,18 @@
       </p>
 
       <p>
+        <%= f.label :reviewed, "Reviewed" %>
+        <%= f.check_box :reviewed, { }, "true", "" %>
+      </p>
+
+      <p>
         <%= f.label :status %>
         <%= f.select :status, [ ["301 - Redirect to new url", 301], ["410 - Show a gone page", 410] ], :include_blank => "Not yet decided" %>
       </p>
 
       <p>
-        <%= f.label :tags_list, "Tags (separate with semicolons)" %>
-        <%= f.text_field :tags_list, :class => 'span6 tags_autocomplete' %>
+        <%= f.label :additional_tags_list, "Tags (separate with semicolons)" %>
+        <%= f.text_field :additional_tags_list, :class => 'span6 tags_autocomplete' %>
       </p>
 
       <p>

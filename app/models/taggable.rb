@@ -14,6 +14,8 @@ module Taggable
 
     before_save :update_tags_cache!
 
+    alias_method :whole_tags, :tags_cache
+
     def tags
       self.tags_cache.map {|string|
         OpenStruct.new( Tag.parse_tag_from_string(string).merge({:whole_tag => string}) )
@@ -30,7 +32,6 @@ module Taggable
           Tag.find_or_create_by_string(item)
         end
       }
-      # puts self.tagged_with.inspect
       self.update_tags_cache!
     end
 
@@ -42,9 +43,21 @@ module Taggable
       self.tags = string.split(",").map {|a| a.strip }
     end
 
+    def additional_tags_list
+      self.tags.reject {|t| Tag::SECTIONS_TO_EXCLUDE.include?(t.group) }.map(&:whole_tag).join(', ')
+    end
+
+    def additional_tags_list=(string)
+      self.tags = self.tags + string.split(",").map {|a| a.strip }
+    end
+
     def tag_for(group)
       tag = self.tags.find {|t| t.group == group }
       tag.name if tag
+    end
+
+    def update_tag_for(group, new_tag)
+      self.tags = self.tags.reject {|t| t.group == group } + [ "#{group}:#{new_tag}" ]
     end
 
     def self.valid_tags_for(array)

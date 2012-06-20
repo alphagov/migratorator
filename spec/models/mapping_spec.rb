@@ -160,6 +160,40 @@ describe Mapping do
         @mapping.history_tracks.first.affected.should == { "tags_list_cache" => 'tag-four, tag-five' }
       end
     end
+
+    context "given a mapping which has not been reviewed" do
+      before do
+        @mapping = FactoryGirl.create(:mapping, :tags => ["reviewed:no","status:open"])
+      end
+
+      it "should add a reviewed:yes tag when marked as reviewed" do
+        @mapping.reviewed = true
+        @mapping.tag_for('reviewed').should == "yes"
+      end
+
+      it "should not remove existing tags" do
+        @mapping.reviewed = true
+        @mapping.tag_for('status').should == "open"
+      end
+    end
+
+    context "given a mapping which has been reviewed" do
+      before do
+        @mapping = FactoryGirl.create(:mapping, :tags => ["reviewed:yes","status:open"])
+      end
+
+      it "should be marked as reviewed" do
+        @mapping.reload
+        @mapping.should be_reviewed
+      end
+
+      it "should have a reviewed:no tag when marked as not reviewed" do
+        @mapping.reviewed = false
+
+        @mapping.tag_for('reviewed').should == "no"
+        @mapping.should_not be_reviewed
+      end
+    end
   end
 
 end

@@ -16,7 +16,7 @@ class MappingsController < InheritedResources::Base
     @progress = Mapping.progress(@context, (params[:progress] || Tag::STATUS_DONE_TAG))
     @mappings = @context.page(params[:page]).all
 
-    @tags = Tag.without_excluded_sections.grouped
+    @tags = Tag.grouped
 
     respond_to do |format|
       format.html

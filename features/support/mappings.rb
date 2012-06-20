@@ -74,3 +74,13 @@ def fill_in_mapping_details(mapping)
 
   click_button "Create Mapping"
 end
+
+def mark_mapping_as_reviewed
+  check "Reviewed"
+  click_button "Update Mapping"
+end
+
+def check_the_mapping_is_reviewed
+  visit edit_mapping_path(@mapping)
+  page.should have_selector('input#mapping_reviewed[checked=checked]')
+end

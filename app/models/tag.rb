@@ -2,7 +2,7 @@ class Tag
   include Mongoid::Document
 
   STATUS_DONE_TAG = "status:closed"
-  SECTIONS_TO_EXCLUDE = ["content-item"]
+  SECTIONS_TO_EXCLUDE = ["content-item","reviewed"]
 
   field :group, type: String
   field :name,  type: String
@@ -52,16 +52,11 @@ class Tag
     Tag.parse_tag_from_string(string).each { |key, val| send("#{key}=", val) }
   end
 
+  alias_method :to_param, :whole_tag
+  alias_method :to_s, :whole_tag
+
   def to_hash
     { :group => group, :name => name }
-  end
-
-  def to_param
-    whole_tag
-  end
-
-  def to_s
-    whole_tag
   end
 
   def merge_into!(new_tag)

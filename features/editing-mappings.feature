@@ -28,3 +28,10 @@ Feature: Editing mappings
     Then the mapping should be created
       And I should see the mapping in the list
       And the API should be updated to show the mapping
+
+  Scenario: Review a mapping
+    Given a mapping exists
+    When I edit the mapping
+      And I mark the mapping as reviewed
+    Then the mapping should be updated
+      And the mapping should be marked as reviewed

@@ -116,7 +116,7 @@ describe MappingsController do
           new_mapping.status.should == 301
 
           new_mapping.tags.size.should == 2
-          new_mapping.tags.map(&:marshal_dump).should =~ [{:group => "section", :name => "education", :whole_tag => "section:education"},{:group => nil, :name => "article", :whole_tag => "article"}]
+          new_mapping.whole_tags.should =~ ["section:education","article"]
         end
 
         it "should return a 201 Created status code" do
@@ -198,6 +198,13 @@ describe MappingsController do
 
           mapping.history_tracks.size.should == 1
           mapping.history_tracks.first.modifier.should == @user
+        end
+
+        it "can be marked as reviewed" do
+          put :update, id: @mapping.id, mapping: @atts.merge(:reviewed => true), format: 'html'
+
+          mapping = Mapping.find_by_old_url("http://new.com/foo")
+          mapping.should be_reviewed
         end
       end
     end

@@ -18,6 +18,10 @@ When /^I visit the new mappings form$/ do
   visit new_mapping_path
 end
 
+When /^I edit the mapping$/ do
+  visit edit_mapping_path(@mapping)
+end
+
 When /^I filter by the tag (.*)$/ do |tag|
   filter_by_tag(tag)
 end
@@ -32,6 +36,10 @@ When /^I enter the mapping details into the form$/ do
   })
 
   fill_in_mapping_details(@mapping)
+end
+
+When /^I mark the mapping as reviewed$/ do
+  mark_mapping_as_reviewed
 end
 
 Then /^I should see mappings$/ do
@@ -55,6 +63,15 @@ Then /^the mapping should be created$/ do
   @mapping = Mapping.find_by_old_url(@mapping.old_url)
 end
 
+Then /^the mapping should be updated$/ do
+  page.should have_content("Mapping was successfully updated")
+  @mapping = Mapping.find_by_old_url(@mapping.old_url)
+end
+
 Then /^mappings should not exist with the tag$/ do
   check_mappings_do_not_appear_in_the_list_with_tag(@tag)
+end
+
+Then /^the mapping should be marked as reviewed$/ do
+  check_the_mapping_is_reviewed
 end

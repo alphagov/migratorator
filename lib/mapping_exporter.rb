@@ -26,13 +26,16 @@ class MappingExporter
 
     @mappings.each do |mapping|
       path = URI.parse( mapping.old_url ).path
+      host = mapping.tag_for("site")
 
-      if mapping.status == 301
-        client.create_redirect_route( path, "full", mapping.new_url )
+      if host.blank?
+        logger.error "   #{path} : No `site` tag, skipping"
+      elsif mapping.status == 301
+        client.create_redirect_route( path, "full", mapping.new_url, host )
         logger.info "   #{path} => #{mapping.new_url}"
       elsif mapping.status == 410
-        client.create_route( path, "full", "gone" )
-        client.delete_route( path )
+        client.create_route( path, "full", "gone", host )
+        client.delete_route( path, host )
         logger.info "   #{path} => Gone"
       else
         logger.info "   #{path} : No status, skipping"

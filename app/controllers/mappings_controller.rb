@@ -7,6 +7,7 @@ class MappingsController < InheritedResources::Base
   has_scope :by_old_url, :as => :q
 
   before_filter :capture_referer_for_form, :only => :edit
+
   include MappingsHelper
 
   def index
@@ -26,7 +27,7 @@ class MappingsController < InheritedResources::Base
   end
 
   def show
-    @mapping = Mapping.find_by_old_url params[:old_url]
+    @mapping = ! params[:old_url].blank? ? Mapping.find_by_old_url(params[:old_url]) : Mapping.find_by_id(params[:id])
 
     respond_to do |format|
       format.json {

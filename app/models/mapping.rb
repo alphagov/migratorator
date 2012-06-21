@@ -32,6 +32,13 @@ class Mapping
     self.where( old_url: URI::decode(param) ).first || raise(MappingNotFound.new)
   end
 
+  def self.find_by_id(param)
+    raise URLNotProvided.new if !param or param.empty?
+    self.find(param)
+  rescue Mongoid::Errors::DocumentNotFound, BSON::InvalidObjectId
+    raise MappingNotFound.new
+  end
+
   def self.progress(context, filter_tag)
     # context = tags_array.any? ? Mapping.tagged_with_all(tags_array) : Mapping
 

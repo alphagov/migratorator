@@ -20,7 +20,6 @@ gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 gem 'rabl'
 
 gem 'colorize'
-gem 'plek', '~> 0'
 
 gem 'router-client', '~> 3'
 gem 'plek', '~> 0'

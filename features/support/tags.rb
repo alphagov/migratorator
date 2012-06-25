@@ -26,11 +26,11 @@ def destroy_tag(tag)
 end
 
 def check_tag_details_appear_in_the_api(tag)
-  JSON.parse(api_response).should be_include(object_for_tag tag)
+  JSON.parse(api_response)["tags"].should be_include(object_for_tag tag)
 end
 
 def check_tag_details_do_not_appear_in_the_api(tag)
-  JSON.parse(api_response).should_not be_include(object_for_tag tag)
+  JSON.parse(api_response)["tags"].should_not be_include(object_for_tag tag)
 end
 
 def object_for_tag(tag)

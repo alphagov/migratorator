@@ -13,6 +13,7 @@ class Tag
   default_scope order_by([:group, :asc], [:name, :asc])
 
   scope :without_excluded_sections, where(:group.nin => SECTIONS_TO_EXCLUDE)
+  scope :by_group, proc {|string| where(:group => string) }
 
   before_validation :sanitize_tag
 

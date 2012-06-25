@@ -22,22 +22,7 @@ class MappingsController < InheritedResources::Base
     respond_to do |format|
       format.html
       format.js
-      format.json { @mappings = @context.page(params[:page]).per(80).all }
     end
-  end
-
-  def show
-    @mapping = ! params[:old_url].blank? ? Mapping.find_by_old_url(params[:old_url]) : Mapping.find_by_id(params[:id])
-
-    respond_to do |format|
-      format.json {
-        render 'show'
-      }
-    end
-  rescue Mapping::MappingNotFound
-    render :status => 404, :json => { :status => 404, :message => 'Mapping not found.' }
-  rescue Mapping::URLNotProvided
-    render :status => 400, :json => { :status => 400, :message => 'URL not provided.' }
   end
 
   def create

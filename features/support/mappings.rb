@@ -3,20 +3,19 @@ def api_response
 end
 
 def check_mapping_details_appear_in_the_api(mapping)
-  json = {
+  json = [{
     "mapping" => {
-      "id"           => mapping.id,
+      "id"           => mapping.id.to_s,
       "title"         => mapping.title,
       "old_url"       => mapping.old_url,
       "status"        => mapping.status,
       "new_url"       => mapping.new_url,
       "notes"         => mapping.notes,
-      "search_query"  => mapping.search_query,
       "tags"          => mapping.tags.map(&:whole_tag)
     }
-  }.to_json
+  }]
 
-  api_response.should == json
+  JSON.parse(api_response)["mappings"].should == json
 end
 
 def check_mapping_appears_in_the_list(mappings, options = {})

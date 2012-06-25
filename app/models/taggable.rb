@@ -11,6 +11,7 @@ module Taggable
     scope :tagged_with_all, proc {|array| all_in({ :tagged_with_ids => self.valid_tags_for(array) }) }
     scope :tagged_with_any, proc {|array| any_in({ :tagged_with_ids => self.valid_tags_for(array) }) }
     scope :by_filter_path,   proc {|string| tagged_with_all(string.split('/')) }
+    scope :by_tags_list,   proc {|string| tagged_with_all(string.split(',')) }
 
     after_initialize :extract_tagged_with
     before_validation :update_tagged_with

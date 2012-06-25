@@ -7,4 +7,3 @@ node :tags do |m|
 end
 
 attribute :notes
-attribute :search_query

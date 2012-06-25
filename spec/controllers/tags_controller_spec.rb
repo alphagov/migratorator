@@ -12,15 +12,14 @@ describe TagsController do
       Tag.create_from_string("top-level-tag")
     end
 
-    describe "format JSON" do
-      it "should return an array of tags" do
-        get :index, format: 'json'
+    describe "format HTML" do
+      it "should assign tags" do
+        get :index
 
         response.should be_success
-        JSON::parse(response.body).should =~ [
-          { "tag" => { "group" => "section", "name" => "education", "whole_tag" => "section:education"} },
-          { "tag" => { "group" => nil, "name" => "top-level-tag", "whole_tag" => "top-level-tag"} }
-        ]
+
+        assigns(:tags).count.should == 2
+        assigns(:tags).first.should be_instance_of(Tag)
       end
     end
   end

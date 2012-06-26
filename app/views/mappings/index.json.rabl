@@ -6,6 +6,7 @@ child @mappings do
     m.tags.map(&:whole_tag)
   end
   attribute :notes
+  attribute :search_query
 end
 
 node(:pages) do

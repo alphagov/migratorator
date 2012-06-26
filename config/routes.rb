@@ -6,10 +6,6 @@ Migratorator::Application.routes.draw do
 
   get '/browser(/:tags)' => 'browser#index', :as => :browser, :constraints => { :tags => /[^.]+/ }
 
-  namespace :api do
-    resources :mappings, :tags
-  end
-
   resources :mappings, :tags
 
   root :to => "root#index"

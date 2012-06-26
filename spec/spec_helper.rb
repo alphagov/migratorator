@@ -7,9 +7,10 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 require 'database_cleaner'
 
+
 def login_as_stub_user
   @user = User.create!(:name => 'Stub User')
-  request.env['warden'] = stub(:authenticate! => true, :authenticated? => true, :user => @user)
+  @request.env['warden'] = stub(:authenticate! => true, :authenticated? => true, :user => @user)
 end
 
 RSpec.configure do |config|

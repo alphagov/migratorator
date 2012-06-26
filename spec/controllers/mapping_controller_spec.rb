@@ -153,12 +153,16 @@ describe MappingsController do
         end
 
         it "should create a history item attributed to the current user" do
+          Mongoid::History.current_user_method = :current_user
+
           put :update, id: @mapping.id, mapping: @atts, format: 'html'
 
           mapping = Mapping.find_by_old_url("http://new.com/foo")
 
           mapping.history_tracks.size.should == 1
           mapping.history_tracks.first.modifier.should == @user
+
+          Mongoid::History.current_user_method = :controller_name
         end
 
         it "can be marked as reviewed" do

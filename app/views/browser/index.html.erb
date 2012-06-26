@@ -10,7 +10,7 @@
 
 <% content_for(:outside_container) do %>
 <script type="text/javascript">
-  var mappings_json_endpoint = '<%= api_mappings_path(:tags => @tags, :page => (params[:page] || 1), :format => 'json') %>';
+  var mappings_json_endpoint = '<%= filter_mappings_path(@tags, :page => (params[:page] || 1), :format => 'json') %>';
 </script>
 <div id="browser">
   <div class="container">

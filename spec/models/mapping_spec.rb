@@ -88,7 +88,8 @@ describe Mapping do
         :new_url => 'http://www.gov.uk/new_url',
         :status => 301,
         :tags => ["section:technology","format:nav"],
-        :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions."
+        :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions.",
+        :search_query => "example"
       }
     end
 

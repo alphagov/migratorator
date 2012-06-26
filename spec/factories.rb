@@ -6,6 +6,7 @@ FactoryGirl.define do
     sequence(:new_url) {|n| "http://www.gov.uk/new-url-#{n}" }
     status 301
     notes "Example notes"
+    search_query "Test"
     tags ["section:test","status:done","apple"]
   end
 

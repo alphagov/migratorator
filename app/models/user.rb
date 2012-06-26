@@ -9,6 +9,7 @@ class User
   field "uid",     type: String
   field "version", type: Integer
   field "email",   type: String
+  field "permissions", type: Hash
 
   attr_accessible :email, :name, :uid, :version
 

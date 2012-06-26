@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Api::MappingsController do
 
+  before(:each) do
+    login_as_stub_user
+  end
+
   describe "JSON" do
     context "finding a mapping by old url" do
 

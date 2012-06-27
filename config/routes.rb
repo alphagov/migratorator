@@ -7,7 +7,12 @@ Migratorator::Application.routes.draw do
   get '/browser(/:tags)' => 'browser#index', :as => :browser, :constraints => { :tags => /[^.]+/ }
 
   namespace :api do
-    resources :mappings, :tags
+    resources :mappings do
+      collection do
+        get :random
+      end
+    end
+    resources :tags
   end
 
   resources :mappings, :tags

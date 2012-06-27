@@ -18,4 +18,11 @@ class Api::MappingsController < Api::BaseController
     respond_with @mapping
   end
 
+  def random
+    context = apply_scopes(Mapping)
+    @mapping = context.skip( rand context.count ).first
+
+    respond_with @mapping
+  end
+
 end

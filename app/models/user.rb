@@ -12,7 +12,8 @@ class User
   field "permissions", type: Hash
 
   attr_accessible :email, :name, :uid, :version
-
+  attr_accessible :uid, :email, :name, :permissions, as: :oauth
+  
   def self.find_by_uid(uid)
     where(uid: uid).first
   end

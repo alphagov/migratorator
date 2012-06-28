@@ -85,7 +85,7 @@ GEM
     faraday (0.8.1)
       multipart-post (~> 1.1)
     ffi (1.0.11)
-    gds-sso (0.7.0)
+    gds-sso (0.7.6)
       omniauth-gds (= 0.0.3)
       rack-accept (~> 0.4.4)
       rails (>= 3.0.0)
@@ -116,7 +116,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.18)
+    mime-types (1.19)
     mongo (1.6.2)
       bson (~> 1.6.2)
     mongoid (2.4.11)
@@ -246,7 +246,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   factory_girl_rails
-  gds-sso (= 0.7.0)
+  gds-sso (= 0.7.6)
   has_scope
   inherited_resources
   jquery-rails

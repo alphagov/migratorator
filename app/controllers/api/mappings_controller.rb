@@ -22,7 +22,7 @@ class Api::MappingsController < Api::BaseController
     context = apply_scopes(Mapping)
     @mapping = context.skip( rand context.count ).first
 
-    respond_with @mapping
+    render 'show'
   end
 
 end

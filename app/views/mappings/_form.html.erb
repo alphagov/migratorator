@@ -64,10 +64,10 @@
   tags_input_box.hide();
   tags_dropdown_box.insertAfter(tags_input_box);
 
-  $.getJSON('<%= tags_path(:format => :json, :exclude => true, :order => 'groups') %>', function(data) {
+  $.getJSON('<%= api_tags_path(:format => :json, :exclude => true, :order => 'groups') %>', function(data) {
     var groups = { };
 
-    $.each(data, function(key,tag) {
+    $.each(data.tags, function(key,tag) {
       tag = tag.tag;
 
       if (tag.group == null) { tag.group = "other"; }

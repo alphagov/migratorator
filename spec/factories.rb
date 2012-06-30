@@ -13,4 +13,7 @@ FactoryGirl.define do
     sequence(:whole_tag) {|n| "foo:bar-#{n}" }
   end
 
+  factory :user do
+    sequence(:name) { |n| "Alice #{n}"}
+  end
 end

@@ -15,5 +15,6 @@ FactoryGirl.define do
 
   factory :user do
     sequence(:name) { |n| "Alice #{n}"}
+    permissions { Hash[GDS::SSO::Config.default_scope => ["signin"]] }
   end
 end

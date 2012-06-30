@@ -2,7 +2,7 @@ Warden.test_mode!
 World Warden::Test::Helpers
 
 Before do
-  @current_user = User.create!(:name => "Test")
+  @current_user = FactoryGirl.create(:user)
   login_as(@current_user, :scope => :user)
 end
 

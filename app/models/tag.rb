@@ -45,6 +45,10 @@ class Tag
     Tag.where(:group => group).all
   end
 
+  def mapping_count
+    self.mapping_ids.size
+  end
+
   def whole_tag
     group.blank? ? name : group + ':' + name
   end

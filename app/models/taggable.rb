@@ -20,6 +20,8 @@ module Taggable
     attr_writer :primary_tags
     cattr_accessor :additional_tag_groups
 
+    @@additional_tag_groups = ["destination"]
+
     def additional_tags
       (@additional_tags || []).map {|s| OpenStruct.new(Tag.parse_tag_from_string(s).merge({:whole_tag => s})) }
     end
@@ -74,7 +76,10 @@ module Taggable
     end
 
     def update_tag_for(group, new_tag)
-      @additional_tags = (@additional_tags || []).reject {|t| t =~ /^#{group}:/ } + ["#{group}:#{new_tag}"]
+      new_additional_tags = (@additional_tags || []).reject {|t| t =~ /^#{group}:/ }
+      new_additional_tags = new_additional_tags + ["#{group}:#{new_tag}"] unless new_tag.blank?
+
+      @additional_tags = new_additional_tags
       update_tagged_with and update_tags_cache!
     end
 
@@ -94,6 +99,7 @@ module Taggable
     private
       def extract_tagged_with
         return if new_record?
+
         @primary_tags = self.tags_cache.reject {|t| self.additional_tag_groups.include?(t.group) }.map(&:whole_tag)
         @additional_tags = self.tags_cache.select {|t| self.additional_tag_groups.include?(t.group) }.map(&:whole_tag)
       end

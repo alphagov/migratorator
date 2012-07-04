@@ -76,8 +76,8 @@ describe MappingsController do
           new_mapping.new_url.should == "https://www.gov.uk/your-consumer-rights/buying-a-car"
           new_mapping.status.should == 301
 
-          new_mapping.tags.size.should == 2
-          new_mapping.tags.map(&:whole_tag).should =~ ["section:education","article"]
+          new_mapping.tags.size.should == 3 # automatic destination tag
+          new_mapping.tags.map(&:whole_tag).should =~ ["section:education","article","destination:content"]
         end
 
         it "should return a 201 Created status code" do

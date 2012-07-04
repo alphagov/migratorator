@@ -69,7 +69,7 @@ class Tag
     raise(TagNotFound.new) if new_tag.nil?
 
     self.mappings.all.each do |mapping|
-      mapping.tags = mapping.tags.reject! {|tag| tag.whole_tag == self.whole_tag } + [new_tag.whole_tag]
+      mapping.tags = mapping.tags.reject! {|tag| tag.whole_tag == self.whole_tag }.map(&:whole_tag) + [new_tag.whole_tag]
       mapping.save!
     end
 

@@ -40,12 +40,21 @@ class Mapping
   end
 
   def self.progress(context, filter_tag)
-    # context = tags_array.any? ? Mapping.tagged_with_all(tags_array) : Mapping
-
     match_count = context.tagged_with_all([filter_tag]).count
     percentage = context.count > 0 ? (match_count.to_f / context.count * 100).round(1) : 0
 
     OpenStruct.new(:count => match_count, :total => context.count, :percentage => percentage, :tag => filter_tag)
+  end
+
+  def status=(code)
+    self[:status] = code
+
+    new_tag = case code.to_i
+              when 301 then "content"
+              when 410 then "gone"
+              else nil
+              end
+    self.update_tag_for("destination", new_tag ) unless self.tag_for("destination") == "gone-welsh"
   end
 
   def is_redirect?

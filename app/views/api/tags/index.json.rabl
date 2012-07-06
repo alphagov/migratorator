@@ -2,6 +2,7 @@ object false
 
 child @tags do
   attribute :group, :name, :whole_tag
+  attribute :mapping_count => :count
 end
 
 node(:pages) do

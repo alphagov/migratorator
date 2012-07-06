@@ -74,9 +74,9 @@ describe Mapping do
     end
 
     it "should find a mapping's tag given the group" do
-      mapping = FactoryGirl.create(:mapping, :tags => ["status:open","destination:home"])
+      mapping = FactoryGirl.create(:mapping, :tags => ["status:open","section:home"])
       mapping.tag_for('status').should == "open"
-      mapping.tag_for('destination').should == "home"
+      mapping.tag_for('section').should == "home"
     end
   end
 
@@ -134,7 +134,7 @@ describe Mapping do
       mapping.tags_list = "section:example,format:nav"
       mapping.save!
 
-      mapping.tags.size.should == 2
+      mapping.tags.size.should == 3 # including automatic destination tag
       mapping.tags.first.should be_respond_to(:whole_tag)
     end
   end
@@ -143,34 +143,24 @@ describe Mapping do
     it "should remove a tag" do
       @mapping = FactoryGirl.create(:mapping, :tags => ["tag_one","tag_two","tag_three","tag_four"])
 
-      @mapping.tags_list = "tag_one,tag_two,tag_four"
+      @mapping.tags_list = "tag_one,tag_two,tag_four,destination:content"
       @mapping.save!
       @mapping.reload
 
-      @mapping.tags.count.should == 3
-      @mapping.tags.map(&:whole_tag).should =~ ["tag_one", "tag_two", "tag_four"]
+      @mapping.tags.count.should == 4 # including automatic destination tag
+      @mapping.tags.map(&:whole_tag).should =~ ["tag_one", "tag_two", "tag_four", "destination:content"]
     end
 
     it "should save tags from the tags list" do
       @mapping = FactoryGirl.create(:mapping, :tags => ["tag_one", "tag_two"])
-      @mapping.tags_list.should == "tag_one, tag_two"
+      @mapping.tags_list.should == "tag_one, tag_two, destination:content" # including automatic destination tag
 
       @mapping.tags_list = "tag_one, tag_two, tag_three"
       @mapping.save!
       @mapping.reload
 
-      @mapping.tags.map(&:whole_tag).should =~ ["tag_one", "tag_two", "tag_three"]
+      @mapping.tags.map(&:whole_tag).should =~ ["tag_one", "tag_two", "tag_three", "destination:content"] # including automatic destination tag
     end
-
-    # it "should remove tags from the tags list" do
-    #   @mapping = FactoryGirl.create(:mapping, :tags => ["tag_one", "tag_two", "tag_three"])
-
-    #   @mapping.tags_list = "tag_one"
-    #   @mapping.save!
-    #   @mapping.reload
-
-    #   @mapping.whole_tags.should =~ ["tag_one"]
-    # end
   end
 
   describe "making changes to a mapping" do
@@ -190,7 +180,7 @@ describe Mapping do
         @mapping.save!
         @mapping.reload
 
-        @mapping.history_tracks.first.affected.should == { "tags_list_cache" => 'tag-four, tag-five' }
+        @mapping.history_tracks.first.affected.should == { "tags_list_cache" => 'tag-four, tag-five, destination:content' } # including automatic destination tag
       end
     end
 

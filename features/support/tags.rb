@@ -38,7 +38,8 @@ def object_for_tag(tag)
     "tag" => {
       "group" => tag.group,
       "name" => tag.name,
-      "whole_tag" => tag.whole_tag
+      "whole_tag" => tag.whole_tag,
+      "count" => tag.mapping_count,
     }
   }
 end

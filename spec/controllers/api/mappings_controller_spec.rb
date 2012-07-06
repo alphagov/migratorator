@@ -19,7 +19,7 @@ describe Api::MappingsController do
             "status"        => 301,
             "new_url"       => @mapping.new_url,
             "notes"         => "A note string",
-            "tags"          => ["article", "need-met:y", "section:education"]
+            "tags"          => ["section:education", "article", "need-met:y", "destination:content"]
           }
         }]
       end

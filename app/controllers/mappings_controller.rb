@@ -43,7 +43,7 @@ class MappingsController < InheritedResources::Base
     end
 
     def capture_referer_for_form
-      referer = Rails.application.routes.recognize_path(request.referer)
+      referer = Rails.application.routes.recognize_path(request.referer) rescue nil
       if referer
         session[referer_session_name(params[:id])] = referer
       end

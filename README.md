@@ -5,6 +5,11 @@ A Web site and browser tools to assist migrating a Web site to another domain.
 The Web site collects mappings, pairs of URLs with a redirection or error status.
 A mapping may be annotated with notes, related links and collected using tags.
 
+# Setup
+
+Included in db/migratorator_development is bson data for Mongo. You can import this into your migratorator_development mongo db by going to migratorator root directory and typing:
+    mongorestore -d migratorator_development ./db/migratorator_development
+
 # API and Tools
 
 The mappings are available from the Web site as JSON, allowing tools to be built upon the API:

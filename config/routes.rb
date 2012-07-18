@@ -12,6 +12,7 @@ Migratorator::Application.routes.draw do
         get :random
       end
     end
+    resources :mapping, :only => [:index]
     resources :tags
   end
 

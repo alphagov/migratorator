@@ -90,6 +90,14 @@ describe Mapping do
         :tags => ["section:technology","format:nav"],
         :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions."
       }
+      @atts2 = {
+        :title => "Example URL",
+        :old_url => 'http://example.com/ABC',
+        :new_url => 'http://www.gov.uk/new_url',
+        :status => 301,
+        :tags => ["section:technology","format:nav"],
+        :notes => "Ladies and gentlemen, an example has been reported in the building. Please wait for further instructions."
+      }
     end
 
     it "should create a mapping given valid attributes" do
@@ -115,6 +123,13 @@ describe Mapping do
     it "should throw an error if a mapping already exists for the specified old url" do
       existing_mapping = Mapping.create!(@atts)
       new_mapping = Mapping.new @atts
+
+      new_mapping.should_not be_valid
+    end
+
+    it "should throw an error if a mapping already exists for the specified old url and the case is different" do
+      existing_mapping = Mapping.create!(@atts)
+      new_mapping = Mapping.new @atts2
 
       new_mapping.should_not be_valid
     end

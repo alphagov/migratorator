@@ -23,6 +23,7 @@ gem 'colorize'
 
 gem 'router-client', '~> 3'
 gem 'plek', '0.1.24'
+gem 'lograge'
 
 group :passenger_compatibility do
   gem 'rack', '1.3.5'

@@ -25,4 +25,10 @@ class Api::MappingsController < Api::BaseController
     render 'show'
   end
 
+  def by_id_array
+    @id_array = params[:id_array].split(',')
+    @mappings = Mapping.any_in(_id: @id_array)
+    respond_with @mappings
+  end
+
 end

@@ -10,6 +10,7 @@ Migratorator::Application.routes.draw do
     resources :mappings do
       collection do
         get :random
+        get :by_id_array
       end
     end
     resources :mapping, :only => [:index]

@@ -25,11 +25,11 @@ class MappingsController < InheritedResources::Base
       format.js
       format.csv do 
         csv = CSV.generate do |csv|
-          tag_group = []
-          tag_name = []
-          tag_whole_tag = []
           csv << ["Title", "Old Url", "New Url", "Status", "Notes", "Group", "Name", "Whole Tag"]
           apply_scopes(Mapping).all.each do |mapping|
+            tag_group = []
+            tag_name = []
+            tag_whole_tag = []
             mapping.tags.each do |tag|
               tag_group << tag.group
               tag_name << tag.name

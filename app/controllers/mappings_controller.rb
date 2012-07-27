@@ -1,3 +1,4 @@
+require 'csv'
 class MappingsController < InheritedResources::Base
 
   respond_to :html, :json
@@ -22,7 +23,17 @@ class MappingsController < InheritedResources::Base
     respond_to do |format|
       format.html
       format.js
+      format.csv do 
+        csv = CSV.generate do |csv|
+          csv << ["Title", "Old Url", "New Url", "Status", "Notes"]
+          apply_scopes(Mapping).all.each do |mapping|
+            csv << [mapping.title, mapping.old_url, mapping.new_url, mapping.status, mapping.notes]
+          end
+        end
+        send_data(csv, :type => 'test/csv', :filename => 'migratorator_mappings.csv') 
+      end
     end
+
   end
 
   def create

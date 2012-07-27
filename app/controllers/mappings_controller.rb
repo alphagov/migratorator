@@ -25,9 +25,17 @@ class MappingsController < InheritedResources::Base
       format.js
       format.csv do 
         csv = CSV.generate do |csv|
-          csv << ["Title", "Old Url", "New Url", "Status", "Notes"]
+          tag_group = []
+          tag_name = []
+          tag_whole_tag = []
+          csv << ["Title", "Old Url", "New Url", "Status", "Notes", "Group", "Name", "Whole Tag"]
           apply_scopes(Mapping).all.each do |mapping|
-            csv << [mapping.title, mapping.old_url, mapping.new_url, mapping.status, mapping.notes]
+            mapping.tags.each do |tag|
+              tag_group << tag.group
+              tag_name << tag.name
+              tag_whole_tag << tag.whole_tag
+            end
+            csv << [mapping.title, mapping.old_url, mapping.new_url, mapping.status, mapping.notes, tag_group.join(' '), tag_name.join(' '), tag_whole_tag.join(' ')]
           end
         end
         send_data(csv, :type => 'test/csv', :filename => 'migratorator_mappings.csv') 

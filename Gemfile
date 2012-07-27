@@ -8,7 +8,7 @@ gem "bson_ext", "~> 1.5"
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '0.7.9'
+  gem 'gds-sso', '~> 1.2.0'
 end
 
 gem 'inherited_resources'
@@ -23,6 +23,7 @@ gem 'colorize'
 
 gem 'router-client', '~> 3'
 gem 'plek', '0.1.24'
+gem 'lograge'
 
 group :passenger_compatibility do
   gem 'rack', '1.3.5'

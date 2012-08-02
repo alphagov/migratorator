@@ -11,6 +11,7 @@ Migratorator::Application.routes.draw do
       collection do
         get :random
         get :by_id_array
+        get :by_old_url_array
       end
     end
     resources :mapping, :only => [:index]

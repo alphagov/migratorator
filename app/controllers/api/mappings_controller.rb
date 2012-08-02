@@ -31,4 +31,10 @@ class Api::MappingsController < Api::BaseController
     respond_with @mappings
   end
 
+  def by_old_url_array
+    @old_url_array = params[:old_url_array].split(',')
+    @mappings = Mapping.any_in(old_url: @old_url_array)
+    respond_with @mappings
+  end
+
 end

@@ -85,49 +85,71 @@ describe Api::MappingsController do
     end
 
     context "retrieving a group of mappings by old_url" do
-      it "should return a list of mappings when passed a hash of old_urls" do
 
-        old_url_1 = 'http://example.com/1'
-        old_url_2 = 'http://example.com/2'
-        old_url_3 = 'http://example.com/3'
+      before do
+        @old_url_1 = 'http://example.com/1'
+        @old_url_2 = 'http://example.com/2'
+        @old_url_3 = 'http://example.com/3'
+        @old_url_4 = 'http://Example.com/4'
         
-        mapping_1 = Mapping.create! :old_url  => old_url_1, :status => 301
-        mapping_2 = Mapping.create! :old_url  => old_url_2, :status => 301
-        mapping_3 = Mapping.create! :old_url  => old_url_3, :status => 301
+        @mapping_1 = Mapping.create! :old_url  => @old_url_1, :status => 301
+        @mapping_2 = Mapping.create! :old_url  => @old_url_2, :status => 301
+        @mapping_3 = Mapping.create! :old_url  => @old_url_3, :status => 301
+        @mapping_4 = Mapping.create! :old_url  => @old_url_4, :status => 301
         
-        @json_representation = {
-          old_url_1 => {
-            "id"            => mapping_1.id.to_s,
+        @json_representation_1 = {
+          @old_url_1 => {
+            "id"            => @mapping_1.id.to_s,
             "title"         => nil,
-            "old_url"       => old_url_1,
+            "old_url"       => @old_url_1,
             "status"        => 301,
             "new_url"       => nil
           },
-            old_url_2 =>
+            @old_url_2 =>
           {
-              "id"            => mapping_2.id.to_s,
+              "id"            => @mapping_2.id.to_s,
               "title"         => nil,
-              "old_url"       => old_url_2,
+              "old_url"       => @old_url_2,
               "status"        => 301,
               "new_url"       => nil
           },
-            old_url_3 =>
+            @old_url_3 =>
           {
-              "id"            => mapping_3.id.to_s,
+              "id"            => @mapping_3.id.to_s,
               "title"         => nil,
-              "old_url"       => old_url_3,
+              "old_url"       => @old_url_3,
               "status"        => 301,
               "new_url"       => nil
           }
         }
 
-        get :by_old_url_array, old_url_array: "#{old_url_1},#{old_url_2},#{old_url_3}", format: 'json'
-        
-        response.should be_success
+        @json_representation_2 = {
+          @old_url_4 =>
+          {
+              "id"            => @mapping_4.id.to_s,
+              "title"         => nil,
+              "old_url"       => @old_url_4,
+              "status"        => 301,
+              "new_url"       => nil
+          }
+        }
 
-        JSON.parse(response.body).should == @json_representation
       end
+
+      it "should return a list of mappings when passed a hash of old_urls" do
+        get :by_old_url_array, old_url_array: "#{@old_url_1},#{@old_url_2},#{@old_url_3},#{@old_url_4}", format: 'json'
+        response.should be_success
+        JSON.parse(response.body).should == @json_representation_1.merge(@json_representation_2)
+      end
+
+      it "should be case sensitive and only return URLs which match exactly" do
+        get :by_old_url_array, old_url_array: "#{@old_url_1},#{@old_url_2},#{@old_url_3},http://example.com/4", format: 'json'
+        response.should be_success
+        JSON.parse(response.body).should == @json_representation_1
+      end
+
     end
+
   end
 
 end

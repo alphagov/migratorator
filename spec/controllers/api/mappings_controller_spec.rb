@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative '../../spec_helper'
 
 describe Api::MappingsController do
 
@@ -32,10 +32,55 @@ describe Api::MappingsController do
       end
     end
 
-    context "retreiving a single mapping" do
+    context "retrieving a single mapping" do
       it "should return a 404 error for an invalid mapping" do
         get :show, id: "not-a-real-id", format: 'json'
         response.status.should == 404
+      end
+    end
+
+    context "retrieving a group of mappings" do
+      it "should return a list of mappings when passed a hash of ids" do
+
+        old_url_1 = 'http://example.com/1'
+        old_url_2 = 'http://example.com/2'
+        old_url_3 = 'http://example.com/3'
+        
+        mapping_1 = Mapping.create! :old_url  => old_url_1, :status => 301
+        mapping_2 = Mapping.create! :old_url  => old_url_2, :status => 301
+        mapping_3 = Mapping.create! :old_url  => old_url_3, :status => 301
+        
+        @json_representation = {
+          mapping_1.id.to_s => {
+            "id"            => mapping_1.id.to_s,
+            "title"         => nil,
+            "old_url"       => old_url_1,
+            "status"        => 301,
+            "new_url"       => nil
+          },
+            mapping_2.id.to_s =>
+          {
+              "id"            => mapping_2.id.to_s,
+              "title"         => nil,
+              "old_url"       => old_url_2,
+              "status"        => 301,
+              "new_url"       => nil
+          },
+            mapping_3.id.to_s =>
+          {
+              "id"            => mapping_3.id.to_s,
+              "title"         => nil,
+              "old_url"       => old_url_3,
+              "status"        => 301,
+              "new_url"       => nil
+          }
+        }
+
+        get :by_id_array, id_array: "#{mapping_1.id},#{mapping_2.id},#{mapping_3.id}", format: 'json'
+        
+        response.should be_success
+
+        JSON.parse(response.body).should == @json_representation
       end
     end
   end

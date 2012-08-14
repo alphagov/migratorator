@@ -87,39 +87,59 @@ namespace :migrator do
     errmps = []
     existsurl = []
     
-    rows.each_with_index do |r,i|
+    old = ''
+    
+    batch = []
+
+    # create tags
+    puts "get tags"
+
+    tags_a = []
+    tag_source = Tag.find_or_create_by(group: 'source', name: 'businesslink')
+    tag_canonical = Tag.find_or_create_by(group: 'canonical', name: 'true')
+    tags_a << tag_source.id
+    tags_a << tag_canonical.id
+
+    puts "got tags"
+
+
+    rows[0..999].each_with_index do |r,i|
+      
+
       unless r[2].blank? #or r[0].blank? #r[3].blank? or 
-          
+        
         old = r[2]
+        
         if Mapping.exists?(conditions: {old_url: old}) 
           existsurl << [i,r].join(',')
           puts "#{i}: URL EXISTS"
           next
         end
-        Mapping.create(:old_url => old) do |m|
-          begin
-          title = r[0] 
 
-          m.title = r[0] unless r[0].blank?
-          m.old_url = old
-          
-          unless r[3].blank? or not r[3].include?('gov.uk')
-
-            m.new_url = r[3].match(/^https?:\/\//) ? r[3] : "http://" + r[3]
-          end
-          m.tags_list =  "canonical:true, site:businesslink" 
-           
-          puts "#{i}: created #{title}"
-          mappings += 1
-          rescue Mongoid::Error
-            errmps << [i,r].join(',')
-            msg = "#{i}: ERROR ["
-            msg += "Mapping create error;" 
-            msg += "]"  
-            puts msg
-            next
-          end  
+        title = ''
+        title = r[0] unless r[0].blank?
+        newurl = ''
+        unless r[3].blank? or not r[3].include?('gov.uk')
+          newurl = r[3].match(/^https?:\/\//) ? r[3] : "http://" + r[3]
         end
+        tags_list =  ["canonical:true", "site:businesslink"]
+
+
+        batch << {
+          :old_url => old,
+          :title => title,
+          :new_url => newurl,
+          :tags_cache => tags_list,
+          :tagged_with_ids => tags_a,
+          :tags_list_cache => tags_list.join(',') 
+        }
+
+
+
+        # mappings += 1
+
+        puts "#{i} lines processed" if i % 10 == 0 
+
       else
         errmps << [i,r].join(',')
         msg = "#{i}: ERROR ["
@@ -130,7 +150,27 @@ namespace :migrator do
 
     end
 
+
+    # p batch  
+    puts "inserting #{batch.length} records"
     
+    # NOTE: this allows you to insert an array of hashes (one for each document)
+    # However, it doesn't run any validations so you must do those before populating the array
+    mps = Mapping.collection.insert(batch)
+    puts "records inserted!"
+
+    tag_canonical.mapping_ids += mps
+    tag_canonical.save
+    tag_source.mapping_ids += mps
+    tag_source.save
+
+    # mps.each{ |o| 
+    #   mp = Mapping.find o
+    #   tag_canonical.mappings << mp
+    #   tag_source.mappings << mp 
+
+    # }    
+
     # write all errors to file
     fnerr = "bl_mapping_errors_"+ Time.now.strftime("%Y%m%d%H%M%S") +".csv"
     File.open(fnerr, 'w') {|f| f.write(errmps.join("\n")) }
@@ -140,7 +180,7 @@ namespace :migrator do
     File.open(fnex, 'w') {|f| f.write(existsurl.join("\n")) }
 
     puts "You just had :" 
-    puts "\t" + mappings.to_s + " mapping created"
+    puts "\t" + batch.length.to_s + " mapping created"
     puts "\t" + errmps.length.to_s + " errors"
     puts "\t" + existsurl.length.to_s + " URLs that existed"
     puts "\t" + rows.length.to_s + " mappings processed"
@@ -148,6 +188,8 @@ namespace :migrator do
 
     puts "rake tast completed"
   end
+
+
 
   desc "Get a CSV output of mappings from DB"
   task :output_mappings_to_csv, [:tag] => :environment do |t, args|

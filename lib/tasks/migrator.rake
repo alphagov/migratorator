@@ -79,6 +79,12 @@ namespace :migrator do
     
     puts "starting url mapping rake task"
     
+    # use the bl_mappings_v2.csv found in the db dir 
+    unless args[:file]
+      puts "Please specify a csv to import (hint: check the db dir and/or the commments in this rake task)"
+      exit
+    end
+
     rows = CSV.read(args[:file])
     
     puts "processing  #{rows.length} mappings"
@@ -95,7 +101,7 @@ namespace :migrator do
     puts "get tags"
 
     tags_a = []
-    tag_source = Tag.find_or_create_by(group: 'source', name: 'businesslink')
+    tag_source = Tag.find_or_create_by(group: 'site', name: 'businesslink')
     tag_canonical = Tag.find_or_create_by(group: 'canonical', name: 'true')
     tags_a << tag_source.id
     tags_a << tag_canonical.id
@@ -103,7 +109,8 @@ namespace :migrator do
     puts "got tags"
 
 
-    rows[0..999].each_with_index do |r,i|
+    # rows[0..999].each_with_index do |r,i| # DEBUG: run with a range on rows if desired for debug
+    rows.each_with_index do |r,i|
       
 
       unless r[2].blank? #or r[0].blank? #r[3].blank? or 
@@ -138,7 +145,7 @@ namespace :migrator do
 
         # mappings += 1
 
-        puts "#{i} lines processed" if i % 10 == 0 
+        puts "#{i} lines processed" if i % 1000 == 0 
 
       else
         errmps << [i,r].join(',')
@@ -152,32 +159,29 @@ namespace :migrator do
 
 
     # p batch  
-    puts "inserting #{batch.length} records"
+    puts "inserting #{batch.length} docs"
     
     # NOTE: this allows you to insert an array of hashes (one for each document)
     # However, it doesn't run any validations so you must do those before populating the array
     mps = Mapping.collection.insert(batch)
-    puts "records inserted!"
+    puts "docs inserted; updating tags with doc ids"
 
     tag_canonical.mapping_ids += mps
     tag_canonical.save
     tag_source.mapping_ids += mps
     tag_source.save
 
-    # mps.each{ |o| 
-    #   mp = Mapping.find o
-    #   tag_canonical.mappings << mp
-    #   tag_source.mappings << mp 
+    puts "tags updated; creating output files (if needed) for duplicates urls and errors"
 
-    # }    
 
     # write all errors to file
     fnerr = "bl_mapping_errors_"+ Time.now.strftime("%Y%m%d%H%M%S") +".csv"
-    File.open(fnerr, 'w') {|f| f.write(errmps.join("\n")) }
+    File.open(fnerr, 'w') {|f| f.write(errmps.join("\n")) } if errmps.length > 0
 
     # write all duplicate urls found
     fnex = "bl_mapping_exists_"+ Time.now.strftime("%Y%m%d%H%M%S") +".csv"
-    File.open(fnex, 'w') {|f| f.write(existsurl.join("\n")) }
+    File.open(fnex, 'w') {|f| f.write(existsurl.join("\n")) } if existsurl.length > 0
+
 
     puts "You just had :" 
     puts "\t" + batch.length.to_s + " mapping created"

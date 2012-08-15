@@ -79,7 +79,7 @@ namespace :migrator do
     
     puts "starting url mapping rake task"
     
-    # use the bl_mappings_v2.csv found in the db dir 
+    # use the bl_mappings_v3.csv found in the db dir 
     unless args[:file]
       puts "Please specify a csv to import (hint: check the db dir and/or the commments in this rake task)"
       exit
@@ -217,6 +217,28 @@ namespace :migrator do
     fn = "bl_mapping_output_"+ Time.now.strftime("%Y%m%d%H%M%S") +".csv"
     File.open(fn, 'w') {|f| f.write(csv) }
 
+  end
+
+  desc "Check for mappings from csv"
+  task :check_mappings_from_csv, [:file] => :environment do |t, args|
+    lines = IO.readlines(args[:file])
+
+    founda = []
+    nota = []
+
+    lines.each do |l|
+      
+      next if l.blank?
+      # l.strip!
+      if Mapping.exists?(conditions: {id: l})
+        founda << l
+      else
+        nota << l
+      end
+    end
+
+    File.open('found.csv', 'w') {|f| f.write(founda) }    
+    File.open('not.csv', 'w') {|f| f.write(nota) }    
   end
 
 

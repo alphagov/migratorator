@@ -113,7 +113,7 @@ namespace :migrator do
     rows.each_with_index do |r,i|
       
 
-      unless r[2].blank? #or r[0].blank? #r[3].blank? or 
+      unless r[2].blank? 
         
         old = r[2]
         
@@ -142,8 +142,6 @@ namespace :migrator do
         }
 
 
-
-        # mappings += 1
 
         puts "#{i} lines processed" if i % 1000 == 0 
 

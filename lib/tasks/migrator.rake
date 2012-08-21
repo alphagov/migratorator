@@ -74,7 +74,7 @@ namespace :migrator do
     puts "Done!"
   end
 
-  desc "Create Business Link Mappings"
+  desc "Create Business Link Mappings - this should be used to batch add mappings from a spreadsheet, not to modify existing mappings."
   task :create_bl_mappings, [:file] => :environment do |t, args|
     
     puts "starting url mapping rake task"
@@ -98,12 +98,18 @@ namespace :migrator do
     batch = []
 
     # create tags
-    puts "get tags"
+    tag_source_name = Time.now.strftime("bl_mappings_add_%Y%m%d")
+    puts "Adding tags canonical:true, site:businesslink, source:#{tag_source_name}"
 
     tags_a = []
-    tag_source = Tag.find_or_create_by(group: 'site', name: 'businesslink')
-    tag_canonical = Tag.find_or_create_by(group: 'canonical', name: 'true')
+
+    # this is tag source identifier - so we know when they were added!
+    tag_source = Tag.find_or_create_by(group: 'source', name: tag_source_name )
     tags_a << tag_source.id
+    
+    tag_site = Tag.find_or_create_by(group: 'site', name: 'businesslink')
+    tag_canonical = Tag.find_or_create_by(group: 'canonical', name: 'true')
+    tags_a << tag_site.id
     tags_a << tag_canonical.id
 
     puts "got tags"
@@ -129,7 +135,7 @@ namespace :migrator do
         unless r[3].blank? or not r[3].include?('gov.uk')
           newurl = r[3].match(/^https?:\/\//) ? r[3] : "http://" + r[3]
         end
-        tags_list =  ["canonical:true", "site:businesslink"]
+        tags_list =  ["canonical:true", "site:businesslink", "source:#{tag_source_name}"]
 
 
         batch << {
@@ -164,8 +170,12 @@ namespace :migrator do
     mps = Mapping.collection.insert(batch)
     puts "docs inserted; updating tags with doc ids"
 
+    
+
     tag_canonical.mapping_ids += mps
     tag_canonical.save
+    tag_site.mapping_ids += mps
+    tag_site.save
     tag_source.mapping_ids += mps
     tag_source.save
 

@@ -119,9 +119,9 @@ namespace :migrator do
     rows.each_with_index do |r,i|
       
 
-      unless r[2].blank? 
+      unless r[1].blank? 
         
-        old = r[2]
+        old = r[1]
         
         if Mapping.exists?(conditions: {old_url: old}) 
           existsurl << [i,r].join(',')
@@ -154,7 +154,7 @@ namespace :migrator do
       else
         errmps << [i,r].join(',')
         msg = "#{i}: ERROR ["
-        msg += "old url blank;" if r[2].blank?
+        msg += "old url blank;" if r[1].blank?
         msg += "]"
         puts msg
       end

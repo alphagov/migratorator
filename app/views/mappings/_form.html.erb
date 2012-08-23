@@ -44,6 +44,11 @@
       </p>
 
       <p>
+        <%= f.label :topic_id, "Topic ID (optional)" %>
+        <%= f.text_field :topic_id, :class => 'span2' %>
+      </p>
+
+      <p>
         <%= f.label :alternative_urls, "Alternative URLs (one per line)" %>
         <%= f.text_area :alternative_urls, :rows => 4, :class => "span6" %>
       </p>

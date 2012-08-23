@@ -12,11 +12,12 @@ class Mapping
   scope :by_old_url, proc {|string| where({ :old_url => Regexp.new(Regexp.escape(string),"i") }) }
   scope :by_new_url, proc {|string| where({ :new_url => Regexp.new(Regexp.escape(string),"i") }) }
 
-  field :title,         type: String
-  field :old_url,       type: String
-  field :new_url,       type: String
-  field :status,        type: Integer, default: 301
-  field :notes,         type: String, default: nil
+  field :title,             type: String
+  field :old_url,           type: String
+  field :new_url,           type: String
+  field :govuk_page_title,  type: String
+  field :status,            type: Integer, default: 301
+  field :notes,             type: String, default: nil
 
   validates :old_url, :presence => true, :uniqueness => { :case_sensitive => false }
   validate :new_url_is_on_govuk, :if => :is_redirect?

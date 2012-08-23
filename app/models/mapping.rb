@@ -17,6 +17,8 @@ class Mapping
   field :new_url,           type: String
   field :govuk_page_title,  type: String
   field :status,            type: Integer, default: 301
+  field :topic_id,          type: String
+  field :alternative_urls,  type: String
   field :notes,             type: String, default: nil
 
   validates :old_url, :presence => true, :uniqueness => { :case_sensitive => false }

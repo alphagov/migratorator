@@ -16,3 +16,6 @@
 
 .DS_Store
 
+# Ignore User.bison backup
+/db/migratorator_development/users.bson
+

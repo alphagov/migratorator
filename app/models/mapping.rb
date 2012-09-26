@@ -15,14 +15,12 @@ class Mapping
   field :title,             type: String
   field :old_url,           type: String
   field :new_url,           type: String
-  field :govuk_page_title,  type: String
   field :status,            type: Integer, default: 301
   field :topic_id,          type: String
   field :alternative_urls,  type: String
   field :notes,             type: String, default: nil
 
   validates :old_url, :presence => true, :uniqueness => { :case_sensitive => false }
-  validate :new_url_is_on_govuk, :if => :is_redirect?
   validates :new_url, :format => { :with => URI::regexp }, :if => proc{|atts| atts.status == 301 and ! atts.new_url.blank? }
   validates :status, :inclusion => { :in => [301, 410], :allow_blank => true }
 
@@ -68,11 +66,6 @@ class Mapping
   class URLNotProvided < Exception; end
 
   private
-    def new_url_is_on_govuk
-      return if self.new_url.blank?
-      self.errors.add(:new_url, 'is not a GOV.UK url') unless self.new_url.match(/^https?:\/\/(www\.)?gov\.uk/)
-    end
-
     def parameterize_tags
       self.tags = tags_list.split(",").map{|tag| tag.strip.downcase.gsub(" ","-") }
     end

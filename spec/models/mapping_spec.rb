@@ -120,6 +120,11 @@ describe Mapping do
       mapping.should_not be_valid
     end
 
+    it "should throw an error if status is redirect but new url includes spaces" do
+      mapping = Mapping.new @atts.merge({:status => 301, :new_url => " https://www.gov.uk"})
+      mapping.should_not be_valid
+    end
+
     it "should throw an error if a mapping already exists for the specified old url" do
       existing_mapping = Mapping.create!(@atts)
       new_mapping = Mapping.new @atts

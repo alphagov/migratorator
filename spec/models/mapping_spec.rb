@@ -110,6 +110,22 @@ describe Mapping do
       mapping.should_not be_valid
     end
 
+    it "should throw an error if old url is not a valid url" do
+      mapping = Mapping.new @atts.merge({:old_url => 'www.direct.gov.uk'})
+      mapping.should_not be_valid
+    end
+
+    it "should throw an error if old url contains spaces" do
+      mapping = Mapping.new @atts.merge({:old_url => 'http://www.direct.gov.uk '})
+      mapping.should_not be_valid
+    end
+
+    it "should throw an error if old url includes valid url but is not valid url" do
+      mapping = Mapping.new @atts.merge({:old_url => 'maps from http://www.direct.gov.uk'})
+      mapping.should_not be_valid
+    end
+
+
     it "should throw an error if status is redirect but new url is not a valid url" do
       mapping = Mapping.new @atts.merge({:status => 301, :new_url => "n/a tbc this isnt a url"})
       mapping.should_not be_valid

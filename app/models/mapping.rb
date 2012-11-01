@@ -20,7 +20,7 @@ class Mapping
   field :alternative_urls,  type: String
   field :notes,             type: String, default: nil
 
-  validates :old_url, :presence => true, :uniqueness => { :case_sensitive => false }
+  validates :old_url, :format => { :with => /\A#{URI::regexp}\z/ }, :presence => true, :uniqueness => { :case_sensitive => false }
   validates :new_url, :format => { :with => /\A#{URI::regexp}\z/ }, :if => proc{|atts| atts.status == 301 and ! atts.new_url.blank? }
   validates :status, :inclusion => { :in => [301, 410], :allow_blank => true }
 

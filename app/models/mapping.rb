@@ -21,7 +21,7 @@ class Mapping
   field :notes,             type: String, default: nil
 
   validates :old_url, :presence => true, :uniqueness => { :case_sensitive => false }
-  validates :new_url, :format => { :with => URI::regexp }, :if => proc{|atts| atts.status == 301 and ! atts.new_url.blank? }
+  validates :new_url, :format => { :with => /\A#{URI::regexp}\z/ }, :if => proc{|atts| atts.status == 301 and ! atts.new_url.blank? }
   validates :status, :inclusion => { :in => [301, 410], :allow_blank => true }
 
   default_scope order_by([:title, :asc])

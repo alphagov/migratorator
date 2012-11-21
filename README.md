@@ -2,7 +2,7 @@
 
 A Web site and browser tools to assist migrating a Web site to another domain.
 
-The Web site collects mappings, pairs of URLs with a redirection or error status.
+The Web site collects mappings: pairs of URLs with a redirection or error status.
 A mapping may be annotated with notes, related links and collected using tags.
 
 # Setup

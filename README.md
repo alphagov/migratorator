@@ -1,3 +1,5 @@
+IMPORTANT: If you took a copy of this repo before 27th November 2012, you will have to reset your branch to our new master or make a fresh clone as we rewrote the history. Many apologies for the inconvenience.
+
 # Migratorator
 
 A Web site and browser tools to assist migrating a Web site to another domain.

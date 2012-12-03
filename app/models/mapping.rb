@@ -16,7 +16,6 @@ class Mapping
   field :old_url,           type: String
   field :new_url,           type: String
   field :status,            type: Integer, default: 301
-  field :topic_id,          type: String
   field :alternative_urls,  type: String
   field :notes,             type: String, default: nil
 

@@ -125,6 +125,20 @@ describe Mapping do
       mapping.should_not be_valid
     end
 
+    it "should throw an error if the national archive url is not a valid url" do
+      mapping = Mapping.new @atts.merge({:archive_url => 'www.tna.gov.uk'})
+      mapping.should_not be_valid
+    end
+
+    it "should throw an error if the national archives url includes valid url but is not valid url" do
+      mapping = Mapping.new @atts.merge({:archive_url => 'archive url is http://webarchive.nationalarchives.gov.uk/20121015000000/www.direct.gov.uk/en/Parents/Yourchildshealthandsafety/Yourchildssafetyinthehome/index.htm'})
+      mapping.should_not be_valid
+    end
+
+    it "should not throw an error if the national archives url is a valid url" do
+      mapping = Mapping.new @atts.merge({:archive_url => 'http://webarchive.nationalarchives.gov.uk/20121015000000/www.direct.gov.uk/en/Parents/Yourchildshealthandsafety/Yourchildssafetyinthehome/index.htm'})
+      mapping.should be_valid
+    end
 
     it "should throw an error if status is redirect but new url is not a valid url" do
       mapping = Mapping.new @atts.merge({:status => 301, :new_url => "n/a tbc this isnt a url"})

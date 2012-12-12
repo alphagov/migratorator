@@ -22,7 +22,7 @@ gem 'rabl'
 gem 'colorize'
 
 gem 'router-client', '~> 3'
-gem 'plek', '0.1.24'
+gem 'plek', '1.0.0'
 gem 'lograge'
 
 group :passenger_compatibility do

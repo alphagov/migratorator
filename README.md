@@ -27,8 +27,8 @@ The mappings are available from the Web site as JSON, allowing tools to be built
 
 Migratorator is written in Rails and uses RSpec and Cucumber for testing. To run the tests:
 
-    rake cucumber
-    rake spec
+    govuk_setenv migratorator bundle exec rake spec RAILS_ENV=test
+    govuk_setenv migratorator bundle exec rake cucumber RAILS_ENV=test
 
 ## Colophon
 

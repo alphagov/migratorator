@@ -8,7 +8,7 @@ gem "bson_ext", "~> 1.5"
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '2.1.0'
+  gem 'gds-sso', '3.0.0'
 end
 
 gem 'inherited_resources'
@@ -16,6 +16,7 @@ gem 'has_scope'
 gem 'kaminari'
 
 gem 'mongoid-history'
+gem "mongoid_rails_migrations", "1.0.0"
 gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 gem 'rabl'
 

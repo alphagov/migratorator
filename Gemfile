@@ -24,7 +24,7 @@ gem 'colorize'
 
 gem 'router-client', '~> 3'
 gem 'plek', '0.1.24'
-gem 'lograge'
+gem 'lograge', '0.1.2'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.5'

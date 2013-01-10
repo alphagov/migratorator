@@ -8,7 +8,7 @@ gem "bson_ext", "~> 1.5"
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '~> 1.2.0'
+  gem 'gds-sso', '2.1.0'
 end
 
 gem 'inherited_resources'

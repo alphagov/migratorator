@@ -9,7 +9,7 @@ class User
   field "uid",     type: String
   field "version", type: Integer
   field "email",   type: String
-  field "permissions", type: Hash
+  field "permissions", type: Array
   field "remotely_signed_out", type: Boolean, default: false
 
   attr_accessible :email, :name, :uid, :version

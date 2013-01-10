@@ -78,7 +78,7 @@ describe TagsController do
       describe "given valid attributes" do
         it "should rename the tag" do
           put :update, id: @tag, tag: { :whole_tag => "status:in-progress" }, format: 'json'
-          response.status.should == 200
+          response.status.should == 204
 
           old_tag = Tag.find_by_string("status:started")
           old_tag.should be_nil
@@ -137,7 +137,7 @@ describe TagsController do
 
       it "should destroy the tag" do
         delete :destroy, id: @tag, format: 'json'
-        response.status.should == 200
+        response.status.should == 204
 
         old_tag = Tag.find_by_string("beard:yes")
         old_tag.should be_nil

@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.13'
 gem "mongoid", "~> 2.3"
 gem "bson_ext", "~> 1.5"
 
